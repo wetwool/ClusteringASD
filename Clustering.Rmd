@@ -1,0 +1,379 @@
+---
+title: "DataExploration"
+output: html_document
+---
+Setup:
+```{r}
+library(ggplot2)
+library(png)
+library(pheatmap)
+library(NbClust)
+library(cluster)
+library(plyr)
+library(dplyr)
+library(plotly)
+library(ggpubr)
+library(factoextra)
+
+setwd("E:/Box Sync/Arbeit/UZH/MasterArbeit/HBN")
+#setwd("C:/Users/andreas.papageorgiou.ADM/ownCloud/Arbeit/UZH/MasterArbeit/HBN")
+load(file = "filteredASD.Rda")
+PR <- read.csv("ParcellationReference.csv", sep = ";",stringsAsFactors = F )
+sites <- c("RU","SI", "CBIC", "CUNY")
+```
+
+
+```{r}
+zScore <- function(value, distribution) {
+  z <- NA
+  if(length(distribution) > 5) {
+    z <- (as.numeric(value) - mean(distribution))/sd(distribution)
+  } 
+    return(z)
+}
+
+zScore_SBJ <- function(s, ftrs, hc) {
+  for (f in ftrs) {
+    value <- s[f]
+    controlDistribution <- hc[which(round(as.numeric(hc$Age)) == round(as.numeric(s["Age"])) &  hc["site"] == s["site"]),f]
+
+    s[f] <- zScore(value, controlDistribution)
+  }
+  return(s)
+}
+
+zScore_SBJ_loop <- function(sbj, ftrs, hc) {
+  res = list()
+  for (i in 1:ncol(sbj)) {
+      for (f in ftrs) {
+        # browser()
+        value <- sbj[i, f]
+        controlDistribution <- hc[which(round(as.numeric(hc$Age)) == round(as.numeric(sbj[i,"Age"])) &  hc[,"site"] == sbj[i,"site"]),f]
+    
+        sbj[i,f] <- zScore(value, controlDistribution)
+      }
+  }
+  return(sbj)
+}
+
+zScore_leaveOut <- function(s, ftrs, df) {
+  browser()
+  for (f in ftrs) {
+    value <- s[f]
+    controlDistribution <- df[which(round(as.numeric(df$Age)) == round(as.numeric(s["Age"])) &  
+                                      df["site"] == s["site"] &  
+                                      df["Subject"] == s["Subject"] & 
+                                      df["lh.aparc.thickness"] != s["lh.aparc.thickness"]),f]
+    
+    s[f] <- zScore(value, controlDistribution)
+  }
+  return(s)
+}
+zScore_leaveOut_loop <- function(sbj, ftrs, df) {
+  res = list()
+  # sbj$countZDistribution <-99999
+  for (i in 1:nrow(sbj)) {
+    nControlDistribution = length(df[which(round(as.numeric(df$Age)) == round(as.numeric(sbj[i,"Age"])) &  
+                                      df[,"site"] == sbj[i,"site"] &  
+                                      df[,"Subject"] == sbj[i,"Subject"] & 
+                                      df[,"lh.aparc.thickness"] != sbj[i,"lh.aparc.thickness"]),"Age"])
+      for (f in ftrs) {
+        # browser()
+        value <- sbj[i, f]
+        controlDistribution <- df[which(round(as.numeric(df$Age)) == round(as.numeric(sbj[i,"Age"])) &  
+                                      df[,"site"] == sbj[i,"site"] &  
+                                      df[,"Subject"] == sbj[i,"Subject"] & 
+                                      df[,"lh.aparc.thickness"] != sbj[i,"lh.aparc.thickness"]),f]
+        # print(length(controlDistribution))
+        sbj[i,f] <- zScore(value, controlDistribution)
+      }
+    
+    # sbj[i,]$countZDistribution <- nControlDistribution
+  }
+  return(sbj)
+}
+
+```
+
+
+```{r}
+areas <- append(PR$Area_Left[PR$Area_Left != "" & PR$isParcell == 1], PR$Area_Right[PR$Area_Right != "" & PR$isParcell == 1])
+thicknesses <- append(PR$Thickness_Left[PR$Thickness_Left != "" & PR$isParcell == 1], PR$Thickness_Right[PR$Thickness_Right != "" & PR$isParcell == 1])
+features <- append(areas,thicknesses)
+
+data[,features] <- lapply(data[,features], as.numeric)
+data$Age <- as.numeric(data$Age)
+
+rhm <- data[which(data$Sex == 0 & data$EHQ_Total > 0 & data$Protocol == "HCP"),]
+rhm$site <- factor(rhm$site)
+# GLM to extract residuals of [features] ~ Age, Site
+for (feature in features) {
+  form <- formula(paste(feature,"~ Age * site")) # change to interaction
+  model <- glm(form, data=rhm)
+  rhm[,feature] <- model$residuals
+}
+```
+
+z-scoring of [features] vs HC distribution
+```{r}
+# zScored <- data
+sbj <- rhm[which(rhm$Subject == 1),]# & !is.na(rhm[,features])
+hC <- rhm[which(rhm$Subject == 0),]
+
+asdZScored <-zScore_SBJ_loop(sbj, features, hC)
+asdZScored <- asdZScored[complete.cases(asdZScored[,features]),]
+hcZScored <- zScore_leaveOut_loop(hC,features,hC)
+hcZScored <- hcZScored[complete.cases(hcZScored[,features]),]
+
+
+# zScored <- data.frame(t(lapply(rhm, zScore_leaveOut, ftrs = features, df = rhm)),stringsAsFactors = F)
+# zScored[,features] <- lapply(zScored[,features], as.numeric)
+# 
+# asdZScored <- data.frame(t(apply(sbj, 1, zScore_SBJ, ftrs = features, hc = hC)),stringsAsFactors = F)
+# asdZScored$Site <- asdZScored[data$Subject == 1,]$Site #& !is.na(rhm[features])
+# 
+# asdZScored[,features] <- lapply(asdZScored[,features], as.numeric)
+# asdZScored <- asdZScored[complete.cases(asdZScored[,features]),]
+# asdZScored$Age <- as.numeric(asdZScored$Age)
+# asdZScored$EHQ_Total <- as.numeric(asdZScored$EHQ_Total)
+# asdZScored$ASSQ_Total <- as.numeric(asdZScored$ASSQ_Total)
+# asdZScored$SRS_Total <- as.numeric(asdZScored$SRS_Total)
+# asdZScored[,c("SRS_AWR", "SRS_COG","SRS_COM","SRS_DSMRRB","SRS_MOT","SRS_RRB","SRS_SCI")]<- lapply(asdZScored[,c("SRS_AWR", "SRS_COG","SRS_COM","SRS_DSMRRB","SRS_MOT","SRS_RRB","SRS_SCI")], as.numeric)
+```
+
+```{r}
+descriptives <- list()
+for (f in features){
+  # zScored[zScored$Subject == 1,f] <- asdZScored[f]
+  g <- ggplot(asdZScored, aes(x = asdZScored[,f])) +
+  geom_histogram(position = "identity", bins = 8) +
+  labs(title=f)
+  print(g)
+  descriptives <- rbind(descriptives,c(round(mean(asdZScored[,f], na.rm = T),digits = 5), round(sd(asdZScored[,f], na.rm = T),digits = 5), f))
+}
+for (f in features){
+  print(plot(hcZScored[,f]))
+}
+ggplot(hcZScored, aes(x= seq(1, length(lh.aparc.thickness)),y = rh_transversetemporal_thickness,  color = site)) + geom_point(alpha = 0.2, size = 3) 
+ggplot(asdZScored, aes(x= seq(1, length(lh.aparc.thickness)),y = rh_transversetemporal_thickness,  color = site)) + geom_point(alpha = 0.2, size = 3) 
+colnames(descriptives) <- c("mean", "standard deviation", "feature")
+# kable(
+  descriptives
+  # )
+```
+Clustering
+```{r}
+featureMatrix <-asdZScored[,features]
+distance = dist(featureMatrix, method="euclidean")
+nbResultDB <- NbClust(asdZScored[,features], min.nc = 2, max.nc = 20, method = "ward.D", index="db")
+nbResultDB$Best.nc[1]
+nbResultSi <- NbClust(asdZScored[,features], min.nc = 2, max.nc = 20, method = "ward.D", index="silhouette")
+nbResultSi$Best.nc[1]
+# silhouetteResult <- silhouette(2:20, dist = distance)
+hcRes = hclust(distance, "ward.D")
+groups = cutree(hcRes, k = 2)# nbResultDB$Best.nc[1]) #
+table(groups)
+asdZScored$clust <- groups
+```
+```{r}
+hc_featureMatrix <-hcZScored[,features]
+hc_distance = dist(hc_featureMatrix, method="euclidean")
+hc_nbResultDB <- NbClust(hcZScored[,features], min.nc = 2, max.nc = 20, method = "ward.D", index="db")
+hc_nbResultDB$Best.nc[1]
+hc_nbResultSi <- NbClust(hcZScored[,features], min.nc = 2, max.nc = 20, method = "ward.D", index="silhouette")
+hc_nbResultSi$Best.nc[1]
+# silhouetteResult <- silhouette(2:20, dist = distance)
+clusterRes = hclust(hc_distance, "ward.D")
+hc_groups = cutree(clusterRes, k = 2)# nbResultDB$Best.nc[1]) #
+table(hc_groups)
+hcZScored$clust <- hc_groups
+```
+
+```{r}
+
+for (f in features){
+g <- ggplot(asdZScored, aes(y=asdZScored[,f], fill =site)) + 
+  geom_boxplot()
+print(g)
+}
+```
+
+```{r}
+asdCorrList <- data.frame(parcel = c(), r = c(), p=c())
+for (f in features){
+  cRes <- cor.test(x = asdZScored[,f], y=asdZScored[,"clust"], method ="spearman", exact=F)
+  asdCorrList <- rbind(asdCorrList, data.frame(parcel = f, r = cRes$estimate, p = cRes$p.value))
+}
+asdCorrList[order(asdCorrList$r),]
+
+hcCorrList <- data.frame(parcel = c(), r = c(), p=c())
+for (f in features){
+  cRes <- cor.test(x = hcZScored[,f], y=hcZScored[,"clust"], method ="spearman", exact=F)
+  hcCorrList <- rbind(hcCorrList, data.frame(parcel = f, r = cRes$estimate, p = cRes$p.value))
+}
+hcCorrList[order(hcCorrList$r),]
+
+corrDiff <- abs(asdCorrList$r) - abs(hcCorrList$r)
+corrDiff[order(corrDiff)]
+```
+
+```{r}
+pltl <- plot_ly()
+factors <- factor(asdZScored$site)
+for (i in 1:length(features)){ #
+    pltl <- pltl %>% add_markers(x=features[i], y=asdZScored[,features[i]], z= (as.numeric(factors)+(asdZScored$clust-2)*0.1), color= asdZScored$clust,type = "scatter3d", mode="markers")#add_markers(x=features[i], y=asdZScored[,features[i]], z= asdZScored$Site, color= asdZScored$Site,type = "scatter3d", mode="markers")
+}
+pltl <- pltl %>%
+  layout(showlegend = FALSE,
+    scene = list(
+      xaxis = list(title = "Features"),
+      yaxis = list(title = "Values"),
+      zaxis = list(title = "Site", 
+                   ticktext = levels(factors),
+                   tickvals = list(1, 2,3),
+                   tickmode = "array")
+    ))
+pltl
+```
+
+
+```{r}
+ggplot(asdZScored, aes(x=site, y=clust))+
+  geom_count()
+```
+```{r}
+asdZScored.pca <- prcomp(asdZScored[,features])
+fviz_pca_ind(asdZScored.pca, fill.ind = factor(asdZScored$clust), pointshape = 21, pointsize = 2, addEllipses = T, label = "var", axes = c(1,2))
+fviz_pca_ind(asdZScored.pca, fill.ind = factor(asdZScored$clust), pointshape = 21, pointsize = 2, addEllipses = T, label = "var", axes = c(3,2))
+fviz_pca_ind(asdZScored.pca, fill.ind = factor(asdZScored$clust), pointshape = 21, pointsize = 2, addEllipses = T, label = "var", axes = c(3,4))
+fviz_pca_ind(asdZScored.pca, fill.ind = factor(asdZScored$clust), pointshape = 21, pointsize = 2, addEllipses = T, label = "var", axes = c(5,4))
+```
+
+
+```{r}
+clustXSite <- chisq.test(asdZScored$clust, asdZScored$site)
+clustXProtocol <- chisq.test(asdZScored$clust, asdZScored$Protocol)
+siteXProtocol <- chisq.test(asdZScored$site, asdZScored$Protocol)
+clustXSite$observed
+clustXSite
+ggplot(asdZScored, aes(x=clust, y=site))+
+  geom_count()
+clustXProtocol$observed
+clustXProtocol
+ggplot(asdZScored, aes(x=clust, y=Protocol))+
+  geom_count()
+siteXProtocol$observed
+siteXProtocol
+ggplot(asdZScored, aes(x=site, y=Protocol))+
+  geom_count()
+
+ggplot(asdZScored, aes(y= Age, group = clust, fill=clust)) + geom_boxplot()
+cor.test(asdZScored$clust, asdZScored$Age)
+t_age <- pairwise.t.test(asdZScored$Age, asdZScored$clust, p.adjust.method = "bonferroni")
+t_age
+```
+
+```{r}
+asdZScored$ASSQ_Total <- as.numeric(asdZScored$ASSQ_Total)
+
+cor.test(asdZScored$clust, asdZScored$EHQ_Total)
+pairwise.t.test(asdZScored$EHQ_Total, asdZScored$clust, p.adjust.method = "bonferroni")
+ggplot(asdZScored, aes(y= EHQ_Total, group = clust, fill=clust)) + geom_boxplot()
+
+cor.test(asdZScored$clust, as.numeric(asdZScored$ASSQ_Total))
+pairwise.t.test(asdZScored$ASSQ_Total, asdZScored$clust, p.adjust.method = "bonferroni")
+ggplot(asdZScored, aes(y= ASSQ_Total, group = clust, fill=clust)) + geom_boxplot()
+cor.test(asdZScored$clust, asdZScored$SRS_Total)
+```
+
+```{r}
+pairwise.t.test(asdZScored$SRS_Total, asdZScored$clust, p.adjust.method = "bonferroni")
+pairwise.t.test(asdZScored$SRS_AWR, asdZScored$clust, p.adjust.method = "bonferroni")
+pairwise.t.test(asdZScored$SRS_COG, asdZScored$clust, p.adjust.method = "bonferroni")
+pairwise.t.test(asdZScored$SRS_COM, asdZScored$clust, p.adjust.method = "bonferroni")
+pairwise.t.test(asdZScored$SRS_DSMRRB, asdZScored$clust, p.adjust.method = "bonferroni")
+pairwise.t.test(asdZScored$SRS_MOT, asdZScored$clust, p.adjust.method = "bonferroni")
+pairwise.t.test(asdZScored$SRS_SCI, asdZScored$clust, p.adjust.method = "bonferroni")
+pairwise.t.test(asdZScored$SRS_RRB, asdZScored$clust, p.adjust.method = "bonferroni")
+
+SRS <- ggplot(asdZScored, aes(y= SRS_Total , group = clust, fill=clust)) + geom_boxplot()
+SRS_AWR <- ggplot(asdZScored, aes(y= SRS_AWR , group = clust, fill=clust)) + geom_boxplot()
+SRS_COG <- ggplot(asdZScored, aes(y= SRS_COG , group = clust, fill=clust)) + geom_boxplot()
+SRS_COM <- ggplot(asdZScored, aes(y= SRS_COM , group = clust, fill=clust)) + geom_boxplot()
+SRS_DSMRRB <- ggplot(asdZScored, aes(y= SRS_DSMRRB , group = clust, fill=clust)) + geom_boxplot()
+SRS_MOT <- ggplot(asdZScored, aes(y= SRS_MOT , group = clust, fill=clust)) + geom_boxplot()
+SRS_SCI <- ggplot(asdZScored, aes(y= SRS_SCI , group = clust, fill=clust)) + geom_boxplot()
+SRS_RRB <- ggplot(asdZScored, aes(y= SRS_RRB , group = clust, fill=clust)) + geom_boxplot()
+#ggarrange(SRS, ggarrange(SRS_AWR,SRS_COG,SRS_COM,SRS_DSMRRB,SRS_MOT,SRS_SCI,SRS_RRB, ncol=3), nrow=2)
+ggarrange(SRS,SRS_AWR,SRS_COG,SRS_COM,SRS_DSMRRB,SRS_MOT,SRS_SCI,SRS_RRB)
+
+
+ggplot(asdZScored, aes(y= as.numeric(CIS_P_Score) , group = clust, fill=clust)) + geom_boxplot()
+pairwise.t.test(as.numeric(asdZScored$CIS_P_Score), asdZScored$clust, p.adjust.method = "bonferroni") #Columbia Impairment Scale
+ggplot(asdZScored, aes(y= as.numeric(DTS_Total) , group = clust, fill=clust)) + geom_boxplot()
+pairwise.t.test(as.numeric(asdZScored$DTS_Total), asdZScored$clust, p.adjust.method = "bonferroni") #Distress Tolerance Scale
+ggplot(asdZScored, aes(y= as.numeric(PSI_Total) , group = clust, fill=clust)) + geom_boxplot()
+pairwise.t.test(as.numeric(asdZScored$PSI_Total), asdZScored$clust, p.adjust.method = "bonferroni") #Parenting Stress index
+```
+
+```{r}
+source("FSGD_helper.R")
+title <- "ASD anatomy GLM"
+class1 <- c("Cluster1", "C1", "blue")
+class2 <- c("Cluster2", "C2", "green")
+variables <- list("ASSQ_Total", "SRS_Total")
+
+fsGLMdata <- asdZScored[asdZScored$site == "RU",][,c("lh.aparc.thickness", "ASSQ_Total","SRS_Total", "clust")]
+fsGLMdata$clust = 2
+hcSubs <- data[data$site == "RU" & data$Subject == 0,][,c("lh.aparc.thickness", "ASSQ_Total","SRS_Total")]
+hcSubs$clust <- 1
+fsGLMdata <- rbind(fsGLMdata, hcSubs)
+fsGLMdata$class <- "Cluster1"
+fsGLMdata$class[fsGLMdata$clust == 2] <- "Cluster2"
+fsGLMdata <- na.omit(fsGLMdata[, c(1,5,2,3)])[1:5,]
+f <- generateFSGD(title, list(class1,class2), variables, fsGLMdata, "ASDanatomy_all_RU.fsgd")
+
+```
+
+```{r}
+print_clusters <- function(labels, k) {             
+  for(i in 1:k) {
+    print(paste("cluster", i))
+    print(asdZScored[labels==i,"lh.aparc.thickness"])
+  }
+}
+
+```
+
+```{r}
+
+library(fpc)
+clustBootASD <- clusterboot(distance,clustermethod=hclustCBI, method="ward.D", k=2, B=100, multipleboot = T)
+groups<-clustBootASD$result$partition
+# print_clusters(groups,2)
+# runs <- clustBoot$bootresult
+clusterBootJaccardMeans <- data.frame(sample = "ASD", cluster1 = clustBootASD$bootmean[1], cluster2 = clustBootASD$bootmean[2])
+
+clustBootHC <- clusterboot(hc_distance,clustermethod=hclustCBI, method="ward.D", k=2, B=100, multipleboot = T)
+groups<-clustBootHC$result$partition
+# print_clusters(groups,2)
+# runs <- clustBoot$bootresult 
+clustBootHC$bootmean
+
+clusterBootJaccardMeans <- rbind(clusterBootJaccardMeans, data.frame(sample = "HC", cluster1 = clustBootHC$bootmean[1], cluster2 = clustBootHC$bootmean[2]))
+kable(clusterBootJaccardMeans)
+```
+
+
+```{r}
+hcZScored$clust <- 0
+allZScored <- rbind.fill(hcZScored, asdZScored)
+print(count(allZScored, clust))
+ptt <- pairwise.t.test(allZScored$lh_supramarginal_area, allZScored$clust, p.adjust.method = "bonferroni") 
+library(rsample)
+
+resamples <- bootstraps(allZScored, times = 1000)
+
+map()
+```
+

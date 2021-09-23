@@ -1,0 +1,168 @@
+---
+title: "Andreas MA HBN Preprocessing"
+output:
+  html_document:
+    df_print: paged
+---
+
+Setup:
+```{r warning=FALSE}
+##Packages
+library(plyr)
+library(dplyr)
+library(stringr)
+library(knitr)
+
+setwd("E:/Box Sync/Arbeit/UZH/MasterArbeit/HBN")
+
+#Variables
+##Behavioral
+defaultAllDataCSVPath <- "U:/HBN/BehavioralData/Data_Download_22_02_2021_LORIS/BD.csv"
+
+##MRI
+#MRIDir <- "T:/HBN/MRI/"
+MRIDir <- "E:/Linux/Exchange/"
+#mriDirPrefix = "Site-"
+mriDirPrefix = ""
+#mriDirSuffix = "_Derivatives_UZH"
+mriDirSuffix = "/"
+
+sites <- c("RU","SI", "CBIC", "CUNY")
+
+```
+
+### Import Behavioral Data:
+```{r}
+allDataCSV <- choose.files(default = defaultAllDataCSVPath, multi = F, caption =  "AllData.csv")
+
+allData <- read.csv(allDataCSV)
+```
+
+### Import MRI Data
+MRI Run ID diasassembler function:
+```{r}
+#Example input: sub-NDARYZ637LK4_acq-HCP_run-01_T1w
+dissassembleRunID <- function(RunID) {
+  splt1 <- strsplit(RunID, "_")
+  EID <- strsplit(splt1[[1]][1],"-")[[1]][2]
+  Protocol <- strsplit(splt1[[1]][2],"-")[[1]][2]
+  if (is.na(Protocol)) {
+    Protocol = "Not Specified"
+  }
+  Run <- 1
+  if (length(splt1[[1]]) == 4) {
+    Run <- str_sub(splt1[[1]][3], start = -1)
+  }
+  
+  return(c(EID, Protocol, Run))
+}
+```
+
+Actual Import:
+```{r warning=FALSE}
+mriData = data.frame()
+
+for (site in sites) {
+  lhThickness <- read.csv(paste(MRIDir,mriDirPrefix, site, mriDirSuffix,
+                                "aparc_stats_", site, "_thickness_LH.txt",sep=""),sep = "\t", header = TRUE)
+  rhThickness <- read.csv(paste(MRIDir,mriDirPrefix, site, mriDirSuffix,
+                                "aparc_stats_", site, "_thickness_RH.txt",sep=""),sep = "\t", header = TRUE)
+  lhArea <- read.csv(paste(MRIDir,mriDirPrefix, site, mriDirSuffix,
+                             "aparc_stats_", site, "_area_LH.txt",sep=""),sep = "\t", header = TRUE)
+  rhArea <- read.csv(paste(MRIDir,mriDirPrefix, site, mriDirSuffix,
+                             "aparc_stats_", site, "_area_RH.txt",sep=""),sep = "\t", header = TRUE)
+  # lhVolume <- read.csv(paste(MRIDir,mriDirPrefix, site, mriDirSuffix,
+  #                            "aparc_stats_", site, "_volume_LH.txt",sep=""),sep = "\t", header = TRUE)
+  # rhVolume <- read.csv(paste(MRIDir,mriDirPrefix, site, mriDirSuffix,
+  #                            "aparc_stats_", site, "_volume_RH.txt",sep=""),sep = "\t", header = TRUE)
+  
+  siteData <- merge.data.frame(lhThickness, 
+                               merge.data.frame(rhThickness, 
+                                    merge.data.frame(lhArea, rhArea, by.x = "lh.aparc.area", by.y = "rh.aparc.area", all = TRUE), 
+                                    by.x = "rh.aparc.thickness", by.y = "lh.aparc.area", all = TRUE), 
+                                    by.x = "lh.aparc.thickness", by.y = "rh.aparc.thickness", all = TRUE)
+  
+  siteData["site"] <- site
+  mriData <- rbind(mriData, siteData)
+}
+mriData <- mriData %>% 
+  rename_at(vars(ends_with(".x")), ~str_replace(., "\\..$","")) %>% 
+  select_at(vars(-ends_with(".y")))
+
+mriData <- mriData %>% filter(!(lh.aparc.thickness == "sub-NDARAA948VFH")) #throwing out that one case
+
+mriMetaData <- apply(mriData["lh.aparc.thickness"], 1, FUN ="dissassembleRunID")
+mriMetaData <- t(mriMetaData)
+mriMetaData <- data.frame(EID = mriMetaData[,1],Protocol = mriMetaData[,2],Run = mriMetaData[,3])
+mriData["EID"] <- mriMetaData["EID"]
+mriData["Run"] <- mriMetaData["Run"]
+mriData["Protocol"] <- mriMetaData["Protocol"]
+```
+
+### Filtering of MRI Data
+```{r}
+nTotalMRI <- nrow(mriData)
+mri <- mriData %>% filter(Run == 1)
+
+nRun1 <- nrow(mri)
+#mri <- mri %>% filter(Protocol == "HCP")
+
+nHCP <- nrow(filter(mri, Protocol == "HCP"))
+nVNav <- nrow(filter(mri, Protocol == "VNav"))
+nNA <- nrow(filter(mri, Protocol == "Not Specified"))
+
+nMultipleScans <- nrow(mri[duplicated(mri$EID),])
+
+
+filterCountsMRI <- data.frame(Filter = c("Total T1w", "T1w Run One", "T1w Run, HCP", "T1w Run, VNav", "T1w Run, Not Specified", "Subjects with multiple scans"), countMRI = c(nTotalMRI, nRun1, nHCP, nVNav, nNA, nMultipleScans))
+```
+
+### Filtering of Behavioral Data
+```{r}
+nTotalBehavioral <- nrow(allData)
+bdAutism <- allData %>% filter(DX_01 == "Autism Spectrum Disorder" | 
+                                   DX_02 == "Autism Spectrum Disorder"| 
+                                   DX_03 == "Autism Spectrum Disorder"| 
+                                   DX_04 == "Autism Spectrum Disorder"| 
+                                   DX_05 == "Autism Spectrum Disorder"| 
+                                   DX_06 == "Autism Spectrum Disorder"| 
+                                   DX_07 == "Autism Spectrum Disorder"| 
+                                   DX_08 == "Autism Spectrum Disorder"| 
+                                   DX_09 == "Autism Spectrum Disorder"| 
+                                   DX_10 == "Autism Spectrum Disorder")
+nAutismDiagnosed <- nrow(bdAutism)
+
+bdAutism <- bdAutism %>% filter(Sex == 0)
+nMaleASD <- nrow(bdAutism)
+
+bdAutism <- bdAutism %>% filter(EHQ_Total > 40)
+nRhMaleASD <- nrow(bdAutism)
+filterCountsBD <- data.frame(Filter = c("Total Behavioral", "Diagnosed with ASD", "Males with ASD", "Right-handed males with ASD"), countBD = c(nTotalBehavioral, nAutismDiagnosed, nMaleASD, nRhMaleASD))
+```
+
+### Joining Behavioral and MRI
+```{r}
+subjects <- mri %>% inner_join(bdAutism, by = "EID")
+nBDandMRI <- nrow(subjects)
+subjects <- subjects %>% filter(ASSQ_Total >= 0 | SRS_Total >= 0)
+nOneASDScale <- nrow(subjects)
+
+data <- mri %>% inner_join(allData, by = "EID")
+data["Subject"] <- 0
+data[data[,"EID"] %in% subjects[,"EID"],]["Subject"] <- 1
+
+filterCountsTotal <- data.frame(Filter = c("Total MRI and BD available", "ASD MRI and BD available", " ASD At least one ASD scale"), 
+                                countTotal = c(nrow(data),nBDandMRI, nOneASDScale))
+
+save(data, file = "filteredASD.Rda", ascii = T)
+```
+
+Data available according to HBN can be seen [here](http://fcon_1000.projects.nitrc.org/indi/cmi_healthy_brain_network/Release%20information.html)
+
+```{r}
+filterCounts <- rbind.fill(filterCountsMRI, filterCountsBD)
+filterCounts <- rbind.fill(filterCounts, filterCountsTotal)
+filterCounts[is.na(filterCounts)] <- "-"
+kable(filterCounts)
+```
+

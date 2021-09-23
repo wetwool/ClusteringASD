@@ -5,6 +5,9 @@
 # Session Data files
 .RData
 
+# Data files, might contain sensitive / private information
+.RDA
+
 # User-specific files
 .Ruserdata
 
