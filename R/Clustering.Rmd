@@ -326,7 +326,7 @@ variables <- list() #list("ASSQ_Total", "SRS_Total")
 
 fsGLMdata <- asdZScored[asdZScored$site == "SI",][,c("lh.aparc.thickness", "ASSQ_Total","SRS_Total", "clust")]
 fsGLMdata$clust = 2
-hcSubs <- data[data$site == fsgdSite & data$Subject == 0,][,c("lh.aparc.thickness", "ASSQ_Total","SRS_Total")]
+hcSubs <- data[data$site == fsgdSite & data$Subject == 0,][,c("lh.aparc.thickness")]#, "ASSQ_Total","SRS_Total")]
 hcSubs$clust <- 1
 fsGLMdata <- rbind(hcSubs, fsGLMdata)
 fsGLMdata$class <- "Cluster1"
