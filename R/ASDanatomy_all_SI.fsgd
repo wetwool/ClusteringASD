@@ -1,0 +1,15 @@
+GroupDescriptorFile 1
+Title ASD anatomy GLM
+Class Cluster1 C1 blue
+Class Cluster2 C2 green
+Variables 
+Input sub-NDARAA075AMK_T1w Cluster1 3 4
+Input sub-NDARAA536PTU_T1w Cluster1 13 32
+Input sub-NDARAD481FXF_T1w Cluster1 3 44
+Input sub-NDARAE199TDD_T1w Cluster1 0 33
+Input sub-NDARAJ366ZFA_T1w Cluster1 33 89
+Input sub-NDARAR025WX4_T1w Cluster2 27 109
+Input sub-NDARAT100AEQ_T1w Cluster2 3 27
+Input sub-NDARAT299YRR_T1w Cluster2 1 63
+Input sub-NDARAV747WVL_T1w Cluster2 0 12
+Input sub-NDARAV894XWD_T1w Cluster2 10 59

@@ -318,20 +318,37 @@ pairwise.t.test(as.numeric(asdZScored$PSI_Total), asdZScored$clust, p.adjust.met
 
 ```{r}
 source("FSGD_helper.R")
+fsgdSite <- "SI"
 title <- "ASD anatomy GLM"
 class1 <- c("Cluster1", "C1", "blue")
 class2 <- c("Cluster2", "C2", "green")
-variables <- list("ASSQ_Total", "SRS_Total")
+variables <- list() #list("ASSQ_Total", "SRS_Total")
 
-fsGLMdata <- asdZScored[asdZScored$site == "RU",][,c("lh.aparc.thickness", "ASSQ_Total","SRS_Total", "clust")]
+fsGLMdata <- asdZScored[asdZScored$site == "SI",][,c("lh.aparc.thickness", "ASSQ_Total","SRS_Total", "clust")]
 fsGLMdata$clust = 2
-hcSubs <- data[data$site == "RU" & data$Subject == 0,][,c("lh.aparc.thickness", "ASSQ_Total","SRS_Total")]
+hcSubs <- data[data$site == fsgdSite & data$Subject == 0,][,c("lh.aparc.thickness", "ASSQ_Total","SRS_Total")]
 hcSubs$clust <- 1
-fsGLMdata <- rbind(fsGLMdata, hcSubs)
+fsGLMdata <- rbind(hcSubs, fsGLMdata)
 fsGLMdata$class <- "Cluster1"
 fsGLMdata$class[fsGLMdata$clust == 2] <- "Cluster2"
-fsGLMdata <- na.omit(fsGLMdata[, c(1,5,2,3)])[1:5,]
-f <- generateFSGD(title, list(class1,class2), variables, fsGLMdata, "ASDanatomy_all_RU.fsgd")
+fsGLMdata <- na.omit(fsGLMdata[, c(1,5,2,3)])#[1:5,]
+fsgdFile = paste("ASDanatomy_all_",fsgdSite,".fsgd",sep = "")
+f <- generateFSGD(title, list(class1,class2), variables, fsGLMdata, paste("ASDanatomy_all_",fsgdSite,".fsgd",sep = ""))
+
+source("GLM_helper.R")
+cmd <- generateGroupComparisonCommands(
+  subjectDir = "/mnt/exchange/Site-SI_Derivatives_UZH",
+  analysis = "DEMO",
+  hemi = "lh",
+  fsgdFile = fsgdFile,
+  mtx = "clustComparison.mtx",
+  gd2mtx ="dods", comparisonTarget = "fsaverage",
+  cacheFeature = "thickness",
+  cacheKernel = "10",
+  cacheValue = 3,
+  cacheDirection = "abs",
+  cwp = "0.05")
+cat(cmd)
 
 ```
 

@@ -1,0 +1,479 @@
+
+setenv SUBJECTS_DIR /mnt/exchange/Site-SI_Derivatives_UZH
+/usr/local/freesurfer/7.1.0-1/bin/make_average_surface --out SIAverage --fsgd /mnt/exchange/ASDanatomy_avg_SI.fsgd --force --echo
+
+make_average_surface 7.1.0
+Sun Sep 26 10:07:36 EDT 2021
+/mnt/exchange/Site-SI_Derivatives_UZH/SIAverage
+output ddir is /mnt/exchange/Site-SI_Derivatives_UZH
+uid=1000(developer) gid=1000(developer) groups=1000(developer),4(adm),24(cdrom),27(sudo),30(dip),46(plugdev),116(lpadmin),126(sambashare),999(vboxsf)
+====================
+make_average_surface
+====================
+Sun Sep 26 10:07:37 EDT 2021
+/mnt/exchange/Site-SI_Derivatives_UZH/SIAverage
+/usr/local/freesurfer/7.1.0-1/bin/make_average_surface
+--out SIAverage --fsgd /mnt/exchange/ASDanatomy_avg_SI.fsgd --force --echo
+input subjects: sub-NDARAA075AMK_T1w sub-NDARAA536PTU_T1w sub-NDARAD481FXF_T1w sub-NDARAE199TDD_T1w sub-NDARAJ366ZFA_T1w
+output subject: SIAverage
+mri_add_xform_to_header -c auto /mnt/exchange/Site-SI_Derivatives_UZH/SIAverage/mri/mni305.cor.mgz /mnt/exchange/Site-SI_Derivatives_UZH/SIAverage/mri/mni305.cor.mgz
+INFO: extension is mgz
+
+#@# Making lh registration template ---------
+/mnt/exchange/Site-SI_Derivatives_UZH/SIAverage
+mris_make_template -norot -annot aparc lh sphere.reg sub-NDARAA075AMK_T1w sub-NDARAA536PTU_T1w sub-NDARAD481FXF_T1w sub-NDARAE199TDD_T1w sub-NDARAJ366ZFA_T1w lh.reg.template.tif
+not aligning hemispheres before averaging.
+zeroing medial wall in aparc
+creating new parameterization...
+
+processing subject sub-NDARAA075AMK_T1w (1 of 5)
+reading spherical surface /mnt/exchange/Site-SI_Derivatives_UZH/sub-NDARAA075AMK_T1w/surf/lh.sphere.reg...
+reading colortable from annotation file...
+colortable with 36 entries read (originally /autofs/space/tanha_002/users/greve/fsdev.build/average/colortable_desikan_killiany.txt)
+ripping medial wall...
+computing parameterization for surface /mnt/exchange/Site-SI_Derivatives_UZH/sub-NDARAA075AMK_T1w/surf/lh.inflated.H...
+curvature mean = -0.020, std = 1.006
+computing parameterization for surface /mnt/exchange/Site-SI_Derivatives_UZH/sub-NDARAA075AMK_T1w/surf/lh.sulc...
+computing parameterization for surface /mnt/exchange/Site-SI_Derivatives_UZH/sub-NDARAA075AMK_T1w/surf/lh.smoothwm...
+
+processing subject sub-NDARAA536PTU_T1w (2 of 5)
+reading spherical surface /mnt/exchange/Site-SI_Derivatives_UZH/sub-NDARAA536PTU_T1w/surf/lh.sphere.reg...
+curvature mean = 0.030, std = 5.663
+curvature mean = -0.031, std = 0.326
+reading colortable from annotation file...
+colortable with 36 entries read (originally /autofs/space/tanha_002/users/greve/fsdev.build/average/colortable_desikan_killiany.txt)
+ripping medial wall...
+computing parameterization for surface /mnt/exchange/Site-SI_Derivatives_UZH/sub-NDARAA536PTU_T1w/surf/lh.inflated.H...
+curvature mean = -0.018, std = 1.011
+computing parameterization for surface /mnt/exchange/Site-SI_Derivatives_UZH/sub-NDARAA536PTU_T1w/surf/lh.sulc...
+computing parameterization for surface /mnt/exchange/Site-SI_Derivatives_UZH/sub-NDARAA536PTU_T1w/surf/lh.smoothwm...
+
+processing subject sub-NDARAD481FXF_T1w (3 of 5)
+reading spherical surface /mnt/exchange/Site-SI_Derivatives_UZH/sub-NDARAD481FXF_T1w/surf/lh.sphere.reg...
+curvature mean = 0.017, std = 5.840
+curvature mean = -0.026, std = 0.343
+reading colortable from annotation file...
+colortable with 36 entries read (originally /autofs/space/tanha_002/users/greve/fsdev.build/average/colortable_desikan_killiany.txt)
+ripping medial wall...
+computing parameterization for surface /mnt/exchange/Site-SI_Derivatives_UZH/sub-NDARAD481FXF_T1w/surf/lh.inflated.H...
+curvature mean = -0.034, std = 0.985
+computing parameterization for surface /mnt/exchange/Site-SI_Derivatives_UZH/sub-NDARAD481FXF_T1w/surf/lh.sulc...
+computing parameterization for surface /mnt/exchange/Site-SI_Derivatives_UZH/sub-NDARAD481FXF_T1w/surf/lh.smoothwm...
+
+processing subject sub-NDARAE199TDD_T1w (4 of 5)
+reading spherical surface /mnt/exchange/Site-SI_Derivatives_UZH/sub-NDARAE199TDD_T1w/surf/lh.sphere.reg...
+curvature mean = 0.007, std = 5.616
+curvature mean = -0.028, std = 0.303
+reading colortable from annotation file...
+colortable with 36 entries read (originally /autofs/space/tanha_002/users/greve/fsdev.build/average/colortable_desikan_killiany.txt)
+ripping medial wall...
+computing parameterization for surface /mnt/exchange/Site-SI_Derivatives_UZH/sub-NDARAE199TDD_T1w/surf/lh.inflated.H...
+curvature mean = -0.027, std = 0.996
+computing parameterization for surface /mnt/exchange/Site-SI_Derivatives_UZH/sub-NDARAE199TDD_T1w/surf/lh.sulc...
+computing parameterization for surface /mnt/exchange/Site-SI_Derivatives_UZH/sub-NDARAE199TDD_T1w/surf/lh.smoothwm...
+
+processing subject sub-NDARAJ366ZFA_T1w (5 of 5)
+reading spherical surface /mnt/exchange/Site-SI_Derivatives_UZH/sub-NDARAJ366ZFA_T1w/surf/lh.sphere.reg...
+curvature mean = 0.006, std = 5.635
+curvature mean = -0.027, std = 0.305
+reading colortable from annotation file...
+colortable with 36 entries read (originally /autofs/space/tanha_002/users/greve/fsdev.build/average/colortable_desikan_killiany.txt)
+ripping medial wall...
+computing parameterization for surface /mnt/exchange/Site-SI_Derivatives_UZH/sub-NDARAJ366ZFA_T1w/surf/lh.inflated.H...
+curvature mean = -0.035, std = 1.000
+computing parameterization for surface /mnt/exchange/Site-SI_Derivatives_UZH/sub-NDARAJ366ZFA_T1w/surf/lh.sulc...
+computing parameterization for surface /mnt/exchange/Site-SI_Derivatives_UZH/sub-NDARAJ366ZFA_T1w/surf/lh.smoothwm...
+writing updated template with 5 subjects to lh.reg.template.tif...
+curvature mean = 0.028, std = 5.506
+curvature mean = -0.033, std = 0.326
+
+#@# Making rh registration template ---------
+/mnt/exchange/Site-SI_Derivatives_UZH/SIAverage
+mris_make_template -norot -annot aparc rh sphere.reg sub-NDARAA075AMK_T1w sub-NDARAA536PTU_T1w sub-NDARAD481FXF_T1w sub-NDARAE199TDD_T1w sub-NDARAJ366ZFA_T1w rh.reg.template.tif
+not aligning hemispheres before averaging.
+zeroing medial wall in aparc
+creating new parameterization...
+
+processing subject sub-NDARAA075AMK_T1w (1 of 5)
+reading spherical surface /mnt/exchange/Site-SI_Derivatives_UZH/sub-NDARAA075AMK_T1w/surf/rh.sphere.reg...
+reading colortable from annotation file...
+colortable with 36 entries read (originally /autofs/space/tanha_002/users/greve/fsdev.build/average/colortable_desikan_killiany.txt)
+ripping medial wall...
+computing parameterization for surface /mnt/exchange/Site-SI_Derivatives_UZH/sub-NDARAA075AMK_T1w/surf/rh.inflated.H...
+curvature mean = -0.026, std = 1.007
+computing parameterization for surface /mnt/exchange/Site-SI_Derivatives_UZH/sub-NDARAA075AMK_T1w/surf/rh.sulc...
+computing parameterization for surface /mnt/exchange/Site-SI_Derivatives_UZH/sub-NDARAA075AMK_T1w/surf/rh.smoothwm...
+
+processing subject sub-NDARAA536PTU_T1w (2 of 5)
+reading spherical surface /mnt/exchange/Site-SI_Derivatives_UZH/sub-NDARAA536PTU_T1w/surf/rh.sphere.reg...
+curvature mean = 0.021, std = 5.760
+curvature mean = -0.031, std = 0.330
+reading colortable from annotation file...
+colortable with 36 entries read (originally /autofs/space/tanha_002/users/greve/fsdev.build/average/colortable_desikan_killiany.txt)
+ripping medial wall...
+computing parameterization for surface /mnt/exchange/Site-SI_Derivatives_UZH/sub-NDARAA536PTU_T1w/surf/rh.inflated.H...
+curvature mean = -0.019, std = 1.006
+computing parameterization for surface /mnt/exchange/Site-SI_Derivatives_UZH/sub-NDARAA536PTU_T1w/surf/rh.sulc...
+computing parameterization for surface /mnt/exchange/Site-SI_Derivatives_UZH/sub-NDARAA536PTU_T1w/surf/rh.smoothwm...
+
+processing subject sub-NDARAD481FXF_T1w (3 of 5)
+reading spherical surface /mnt/exchange/Site-SI_Derivatives_UZH/sub-NDARAD481FXF_T1w/surf/rh.sphere.reg...
+curvature mean = 0.004, std = 5.706
+curvature mean = -0.026, std = 0.312
+reading colortable from annotation file...
+colortable with 36 entries read (originally /autofs/space/tanha_002/users/greve/fsdev.build/average/colortable_desikan_killiany.txt)
+ripping medial wall...
+computing parameterization for surface /mnt/exchange/Site-SI_Derivatives_UZH/sub-NDARAD481FXF_T1w/surf/rh.inflated.H...
+curvature mean = -0.031, std = 0.962
+computing parameterization for surface /mnt/exchange/Site-SI_Derivatives_UZH/sub-NDARAD481FXF_T1w/surf/rh.sulc...
+computing parameterization for surface /mnt/exchange/Site-SI_Derivatives_UZH/sub-NDARAD481FXF_T1w/surf/rh.smoothwm...
+
+processing subject sub-NDARAE199TDD_T1w (4 of 5)
+reading spherical surface /mnt/exchange/Site-SI_Derivatives_UZH/sub-NDARAE199TDD_T1w/surf/rh.sphere.reg...
+curvature mean = -0.008, std = 5.575
+curvature mean = -0.031, std = 0.314
+reading colortable from annotation file...
+colortable with 36 entries read (originally /autofs/space/tanha_002/users/greve/fsdev.build/average/colortable_desikan_killiany.txt)
+ripping medial wall...
+computing parameterization for surface /mnt/exchange/Site-SI_Derivatives_UZH/sub-NDARAE199TDD_T1w/surf/rh.inflated.H...
+curvature mean = -0.027, std = 1.001
+computing parameterization for surface /mnt/exchange/Site-SI_Derivatives_UZH/sub-NDARAE199TDD_T1w/surf/rh.sulc...
+computing parameterization for surface /mnt/exchange/Site-SI_Derivatives_UZH/sub-NDARAE199TDD_T1w/surf/rh.smoothwm...
+
+processing subject sub-NDARAJ366ZFA_T1w (5 of 5)
+reading spherical surface /mnt/exchange/Site-SI_Derivatives_UZH/sub-NDARAJ366ZFA_T1w/surf/rh.sphere.reg...
+curvature mean = 0.009, std = 5.666
+curvature mean = -0.026, std = 0.306
+reading colortable from annotation file...
+colortable with 36 entries read (originally /autofs/space/tanha_002/users/greve/fsdev.build/average/colortable_desikan_killiany.txt)
+ripping medial wall...
+computing parameterization for surface /mnt/exchange/Site-SI_Derivatives_UZH/sub-NDARAJ366ZFA_T1w/surf/rh.inflated.H...
+curvature mean = -0.031, std = 1.009
+computing parameterization for surface /mnt/exchange/Site-SI_Derivatives_UZH/sub-NDARAJ366ZFA_T1w/surf/rh.sulc...
+computing parameterization for surface /mnt/exchange/Site-SI_Derivatives_UZH/sub-NDARAJ366ZFA_T1w/surf/rh.smoothwm...
+writing updated template with 5 subjects to rh.reg.template.tif...
+curvature mean = -0.000, std = 5.583
+curvature mean = -0.036, std = 0.356
+
+#@# Making average lh.white surface ---------------------
+Sun Sep 26 10:10:57 EDT 2021
+/mnt/exchange/Site-SI_Derivatives_UZH/SIAverage
+mris_make_average_surface -i 7 -o white -sdir-out /mnt/exchange/Site-SI_Derivatives_UZH lh white sphere.reg SIAverage sub-NDARAA075AMK_T1w sub-NDARAA536PTU_T1w sub-NDARAD481FXF_T1w sub-NDARAE199TDD_T1w sub-NDARAJ366ZFA_T1w
+reading vertex positions from white...
+---------------------------------------------------
+hemi            = lh
+avg_surf_name   = white
+canon_surf_name = sphere.reg
+out_sname       = SIAverage
+xform           = talairach.xfm
+---------------------------------------------------
+
+
+Using surf2surf instead of parametric surface.
+ To use the old method include -no-surf2surf
+MakeAverageSurf(): 5 lh white sphere.reg talairach.xfm 1 1
+Loading /usr/local/freesurfer/7.1.0-1/lib/bem/ic7.tri as target surface
+   Reading icosahedron /usr/local/freesurfer/7.1.0-1/lib/bem/ic7.tri
+  1/5 sub-NDARAA075AMK_T1w ---------------
+  Applying linear transform talairach.xfm
+MRISapplyReg: nsurfs = 2, revmap=1, jac=0,  hash=1
+MRISapplyReg: building hash tables (res=16).
+MRISapplyReg: Forward Loop (163842)
+MRISapplyReg: Reverse Loop (138778)
+  Reverse Loop had 25017 hits
+MRISapplyReg: Dividing by number of hits (163842)
+MRISapplyReg: nSrcLost = 0
+  2/5 sub-NDARAA536PTU_T1w ---------------
+  Applying linear transform talairach.xfm
+MRISapplyReg: nsurfs = 2, revmap=1, jac=0,  hash=1
+MRISapplyReg: building hash tables (res=16).
+MRISapplyReg: Forward Loop (163842)
+MRISapplyReg: Reverse Loop (153813)
+  Reverse Loop had 32118 hits
+MRISapplyReg: Dividing by number of hits (163842)
+MRISapplyReg: nSrcLost = 0
+  3/5 sub-NDARAD481FXF_T1w ---------------
+  Applying linear transform talairach.xfm
+MRISapplyReg: nsurfs = 2, revmap=1, jac=0,  hash=1
+MRISapplyReg: building hash tables (res=16).
+MRISapplyReg: Forward Loop (163842)
+MRISapplyReg: Reverse Loop (149090)
+  Reverse Loop had 28096 hits
+MRISapplyReg: Dividing by number of hits (163842)
+MRISapplyReg: nSrcLost = 0
+  4/5 sub-NDARAE199TDD_T1w ---------------
+  Applying linear transform talairach.xfm
+MRISapplyReg: nsurfs = 2, revmap=1, jac=0,  hash=1
+MRISapplyReg: building hash tables (res=16).
+MRISapplyReg: Forward Loop (163842)
+MRISapplyReg: Reverse Loop (152329)
+  Reverse Loop had 30957 hits
+MRISapplyReg: Dividing by number of hits (163842)
+MRISapplyReg: nSrcLost = 0
+  5/5 sub-NDARAJ366ZFA_T1w ---------------
+  Applying linear transform talairach.xfm
+MRISapplyReg: nsurfs = 2, revmap=1, jac=0,  hash=1
+MRISapplyReg: building hash tables (res=16).
+MRISapplyReg: Forward Loop (163842)
+MRISapplyReg: Reverse Loop (123868)
+  Reverse Loop had 16090 hits
+MRISapplyReg: Dividing by number of hits (163842)
+MRISapplyReg: nSrcLost = 0
+setting group surface area to be 962.0 cm^2 (scale=1.13)
+MakeAverageSurf(): done
+writing average white surface to /mnt/exchange/Site-SI_Derivatives_UZH/SIAverage/surf/lh.white
+writing group avg surface area 962 cm^2 into surface file
+#VMPC# mris_make_average_surface VmPeak  707136
+mris_make_average_surface done
+
+
+#@# Making average lh.pial surface ---------------------
+Sun Sep 26 10:14:09 EDT 2021
+/mnt/exchange/Site-SI_Derivatives_UZH/SIAverage
+mris_make_average_surface -i 7 -o pial -sdir-out /mnt/exchange/Site-SI_Derivatives_UZH lh pial sphere.reg SIAverage sub-NDARAA075AMK_T1w sub-NDARAA536PTU_T1w sub-NDARAD481FXF_T1w sub-NDARAE199TDD_T1w sub-NDARAJ366ZFA_T1w
+reading vertex positions from pial...
+---------------------------------------------------
+hemi            = lh
+avg_surf_name   = pial
+canon_surf_name = sphere.reg
+out_sname       = SIAverage
+xform           = talairach.xfm
+---------------------------------------------------
+
+
+Using surf2surf instead of parametric surface.
+ To use the old method include -no-surf2surf
+MakeAverageSurf(): 5 lh pial sphere.reg talairach.xfm 1 1
+Loading /usr/local/freesurfer/7.1.0-1/lib/bem/ic7.tri as target surface
+   Reading icosahedron /usr/local/freesurfer/7.1.0-1/lib/bem/ic7.tri
+  1/5 sub-NDARAA075AMK_T1w ---------------
+  Applying linear transform talairach.xfm
+MRISapplyReg: nsurfs = 2, revmap=1, jac=0,  hash=1
+MRISapplyReg: building hash tables (res=16).
+MRISapplyReg: Forward Loop (163842)
+MRISapplyReg: Reverse Loop (138778)
+  Reverse Loop had 25017 hits
+MRISapplyReg: Dividing by number of hits (163842)
+MRISapplyReg: nSrcLost = 0
+  2/5 sub-NDARAA536PTU_T1w ---------------
+  Applying linear transform talairach.xfm
+MRISapplyReg: nsurfs = 2, revmap=1, jac=0,  hash=1
+MRISapplyReg: building hash tables (res=16).
+MRISapplyReg: Forward Loop (163842)
+MRISapplyReg: Reverse Loop (153813)
+  Reverse Loop had 32118 hits
+MRISapplyReg: Dividing by number of hits (163842)
+MRISapplyReg: nSrcLost = 0
+  3/5 sub-NDARAD481FXF_T1w ---------------
+  Applying linear transform talairach.xfm
+MRISapplyReg: nsurfs = 2, revmap=1, jac=0,  hash=1
+MRISapplyReg: building hash tables (res=16).
+MRISapplyReg: Forward Loop (163842)
+MRISapplyReg: Reverse Loop (149090)
+  Reverse Loop had 28096 hits
+MRISapplyReg: Dividing by number of hits (163842)
+MRISapplyReg: nSrcLost = 0
+  4/5 sub-NDARAE199TDD_T1w ---------------
+  Applying linear transform talairach.xfm
+MRISapplyReg: nsurfs = 2, revmap=1, jac=0,  hash=1
+MRISapplyReg: building hash tables (res=16).
+MRISapplyReg: Forward Loop (163842)
+MRISapplyReg: Reverse Loop (152329)
+  Reverse Loop had 30957 hits
+MRISapplyReg: Dividing by number of hits (163842)
+MRISapplyReg: nSrcLost = 0
+  5/5 sub-NDARAJ366ZFA_T1w ---------------
+  Applying linear transform talairach.xfm
+MRISapplyReg: nsurfs = 2, revmap=1, jac=0,  hash=1
+MRISapplyReg: building hash tables (res=16).
+MRISapplyReg: Forward Loop (163842)
+MRISapplyReg: Reverse Loop (123868)
+  Reverse Loop had 16090 hits
+MRISapplyReg: Dividing by number of hits (163842)
+MRISapplyReg: nSrcLost = 0
+setting group surface area to be 1206.9 cm^2 (scale=1.16)
+MakeAverageSurf(): done
+writing average pial surface to /mnt/exchange/Site-SI_Derivatives_UZH/SIAverage/surf/lh.pial
+writing group avg surface area 1207 cm^2 into surface file
+#VMPC# mris_make_average_surface VmPeak  707136
+mris_make_average_surface done
+
+
+#@# Making average lh.orig surface ---------------------
+Sun Sep 26 10:17:43 EDT 2021
+/mnt/exchange/Site-SI_Derivatives_UZH/SIAverage
+mris_make_average_surface -i 7 -o orig -sdir-out /mnt/exchange/Site-SI_Derivatives_UZH lh orig sphere.reg SIAverage sub-NDARAA075AMK_T1w sub-NDARAA536PTU_T1w sub-NDARAD481FXF_T1w sub-NDARAE199TDD_T1w sub-NDARAJ366ZFA_T1w
+reading vertex positions from orig...
+---------------------------------------------------
+hemi            = lh
+avg_surf_name   = orig
+canon_surf_name = sphere.reg
+out_sname       = SIAverage
+xform           = talairach.xfm
+---------------------------------------------------
+
+
+Using surf2surf instead of parametric surface.
+ To use the old method include -no-surf2surf
+MakeAverageSurf(): 5 lh orig sphere.reg talairach.xfm 1 1
+Loading /usr/local/freesurfer/7.1.0-1/lib/bem/ic7.tri as target surface
+   Reading icosahedron /usr/local/freesurfer/7.1.0-1/lib/bem/ic7.tri
+  1/5 sub-NDARAA075AMK_T1w ---------------
+  Applying linear transform talairach.xfm
+MRISapplyReg: nsurfs = 2, revmap=1, jac=0,  hash=1
+MRISapplyReg: building hash tables (res=16).
+MRISapplyReg: Forward Loop (163842)
+MRISapplyReg: Reverse Loop (138778)
+  Reverse Loop had 25017 hits
+MRISapplyReg: Dividing by number of hits (163842)
+MRISapplyReg: nSrcLost = 0
+  2/5 sub-NDARAA536PTU_T1w ---------------
+  Applying linear transform talairach.xfm
+MRISapplyReg: nsurfs = 2, revmap=1, jac=0,  hash=1
+MRISapplyReg: building hash tables (res=16).
+MRISapplyReg: Forward Loop (163842)
+MRISapplyReg: Reverse Loop (153813)
+  Reverse Loop had 32118 hits
+MRISapplyReg: Dividing by number of hits (163842)
+MRISapplyReg: nSrcLost = 0
+  3/5 sub-NDARAD481FXF_T1w ---------------
+  Applying linear transform talairach.xfm
+MRISapplyReg: nsurfs = 2, revmap=1, jac=0,  hash=1
+MRISapplyReg: building hash tables (res=16).
+MRISapplyReg: Forward Loop (163842)
+MRISapplyReg: Reverse Loop (149090)
+  Reverse Loop had 28096 hits
+MRISapplyReg: Dividing by number of hits (163842)
+MRISapplyReg: nSrcLost = 0
+  4/5 sub-NDARAE199TDD_T1w ---------------
+  Applying linear transform talairach.xfm
+MRISapplyReg: nsurfs = 2, revmap=1, jac=0,  hash=1
+MRISapplyReg: building hash tables (res=16).
+MRISapplyReg: Forward Loop (163842)
+MRISapplyReg: Reverse Loop (152329)
+  Reverse Loop had 30957 hits
+MRISapplyReg: Dividing by number of hits (163842)
+MRISapplyReg: nSrcLost = 0
+  5/5 sub-NDARAJ366ZFA_T1w ---------------
+  Applying linear transform talairach.xfm
+MRISapplyReg: nsurfs = 2, revmap=1, jac=0,  hash=1
+MRISapplyReg: building hash tables (res=16).
+MRISapplyReg: Forward Loop (163842)
+MRISapplyReg: Reverse Loop (123868)
+  Reverse Loop had 16090 hits
+MRISapplyReg: Dividing by number of hits (163842)
+MRISapplyReg: nSrcLost = 0
+setting group surface area to be 900.7 cm^2 (scale=1.12)
+MakeAverageSurf(): done
+writing average orig surface to /mnt/exchange/Site-SI_Derivatives_UZH/SIAverage/surf/lh.orig
+writing group avg surface area 901 cm^2 into surface file
+#VMPC# mris_make_average_surface VmPeak  707108
+mris_make_average_surface done
+
+
+---------------------------------------------------
+
+#@# Smoothing, inflating, etc lh ----------------
+/mnt/exchange/Site-SI_Derivatives_UZH/SIAverage/surf
+mris_smooth -nw -n 5 ./lh.white ./lh.smoothwm
+writing group avg surface area 962 cm^2 into surface file
+
+mris_inflate -dist .01 -f .001 -no-save-sulc -n 15 ./lh.smoothwm ./lh.inflated
+Not saving sulc
+Reading ./lh.smoothwm
+step 000: RMS=0.098 (target=0.001)   step 005: RMS=0.075 (target=0.001)   step 010: RMS=0.058 (target=0.001)   step 015: RMS=0.048 (target=0.001)   step 020: RMS=0.040 (target=0.001)   step 025: RMS=0.035 (target=0.001)   step 030: RMS=0.030 (target=0.001)   step 035: RMS=0.026 (target=0.001)   step 040: RMS=0.023 (target=0.001)   step 045: RMS=0.020 (target=0.001)   step 050: RMS=0.018 (target=0.001)   step 055: RMS=0.017 (target=0.001)   step 060: RMS=0.016 (target=0.001)   step 065: RMS=0.015 (target=0.001)   step 070: RMS=0.014 (target=0.001)   step 075: RMS=0.014 (target=0.001)   step 080: RMS=0.013 (target=0.001)   step 085: RMS=0.013 (target=0.001)   step 090: RMS=0.013 (target=0.001)   
+inflation complete.
+writing group avg surface area 962 cm^2 into surface file
+Not saving sulc
+mris_inflate utimesec    44.384064
+mris_inflate stimesec    0.233227
+mris_inflate ru_maxrss   367068
+mris_inflate ru_ixrss    0
+mris_inflate ru_idrss    0
+mris_inflate ru_isrss    0
+mris_inflate ru_minflt   100287
+mris_inflate ru_majflt   0
+mris_inflate ru_nswap    0
+mris_inflate ru_inblock  0
+mris_inflate ru_oublock  0
+mris_inflate ru_msgsnd   0
+mris_inflate ru_msgrcv   0
+mris_inflate ru_nsignals 0
+mris_inflate ru_nvcsw    1576
+mris_inflate ru_nivcsw   178
+
+annot2std --o label/lh.aparc.DKTatlas.annot --lh --f /mnt/exchange/Site-SI_Derivatives_UZH/SIAverage/list.subjects.txt --t SIAverage --a aparc.DKTatlas --srcsurfreg sphere.reg --trgsurfreg sphere.reg
+Sun Sep 26 10:22:44 EDT 2021
+
+setenv SUBJECTS_DIR /mnt/exchange/Site-SI_Derivatives_UZH
+cd /mnt/exchange/Site-SI_Derivatives_UZH/SIAverage
+/usr/local/freesurfer/7.1.0-1/bin/annot2std --o label/lh.aparc.DKTatlas.annot --lh --f /mnt/exchange/Site-SI_Derivatives_UZH/SIAverage/list.subjects.txt --t SIAverage --a aparc.DKTatlas --srcsurfreg sphere.reg --trgsurfreg sphere.reg
+
+freesurfer-linux-centos7_x86_64-7.1.0-20200511-813297b
+annot2std 7.1.0
+Linux developer-VirtualBox 5.4.0-81-generic #91~18.04.1-Ubuntu SMP Fri Jul 23 13:36:29 UTC 2021 x86_64 x86_64 x86_64 GNU/Linux
+#@# 1/5 sub-NDARAA075AMK_T1w Sun Sep 26 10:22:45 EDT 2021
+mri_annotation2label --subject sub-NDARAA075AMK_T1w --hemi lh --seg /mnt/exchange/Site-SI_Derivatives_UZH/SIAverage/label/tmpdir.annot2std.17996/seg.1.sub-NDARAA075AMK_T1w.mgh --ctab /mnt/exchange/Site-SI_Derivatives_UZH/SIAverage/label/tmpdir.annot2std.17996/seg.1.sub-NDARAA075AMK_T1w.ctab --annotation aparc.DKTatlas --segbase 0
+subject = sub-NDARAA075AMK_T1w
+annotation = aparc.DKTatlas
+hemi = lh
+segfile = /mnt/exchange/Site-SI_Derivatives_UZH/SIAverage/label/tmpdir.annot2std.17996/seg.1.sub-NDARAA075AMK_T1w.mgh
+surface   = white
+
+Reading surface 
+ /mnt/exchange/Site-SI_Derivatives_UZH/sub-NDARAA075AMK_T1w/surf/lh.white
+Loading annotations from /mnt/exchange/Site-SI_Derivatives_UZH/sub-NDARAA075AMK_T1w/label/lh.aparc.DKTatlas.annot
+reading colortable from annotation file...
+colortable with 36 entries read (originally /autofs/space/tanha_002/users/greve/fsdev.build/average/colortable_desikan_killiany.txt)
+Seg base 0
+Converting to a segmentation
+mri_surf2surf --mapmethod nnf --hemi lh --srcsubject sub-NDARAA075AMK_T1w --srcsurfreg sphere.reg --sval /mnt/exchange/Site-SI_Derivatives_UZH/SIAverage/label/tmpdir.annot2std.17996/seg.1.sub-NDARAA075AMK_T1w.mgh --trgsubject SIAverage --trgsurfreg sphere.reg --tval /mnt/exchange/Site-SI_Derivatives_UZH/SIAverage/label/tmpdir.annot2std.17996/seg.1.sub-NDARAA075AMK_T1w.std.mgh
+error: No such file or directory
+error: MRISread(/mnt/exchange/Site-SI_Derivatives_UZH/SIAverage/surf/lh.sphere.reg): could not open file 
+error: No such file or directory
+error: mri_surf2surf: could not read surface /mnt/exchange/Site-SI_Derivatives_UZH/SIAverage/surf/lh.sphere.reg 
+Source registration surface changed to sphere.reg
+Target registration surface changed to sphere.reg
+
+7.1.0
+
+setenv SUBJECTS_DIR /mnt/exchange/Site-SI_Derivatives_UZH
+cd /mnt/exchange/Site-SI_Derivatives_UZH/SIAverage
+mri_surf2surf --mapmethod nnf --hemi lh --srcsubject sub-NDARAA075AMK_T1w --srcsurfreg sphere.reg --sval /mnt/exchange/Site-SI_Derivatives_UZH/SIAverage/label/tmpdir.annot2std.17996/seg.1.sub-NDARAA075AMK_T1w.mgh --trgsubject SIAverage --trgsurfreg sphere.reg --tval /mnt/exchange/Site-SI_Derivatives_UZH/SIAverage/label/tmpdir.annot2std.17996/seg.1.sub-NDARAA075AMK_T1w.std.mgh 
+
+sysname  Linux
+hostname developer-VirtualBox
+machine  x86_64
+user     developer
+srcsubject = sub-NDARAA075AMK_T1w
+srcval     = /mnt/exchange/Site-SI_Derivatives_UZH/SIAverage/label/tmpdir.annot2std.17996/seg.1.sub-NDARAA075AMK_T1w.mgh
+srctype    = 
+trgsubject = SIAverage
+trgval     = /mnt/exchange/Site-SI_Derivatives_UZH/SIAverage/label/tmpdir.annot2std.17996/seg.1.sub-NDARAA075AMK_T1w.std.mgh
+trgtype    = 
+srcsurfreg = sphere.reg
+trgsurfreg = sphere.reg
+srchemi    = lh
+trghemi    = lh
+frame      = 0
+fwhm-in    = 0
+fwhm-out   = 0
+label-src  = (null)
+label-trg  = (null)
+OKToRevFaceOrder  = 1
+UseDualHemi = 0
+Reading source surface reg /mnt/exchange/Site-SI_Derivatives_UZH/sub-NDARAA075AMK_T1w/surf/lh.sphere.reg
+Loading source data
+Converting source to float
+Reading target surface reg /mnt/exchange/Site-SI_Derivatives_UZH/SIAverage/surf/lh.sphere.reg
+if ( $status ) exit 1
+if ( 1 ) exit 1
+exit 1
+if ( $status ) then
+if ( 1 ) then
+echo "ERROR: make_average_surface"
+echo ERROR: make_average_surface
+ERROR: make_average_surface
+exit 1 ;
+exit 1
+

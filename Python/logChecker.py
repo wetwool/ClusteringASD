@@ -149,6 +149,7 @@ def gatherFSCompleted(filename, successStrings, endLinesToScan = 4, folder = "",
         subjFolders.sort()
         subjCount = len(subjFolders)
         i = 0
+        matches = 0
         for subjFolder in subjFolders:
             i += 1
             perc = i/subjCount
@@ -158,10 +159,7 @@ def gatherFSCompleted(filename, successStrings, endLinesToScan = 4, folder = "",
             subj = subjFolder
             matches = 0
             ## trying and failing is faster than checking for existence. loading whole file and finding is faster than RegEx 
-            # if os.path.exists(logFile):
             try:
-                # for line in open(logFile,'r'):
-                #     matches = matches if len(re.findall(linePattern, line)) == 0 else matches + 1
                 with open(logFile,'rb') as f:
                     f.seek(-2, os.SEEK_END)
                     linesFromEnd = 1
@@ -177,8 +175,6 @@ def gatherFSCompleted(filename, successStrings, endLinesToScan = 4, folder = "",
                     for s in successStrings :
                         if s in last_lines:
                             matches = matches + 1
-                    # if matches == 0:
-                    #     print("\r\n"+ subjFolder +"\r\n"+last_lines)
             except:
                 pass
             logList.append(f"{wd},{subj},{matches}")
@@ -191,6 +187,7 @@ def gatherFSCompleted(filename, successStrings, endLinesToScan = 4, folder = "",
 
         with open(outputFile, "a") as save:
             save.write("\n".join(logList))
+            save.write("\n")
         
 if __name__ == '__main__':
     # gatherFSSuccess(match, successString, folders = FSfolders, resume = False)
