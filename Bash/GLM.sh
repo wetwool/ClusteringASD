@@ -6,3 +6,8 @@ make_average_subject --out RUaverage --sd-out /mnt/exchange/avg/ --fsgd /mnt/exc
 mris_preproc --fsgd ASDanatomy_ALL_SI.fsgd   --cache-in thickness.fwhm10.fsaverage   --target sub-NDARAA306NT2_acq-HCP_T1w   --hemi lh   --out lh.ASD_ASSQ.thickness.10.mgh
 mri_glmfit   --y lh.ASD_ASSQ.thickness.10.mgh   --fsgd ASDanatomy_ALL_SI.fsgd dods  --C lh-Avg-thickness-ASSQ.mtx   --surf sub-NDARAA948VFH_acq-HCP_T1w lh   --cortex   --glmdir lh.clust_ASSQ.glmdir
 
+mri_glmfit-sim \
+  --glmdir lh.clust_ASSQ.glmdir \
+  --cache 4 abs \
+  --cwp  0.05\
+  --2spaces

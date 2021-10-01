@@ -13,7 +13,7 @@ library(dplyr)
 library(stringr)
 library(knitr)
 
-setwd("E:/Box Sync/Arbeit/UZH/MasterArbeit/HBN")
+setwd("E:/Box Sync/Arbeit/UZH/ClusteringASD/R")
 
 #Variables
 ##Behavioral
@@ -71,10 +71,6 @@ for (site in sites) {
                              "aparc_stats_", site, "_area_LH.txt",sep=""),sep = "\t", header = TRUE)
   rhArea <- read.csv(paste(MRIDir,mriDirPrefix, site, mriDirSuffix,
                              "aparc_stats_", site, "_area_RH.txt",sep=""),sep = "\t", header = TRUE)
-  # lhVolume <- read.csv(paste(MRIDir,mriDirPrefix, site, mriDirSuffix,
-  #                            "aparc_stats_", site, "_volume_LH.txt",sep=""),sep = "\t", header = TRUE)
-  # rhVolume <- read.csv(paste(MRIDir,mriDirPrefix, site, mriDirSuffix,
-  #                            "aparc_stats_", site, "_volume_RH.txt",sep=""),sep = "\t", header = TRUE)
   
   siteData <- merge.data.frame(lhThickness, 
                                merge.data.frame(rhThickness, 
@@ -138,6 +134,19 @@ nMaleASD <- nrow(bdAutism)
 bdAutism <- bdAutism %>% filter(EHQ_Total > 40)
 nRhMaleASD <- nrow(bdAutism)
 filterCountsBD <- data.frame(Filter = c("Total Behavioral", "Diagnosed with ASD", "Males with ASD", "Right-handed males with ASD"), countBD = c(nTotalBehavioral, nAutismDiagnosed, nMaleASD, nRhMaleASD))
+```
+
+### calculate number of diagnosis
+```{r}
+dx <- c("DX_01", "DX_02", "DX_03", "DX_04", "DX_05", "DX_06", "DX_07", "DX_08", "DX_09", "DX_10")
+allData$dxCount <- 0
+for (i in 1:nrow(allData)){
+  for(d in dx) {
+    allData[i,"dxCount"] <- allData[i,"dxCount"] + max(sum(!is.na(allData[i, d]), na.rm =F), 
+                                                 sum(allData[i, d] != " ", na.rm =T)) - sum(allData[i, d] == "No Diagnosis Given", na.rm =T) 
+  }
+}
+
 ```
 
 ### Joining Behavioral and MRI
