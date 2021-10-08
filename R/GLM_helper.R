@@ -58,13 +58,18 @@ generateSubDirCMD <- function(dir) {
 #' @param cacheDirection significance testing direction "pos", "neg", or "abs"
 #' @param cwp significance level for corrected clusters
 #' @return string with commands separated by a new line.
-generateGroupComparisonCommands <- function(subjectDir, analysis, hemi, fsgdFile, mtx, gd2mtx, comparisonTarget, cacheFeature, cacheKernel, cacheValue, cacheDirection, cwp) {
+generateGroupComparisonCommands <- function(subjectDir, analysis, hemi, fsgdFile, mtx, gd2mtx, comparisonTarget, cacheFeature, cacheKernel, cacheValue, cacheDirection, cwp, path) {
   subDir <- generateSubDirCMD(dir = subjectDir)
   preproc <- generatePreprocCMD(analysis, fsgdFile, hemi, cacheKernel, cacheFeature, target = comparisonTarget)
   GLM <- generateGLMCMD(analysis, fsgdFile, mtx, gd2mtx, target = comparisonTarget, hemi,cacheFeature,cacheKernel)
   sim <- generateGLMSimCMD(analysis, cacheValue, cacheDirection, cwp, hemi,cacheFeature,cacheKernel)
   cmds <- paste(subDir, preproc, GLM, sim, sep="\n")
-  cat(cmds)
+  fileConn<-file(path, "wb")
+  # for (i in 1:length(data)){
+  #   cat(paste(data[i],"\n",sep="" ),file = path,append = T)
+  # }
+  writeLines(cmds, fileConn, sep = "\n")
+  close(fileConn)
   return(cmds)
 }
 

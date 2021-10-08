@@ -13,7 +13,7 @@ library(dplyr)
 library(stringr)
 library(knitr)
 
-setwd("E:/Box Sync/Arbeit/UZH/ClusteringASD/R")
+setwd("E:/Box Sync/Arbeit/UZH/MasterArbeit/ClusteringASD/R")
 
 #Variables
 ##Behavioral
@@ -21,7 +21,7 @@ defaultAllDataCSVPath <- "U:/HBN/BehavioralData/Data_Download_22_02_2021_LORIS/B
 
 ##MRI
 #MRIDir <- "T:/HBN/MRI/"
-MRIDir <- "E:/Linux/Exchange/"
+MRIDir <- "E:/Box Sync/Arbeit/UZH/MasterArbeit/ScienceCloud/"
 #mriDirPrefix = "Site-"
 mriDirPrefix = ""
 #mriDirSuffix = "_Derivatives_UZH"
@@ -101,14 +101,24 @@ nTotalMRI <- nrow(mriData)
 mri <- mriData %>% filter(Run == 1)
 
 nRun1 <- nrow(mri)
-#mri <- mri %>% filter(Protocol == "HCP")
+#
 
 nHCP <- nrow(filter(mri, Protocol == "HCP"))
 nVNav <- nrow(filter(mri, Protocol == "VNav"))
 nNA <- nrow(filter(mri, Protocol == "Not Specified"))
 
-nMultipleScans <- nrow(mri[duplicated(mri$EID),])
+# mri <- mri %>% filter(Protocol == "HCP")
 
+finishedStates <- read.csv("../Python/fsFinishedTable.csv",col.names = c("Path", "Sub", "State"))
+filesComplete <- read.csv("../Python/filesFound.csv",col.names = c("Path", "Sub", "State"))
+incompleteSubjects <- finishedStates[finishedStates$State == 0,]$Sub
+incompleteSubjects <- append(incompleteSubjects, filesComplete[filesComplete$State == 0,]$Sub)
+mri <- mri %>% filter(!lh.aparc.thickness %in% incompleteSubjects)
+
+nMultipleScans <- nrow(mri[duplicated(mri$EID),])
+# mri %>% filter(Protocol == "HCP")
+mri <- mri[order(mri$Protocol),]
+mri <- mri %>% filter(!duplicated(EID))
 
 filterCountsMRI <- data.frame(Filter = c("Total T1w", "T1w Run One", "T1w Run, HCP", "T1w Run, VNav", "T1w Run, Not Specified", "Subjects with multiple scans"), countMRI = c(nTotalMRI, nRun1, nHCP, nVNav, nNA, nMultipleScans))
 ```

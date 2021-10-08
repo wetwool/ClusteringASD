@@ -23,9 +23,6 @@ addSubjectsToFSGD <- function(FSGD, subjects) {
 
 writeFSGD <- function(data, path) {
   fileConn<-file(path, "wb")
-  # for (i in 1:length(data)){
-  #   cat(paste(data[i],"\n",sep="" ),file = path,append = T)
-  # }
   writeLines(data, fileConn, sep = "\n")
   close(fileConn)
   return(path)

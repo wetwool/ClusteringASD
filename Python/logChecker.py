@@ -188,9 +188,58 @@ def gatherFSCompleted(filename, successStrings, endLinesToScan = 4, folder = "",
         with open(outputFile, "a") as save:
             save.write("\n".join(logList))
             save.write("\n")
+            
+def checkFilesExist(filenames, folders = [], outputFile = "filesFound.csv"):
+    """
+    Function to go through all given folders, list subjects and check the last lines of the log for completion. 
+    
+    Parameters:
+        filenames :        path to list of files to check
+        folders:           list of multiple paths to folders containing FreeSurfer subject folders
+        outputFile:        path to write resulting .csv to
+    """
+    
+    ## Setup if a single path is given, overwriting the folders parameter
+
+    logList = list()
+    if os.path.exists(outputFile):
+        os.remove(outputFile)
+    print(f"Checking for {match} files searching for \"{successString}\"")
+    ## Loop through every toplevel folder given
+    for wd in folders:
+        ## List all subdirectories and loop over them
+        print(f"\r\nChecking folder: {wd}")
+        subjFolders = next(os.walk(wd))[1]
+        subjFolders.sort()
+        subjCount = len(subjFolders)
+        i = 0
+        matches = 0
+        for subjFolder in subjFolders:
+            i += 1
+            perc = i/subjCount
+            ## Binary seeking is orders of magnitude quicker, 
+            print("\r" + percentageString(i/subjCount,55) + f" {round(perc*100,2)}%  | {i}/{subjCount}", end ="")   
+            filesExist = True
+            for filename in filenames:
+                pathToCheck = os.path.join(wd,subjFolder,filename)
+                if (not os.path.exists(pathToCheck)):
+                    filesExist = False
+            
+            logList.append(f"{wd},{subjFolder},{1 if filesExist else 0}")
+            ## Only write to csv every x iterations to not take up too much I/O bandwith, might not matter in comparison to network I/O
+            if i%50 == 0:
+                with open(outputFile, "a") as save:
+                    save.write("\n".join(logList))
+                    save.write("\n")
+                    logList =list()
+
+        with open(outputFile, "a") as save:
+            save.write("\n".join(logList))
+            save.write("\n")
         
 if __name__ == '__main__':
     # gatherFSSuccess(match, successString, folders = FSfolders, resume = False)
-    gatherFSCompleted(match, ["exited", "finished"], folders =FSfolders)
+    # gatherFSCompleted(match, ["exited", "finished"], folders =FSfolders)
+    checkFilesExist(["surf/lh.area.fwhm10.fsaverage.mgh"],folders = FSfolders)
 
 # t = timeit.timeit("gatherFSSuccess(\"scripts/recon-all.log\", \'^recon-all.*sub-.*finished without error\', \'([f]([a-zA-Z]+\s)+at)\', folder = \"T:/HBN/MRI/Site-CUNY_Derivatives_UZH/\", resume = False)", setup= "from __main__ import gatherFSSuccess", number = 1)

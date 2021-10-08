@@ -359,38 +359,17 @@ pairwise.t.test(as.numeric(asdZScored$PSI_Total), asdZScored$clust, p.adjust.met
 ```
 
 ```{r}
-source("FSGD_helper.R")
-fsgdSite <- "CBIC"
-title <- "ASD anatomy GLM"
-class1 <- c("Cluster1", "C1", "blue")
-class2 <- c("Cluster2", "C2", "green")
-variables <- list() #list("ASSQ_Total", "SRS_Total")
+source("freesurfer_helper.R")
+variables <- list()#"ASSQ_Total", "SRS_Total")
+title <- "ASD_anatomy_withHC_GLM"
+generateFSGDPerSite(asdZScored, data, sites, variables, title, directory = "E:/Box Sync/Arbeit/UZH/MasterArbeit/ScienceCloud/GLM/")
+generateGLMPerSite(sites = sites, features= c("thickness", "area"),title = title, directory = "E:/Box Sync/Arbeit/UZH/MasterArbeit/ScienceCloud/GLM/")
 
-fsGLMdata <- asdZScored[asdZScored$site == fsgdSite,][,c("lh.aparc.thickness", "ASSQ_Total","SRS_Total", "clust")]
-fsGLMdata$clust = 2
-hcSubs <- data[data$site == fsgdSite & data$Subject == 0,][,c("lh.aparc.thickness", "ASSQ_Total","SRS_Total")]
-hcSubs$clust <- 1
-fsGLMdata <- rbind(hcSubs, fsGLMdata)
-fsGLMdata$class <- "Cluster1"
-fsGLMdata$class[fsGLMdata$clust == 2] <- "Cluster2"
-fsGLMdata <- na.omit(fsGLMdata[, c(1,5,2,3)])#[1:5,]
-fsgdFile = paste("ASDanatomy_all_",fsgdSite,".fsgd",sep = "")
-f <- generateFSGD(title, list(class1,class2), variables, fsGLMdata, fsgdFile)
 
-source("GLM_helper.R")
-cmd <- generateGroupComparisonCommands(
-  subjectDir = "/mnt/exchange/Site-SI_Derivatives_UZH",
-  analysis = "DEMO",
-  hemi = "lh",
-  fsgdFile = fsgdFile,
-  mtx = "clustComparison.mtx",
-  gd2mtx ="dods", comparisonTarget = "fsaverage",
-  cacheFeature = "thickness",
-  cacheKernel = "10",
-  cacheValue = 3,
-  cacheDirection = "abs",
-  cwp = "0.05")
-cat(cmd)
+title <- "ASD_anatomy_GLM"
+generateFSGDASD(asdZScored, variables, title, directory = "E:/Box Sync/Arbeit/UZH/MasterArbeit/ScienceCloud/GLM/")
+generateGLMASD(features= c("thickness", "area"),title = title, directory = "E:/Box Sync/Arbeit/UZH/MasterArbeit/ScienceCloud/GLM/")
+generateSimLinkCMD(asdZScored, hcZScored, sites)
 
 ```
 

@@ -665,7 +665,7 @@ T:/HBN/MRI/Site-CBIC_Derivatives_UZH/,sub-NDARHC814ZZL_acq-HCP_run-01_T1w,1
 T:/HBN/MRI/Site-CBIC_Derivatives_UZH/,sub-NDARHC814ZZL_acq-HCP_run-02_T1w,1
 T:/HBN/MRI/Site-CBIC_Derivatives_UZH/,sub-NDARHC825ZFZ_acq-HCP_T1w,1
 T:/HBN/MRI/Site-CBIC_Derivatives_UZH/,sub-NDARHC825ZFZ_acq-VNav_T1w,1
-T:/HBN/MRI/Site-CBIC_Derivatives_UZH/,sub-NDARHD017XEU_acq-HCP_T1w,0
+T:/HBN/MRI/Site-CBIC_Derivatives_UZH/,sub-NDARHD017XEU_acq-HCP_T1w,1
 T:/HBN/MRI/Site-CBIC_Derivatives_UZH/,sub-NDARHD017XEU_acq-VNav_T1w,1
 T:/HBN/MRI/Site-CBIC_Derivatives_UZH/,sub-NDARHD276TYX_acq-HCP_T1w,1
 T:/HBN/MRI/Site-CBIC_Derivatives_UZH/,sub-NDARHD276TYX_acq-VNav_T1w,1
@@ -734,7 +734,7 @@ T:/HBN/MRI/Site-CBIC_Derivatives_UZH/,sub-NDARHW933UVJ_acq-HCP_T1w,1
 T:/HBN/MRI/Site-CBIC_Derivatives_UZH/,sub-NDARHW933UVJ_acq-VNav_T1w,1
 T:/HBN/MRI/Site-CBIC_Derivatives_UZH/,sub-NDARHW968ABB_acq-HCP_T1w,1
 T:/HBN/MRI/Site-CBIC_Derivatives_UZH/,sub-NDARHW968ABB_acq-VNav_T1w,1
-T:/HBN/MRI/Site-CBIC_Derivatives_UZH/,sub-NDARHX252NVH_acq-HCP_T1w,0
+T:/HBN/MRI/Site-CBIC_Derivatives_UZH/,sub-NDARHX252NVH_acq-HCP_T1w,1
 T:/HBN/MRI/Site-CBIC_Derivatives_UZH/,sub-NDARHX252NVH_acq-VNav_T1w,1
 T:/HBN/MRI/Site-CBIC_Derivatives_UZH/,sub-NDARHX628PC6_acq-HCP_T1w,1
 T:/HBN/MRI/Site-CBIC_Derivatives_UZH/,sub-NDARHX628PC6_acq-VNav_T1w,1
@@ -771,7 +771,7 @@ T:/HBN/MRI/Site-CBIC_Derivatives_UZH/,sub-NDARJC559WW5_acq-HCP_T1w,1
 T:/HBN/MRI/Site-CBIC_Derivatives_UZH/,sub-NDARJC559WW5_acq-VNav_T1w,1
 T:/HBN/MRI/Site-CBIC_Derivatives_UZH/,sub-NDARJD704KEM_acq-HCP_T1w,1
 T:/HBN/MRI/Site-CBIC_Derivatives_UZH/,sub-NDARJD704KEM_acq-VNav_T1w,1
-T:/HBN/MRI/Site-CBIC_Derivatives_UZH/,sub-NDARJE678MWN_acq-HCP_T1w,0
+T:/HBN/MRI/Site-CBIC_Derivatives_UZH/,sub-NDARJE678MWN_acq-HCP_T1w,1
 T:/HBN/MRI/Site-CBIC_Derivatives_UZH/,sub-NDARJE678MWN_acq-VNav_T1w,1
 T:/HBN/MRI/Site-CBIC_Derivatives_UZH/,sub-NDARJF517HC8_acq-HCP_T1w,1
 T:/HBN/MRI/Site-CBIC_Derivatives_UZH/,sub-NDARJF517HC8_acq-VNav_T1w,1
@@ -1090,7 +1090,7 @@ T:/HBN/MRI/Site-CBIC_Derivatives_UZH/,sub-NDARMV319CAT_acq-HCP_T1w,1
 T:/HBN/MRI/Site-CBIC_Derivatives_UZH/,sub-NDARMV319CAT_acq-VNav_T1w,1
 T:/HBN/MRI/Site-CBIC_Derivatives_UZH/,sub-NDARMV605LGH_acq-HCP_T1w,1
 T:/HBN/MRI/Site-CBIC_Derivatives_UZH/,sub-NDARMV605LGH_acq-VNav_T1w,1
-T:/HBN/MRI/Site-CBIC_Derivatives_UZH/,sub-NDARMV822KWR_acq-HCP_T1w,0
+T:/HBN/MRI/Site-CBIC_Derivatives_UZH/,sub-NDARMV822KWR_acq-HCP_T1w,1
 T:/HBN/MRI/Site-CBIC_Derivatives_UZH/,sub-NDARMV822KWR_acq-VNav_T1w,1
 T:/HBN/MRI/Site-CBIC_Derivatives_UZH/,sub-NDARMV981GZ7_acq-HCP_T1w,1
 T:/HBN/MRI/Site-CBIC_Derivatives_UZH/,sub-NDARMV981GZ7_acq-VNav_T1w,1
@@ -1137,6 +1137,7 @@ T:/HBN/MRI/Site-CBIC_Derivatives_UZH/,sub-NDARNE800DCT_acq-HCP_T1w,1
 T:/HBN/MRI/Site-CBIC_Derivatives_UZH/,sub-NDARNE800DCT_acq-VNav_T1w,1
 T:/HBN/MRI/Site-CBIC_Derivatives_UZH/,sub-NDARNE906EJA_acq-HCP_T1w,1
 T:/HBN/MRI/Site-CBIC_Derivatives_UZH/,sub-NDARNE906EJA_acq-VNav_T1w,1
+T:/HBN/MRI/Site-CBIC_Derivatives_UZH/,sub-NDARNF359TBZ_acq-HCP_T1w,1
 T:/HBN/MRI/Site-CBIC_Derivatives_UZH/,sub-NDARNF359TBZ_acq-VNav_T1w,1
 T:/HBN/MRI/Site-CBIC_Derivatives_UZH/,sub-NDARNF873FCV_acq-HCP_T1w,1
 T:/HBN/MRI/Site-CBIC_Derivatives_UZH/,sub-NDARNF873FCV_acq-VNav_T1w,1
@@ -1170,6 +1171,7 @@ T:/HBN/MRI/Site-CBIC_Derivatives_UZH/,sub-NDARNP643KZH_acq-HCP_run-01_T1w,1
 T:/HBN/MRI/Site-CBIC_Derivatives_UZH/,sub-NDARNP643KZH_acq-HCP_run-02_T1w,1
 T:/HBN/MRI/Site-CBIC_Derivatives_UZH/,sub-NDARNP921JTV_acq-HCP_T1w,1
 T:/HBN/MRI/Site-CBIC_Derivatives_UZH/,sub-NDARNP921JTV_acq-VNav_T1w,1
+T:/HBN/MRI/Site-CBIC_Derivatives_UZH/,sub-NDARNT151UN1_acq-HCP_T1w,0
 T:/HBN/MRI/Site-CBIC_Derivatives_UZH/,sub-NDARNT151UN1_acq-VNav_T1w,1
 T:/HBN/MRI/Site-CBIC_Derivatives_UZH/,sub-NDARNT898ZPF_acq-HCP_T1w,1
 T:/HBN/MRI/Site-CBIC_Derivatives_UZH/,sub-NDARNT898ZPF_acq-VNav_T1w,1
@@ -1196,6 +1198,7 @@ T:/HBN/MRI/Site-CBIC_Derivatives_UZH/,sub-NDARNZ433DDH_acq-VNav_T1w,1
 T:/HBN/MRI/Site-CBIC_Derivatives_UZH/,sub-NDARPB044UXA_acq-HCP_T1w,1
 T:/HBN/MRI/Site-CBIC_Derivatives_UZH/,sub-NDARPC222WN6_acq-HCP_T1w,1
 T:/HBN/MRI/Site-CBIC_Derivatives_UZH/,sub-NDARPC222WN6_acq-VNav_T1w,1
+T:/HBN/MRI/Site-CBIC_Derivatives_UZH/,sub-NDARPC301UWR_acq-HCP_T1w,0
 T:/HBN/MRI/Site-CBIC_Derivatives_UZH/,sub-NDARPC301UWR_acq-VNav_T1w,1
 T:/HBN/MRI/Site-CBIC_Derivatives_UZH/,sub-NDARPD572XRC_acq-HCP_T1w,1
 T:/HBN/MRI/Site-CBIC_Derivatives_UZH/,sub-NDARPD572XRC_acq-VNav_T1w,1
@@ -1205,6 +1208,7 @@ T:/HBN/MRI/Site-CBIC_Derivatives_UZH/,sub-NDARPE752VYE_acq-HCP_T1w,1
 T:/HBN/MRI/Site-CBIC_Derivatives_UZH/,sub-NDARPE752VYE_acq-VNav_T1w,1
 T:/HBN/MRI/Site-CBIC_Derivatives_UZH/,sub-NDARPE838DC5_acq-HCP_T1w,1
 T:/HBN/MRI/Site-CBIC_Derivatives_UZH/,sub-NDARPE838DC5_acq-VNav_T1w,1
+T:/HBN/MRI/Site-CBIC_Derivatives_UZH/,sub-NDARPF319WV2_acq-HCP_T1w,0
 T:/HBN/MRI/Site-CBIC_Derivatives_UZH/,sub-NDARPF319WV2_acq-VNav_T1w,1
 T:/HBN/MRI/Site-CBIC_Derivatives_UZH/,sub-NDARPF362VH8_acq-HCP_T1w,1
 T:/HBN/MRI/Site-CBIC_Derivatives_UZH/,sub-NDARPF362VH8_acq-VNav_T1w,1
@@ -1221,6 +1225,7 @@ T:/HBN/MRI/Site-CBIC_Derivatives_UZH/,sub-NDARPG874CMG_acq-HCP_run-01_T1w,1
 T:/HBN/MRI/Site-CBIC_Derivatives_UZH/,sub-NDARPG874CMG_acq-HCP_run-02_T1w,1
 T:/HBN/MRI/Site-CBIC_Derivatives_UZH/,sub-NDARPH022TRY_acq-HCP_T1w,1
 T:/HBN/MRI/Site-CBIC_Derivatives_UZH/,sub-NDARPH022TRY_acq-VNav_T1w,1
+T:/HBN/MRI/Site-CBIC_Derivatives_UZH/,sub-NDARPH152GU1_acq-HCP_T1w,0
 T:/HBN/MRI/Site-CBIC_Derivatives_UZH/,sub-NDARPH152GU1_acq-VNav_T1w,1
 T:/HBN/MRI/Site-CBIC_Derivatives_UZH/,sub-NDARPH176EWC_acq-HCP_T1w,1
 T:/HBN/MRI/Site-CBIC_Derivatives_UZH/,sub-NDARPH176EWC_acq-VNav_T1w,1
@@ -1250,6 +1255,7 @@ T:/HBN/MRI/Site-CBIC_Derivatives_UZH/,sub-NDARPL501ZUU_acq-HCP_run-02_T1w,1
 T:/HBN/MRI/Site-CBIC_Derivatives_UZH/,sub-NDARPL598MVU_acq-HCP_T1w,1
 T:/HBN/MRI/Site-CBIC_Derivatives_UZH/,sub-NDARPL598MVU_acq-VNav_T1w,1
 T:/HBN/MRI/Site-CBIC_Derivatives_UZH/,sub-NDARPL651MD5_acq-HCP_T1w,1
+T:/HBN/MRI/Site-CBIC_Derivatives_UZH/,sub-NDARPM528TBR_acq-HCP_T1w,0
 T:/HBN/MRI/Site-CBIC_Derivatives_UZH/,sub-NDARPM528TBR_acq-VNav_T1w,1
 T:/HBN/MRI/Site-CBIC_Derivatives_UZH/,sub-NDARPN886HH9_acq-HCP_run-01_T1w,1
 T:/HBN/MRI/Site-CBIC_Derivatives_UZH/,sub-NDARPN886HH9_acq-HCP_run-02_T1w,1
@@ -1288,6 +1294,7 @@ T:/HBN/MRI/Site-CBIC_Derivatives_UZH/,sub-NDARRC295CHW_acq-VNav_T1w,1
 T:/HBN/MRI/Site-CBIC_Derivatives_UZH/,sub-NDARRC348AFG_acq-HCP_T1w,1
 T:/HBN/MRI/Site-CBIC_Derivatives_UZH/,sub-NDARRC348AFG_acq-VNav_T1w,1
 T:/HBN/MRI/Site-CBIC_Derivatives_UZH/,sub-NDARRC355BM6_acq-VNav_T1w,1
+T:/HBN/MRI/Site-CBIC_Derivatives_UZH/,sub-NDARRC935ATQ_acq-HCP_T1w,0
 T:/HBN/MRI/Site-CBIC_Derivatives_UZH/,sub-NDARRC982ZE9_acq-HCP_T1w,1
 T:/HBN/MRI/Site-CBIC_Derivatives_UZH/,sub-NDARRC982ZE9_acq-VNav_T1w,1
 T:/HBN/MRI/Site-CBIC_Derivatives_UZH/,sub-NDARRE063LG2_acq-HCP_T1w,1
@@ -1332,6 +1339,7 @@ T:/HBN/MRI/Site-CBIC_Derivatives_UZH/,sub-NDARRT039CPB_acq-HCP_T1w,1
 T:/HBN/MRI/Site-CBIC_Derivatives_UZH/,sub-NDARRT039CPB_acq-VNav_T1w,1
 T:/HBN/MRI/Site-CBIC_Derivatives_UZH/,sub-NDARRU290EZV_acq-HCP_T1w,1
 T:/HBN/MRI/Site-CBIC_Derivatives_UZH/,sub-NDARRU290EZV_acq-VNav_T1w,1
+T:/HBN/MRI/Site-CBIC_Derivatives_UZH/,sub-NDARRU820CXW_acq-HCP_T1w,1
 T:/HBN/MRI/Site-CBIC_Derivatives_UZH/,sub-NDARRU820CXW_acq-VNav_T1w,1
 T:/HBN/MRI/Site-CBIC_Derivatives_UZH/,sub-NDARRU979UBW_acq-HCP_T1w,1
 T:/HBN/MRI/Site-CBIC_Derivatives_UZH/,sub-NDARRU979UBW_acq-VNav_T1w,1
@@ -1365,6 +1373,7 @@ T:/HBN/MRI/Site-CBIC_Derivatives_UZH/,sub-NDARRY768ZH3_acq-HCP_T1w,1
 T:/HBN/MRI/Site-CBIC_Derivatives_UZH/,sub-NDARRY768ZH3_acq-VNav_T1w,1
 T:/HBN/MRI/Site-CBIC_Derivatives_UZH/,sub-NDARRY792KY1_acq-HCP_T1w,1
 T:/HBN/MRI/Site-CBIC_Derivatives_UZH/,sub-NDARRY792KY1_acq-VNav_T1w,1
+T:/HBN/MRI/Site-CBIC_Derivatives_UZH/,sub-NDARRZ145TFN_acq-HCP_T1w,0
 T:/HBN/MRI/Site-CBIC_Derivatives_UZH/,sub-NDARRZ145TFN_acq-VNav_T1w,1
 T:/HBN/MRI/Site-CBIC_Derivatives_UZH/,sub-NDARRZ356HET_acq-HCP_T1w,1
 T:/HBN/MRI/Site-CBIC_Derivatives_UZH/,sub-NDARRZ356HET_acq-VNav_T1w,1
@@ -1387,6 +1396,7 @@ T:/HBN/MRI/Site-CBIC_Derivatives_UZH/,sub-NDARTD108UFL_acq-HCP_T1w,1
 T:/HBN/MRI/Site-CBIC_Derivatives_UZH/,sub-NDARTD108UFL_acq-VNav_T1w,1
 T:/HBN/MRI/Site-CBIC_Derivatives_UZH/,sub-NDARTD290AY0_acq-HCP_T1w,1
 T:/HBN/MRI/Site-CBIC_Derivatives_UZH/,sub-NDARTD290AY0_acq-VNav_T1w,1
+T:/HBN/MRI/Site-CBIC_Derivatives_UZH/,sub-NDARTD925CTP_acq-HCP_T1w,0
 T:/HBN/MRI/Site-CBIC_Derivatives_UZH/,sub-NDARTD925CTP_acq-VNav_T1w,1
 T:/HBN/MRI/Site-CBIC_Derivatives_UZH/,sub-NDARTE115TAE_acq-HCP_T1w,1
 T:/HBN/MRI/Site-CBIC_Derivatives_UZH/,sub-NDARTE115TAE_acq-VNav_T1w,1
@@ -1427,6 +1437,7 @@ T:/HBN/MRI/Site-CBIC_Derivatives_UZH/,sub-NDARTM501BT2_acq-HCP_T1w,1
 T:/HBN/MRI/Site-CBIC_Derivatives_UZH/,sub-NDARTM501BT2_acq-VNav_T1w,1
 T:/HBN/MRI/Site-CBIC_Derivatives_UZH/,sub-NDARTM712HBD_acq-HCP_T1w,1
 T:/HBN/MRI/Site-CBIC_Derivatives_UZH/,sub-NDARTM712HBD_acq-VNav_T1w,1
+T:/HBN/MRI/Site-CBIC_Derivatives_UZH/,sub-NDARTN365HEV_acq-HCP_T1w,0
 T:/HBN/MRI/Site-CBIC_Derivatives_UZH/,sub-NDARTN365HEV_acq-VNav_T1w,1
 T:/HBN/MRI/Site-CBIC_Derivatives_UZH/,sub-NDARTN483XE4_acq-HCP_T1w,1
 T:/HBN/MRI/Site-CBIC_Derivatives_UZH/,sub-NDARTN483XE4_acq-VNav_T1w,1
@@ -1482,6 +1493,7 @@ T:/HBN/MRI/Site-CBIC_Derivatives_UZH/,sub-NDARUD394JAW_acq-VNav_T1w,1
 T:/HBN/MRI/Site-CBIC_Derivatives_UZH/,sub-NDARUD871XPD_acq-HCP_run-01_T1w,1
 T:/HBN/MRI/Site-CBIC_Derivatives_UZH/,sub-NDARUD871XPD_acq-HCP_run-02_T1w,1
 T:/HBN/MRI/Site-CBIC_Derivatives_UZH/,sub-NDARUD871XPD_acq-VNav_T1w,1
+T:/HBN/MRI/Site-CBIC_Derivatives_UZH/,sub-NDARUE398GGV_acq-HCP_T1w,0
 T:/HBN/MRI/Site-CBIC_Derivatives_UZH/,sub-NDARUE398GGV_acq-VNav_T1w,1
 T:/HBN/MRI/Site-CBIC_Derivatives_UZH/,sub-NDARUF152ARR_acq-HCP_T1w,1
 T:/HBN/MRI/Site-CBIC_Derivatives_UZH/,sub-NDARUF152ARR_acq-VNav_T1w,1
@@ -1519,6 +1531,7 @@ T:/HBN/MRI/Site-CBIC_Derivatives_UZH/,sub-NDARUT891XYJ_acq-HCP_T1w,1
 T:/HBN/MRI/Site-CBIC_Derivatives_UZH/,sub-NDARUT891XYJ_acq-VNav_T1w,1
 T:/HBN/MRI/Site-CBIC_Derivatives_UZH/,sub-NDARUU615WPR_acq-HCP_T1w,1
 T:/HBN/MRI/Site-CBIC_Derivatives_UZH/,sub-NDARUU615WPR_acq-VNav_T1w,1
+T:/HBN/MRI/Site-CBIC_Derivatives_UZH/,sub-NDARUU939VRT_acq-HCP_T1w,0
 T:/HBN/MRI/Site-CBIC_Derivatives_UZH/,sub-NDARUV041YCY_acq-HCP_T1w,1
 T:/HBN/MRI/Site-CBIC_Derivatives_UZH/,sub-NDARUV041YCY_acq-VNav_T1w,1
 T:/HBN/MRI/Site-CBIC_Derivatives_UZH/,sub-NDARUW206XUG_acq-HCP_T1w,1
@@ -1529,6 +1542,7 @@ T:/HBN/MRI/Site-CBIC_Derivatives_UZH/,sub-NDARUX315PE6_acq-HCP_T1w,1
 T:/HBN/MRI/Site-CBIC_Derivatives_UZH/,sub-NDARUX315PE6_acq-VNav_T1w,1
 T:/HBN/MRI/Site-CBIC_Derivatives_UZH/,sub-NDARUX408KJ1_acq-HCP_T1w,1
 T:/HBN/MRI/Site-CBIC_Derivatives_UZH/,sub-NDARUX408KJ1_acq-VNav_T1w,1
+T:/HBN/MRI/Site-CBIC_Derivatives_UZH/,sub-NDARUX534HZQ_acq-HCP_T1w,1
 T:/HBN/MRI/Site-CBIC_Derivatives_UZH/,sub-NDARUX534HZQ_acq-VNav_T1w,1
 T:/HBN/MRI/Site-CBIC_Derivatives_UZH/,sub-NDARUX818MGE_acq-HCP_T1w,1
 T:/HBN/MRI/Site-CBIC_Derivatives_UZH/,sub-NDARUX818MGE_acq-VNav_T1w,1
@@ -1536,8 +1550,11 @@ T:/HBN/MRI/Site-CBIC_Derivatives_UZH/,sub-NDARUX885LMW_acq-HCP_T1w,1
 T:/HBN/MRI/Site-CBIC_Derivatives_UZH/,sub-NDARUX885LMW_acq-VNav_T1w,1
 T:/HBN/MRI/Site-CBIC_Derivatives_UZH/,sub-NDARUX911VE1_acq-HCP_T1w,1
 T:/HBN/MRI/Site-CBIC_Derivatives_UZH/,sub-NDARUX911VE1_acq-VNav_T1w,1
+T:/HBN/MRI/Site-CBIC_Derivatives_UZH/,sub-NDARUY339ZLN_acq-HCP_T1w,0
 T:/HBN/MRI/Site-CBIC_Derivatives_UZH/,sub-NDARUY339ZLN_acq-VNav_T1w,0
+T:/HBN/MRI/Site-CBIC_Derivatives_UZH/,sub-NDARUY549PGQ_acq-HCP_T1w,1
 T:/HBN/MRI/Site-CBIC_Derivatives_UZH/,sub-NDARUY549PGQ_acq-VNav_T1w,1
+T:/HBN/MRI/Site-CBIC_Derivatives_UZH/,sub-NDARUZ191UUG_acq-HCP_T1w,1
 T:/HBN/MRI/Site-CBIC_Derivatives_UZH/,sub-NDARUZ200NRJ_acq-HCP_T1w,1
 T:/HBN/MRI/Site-CBIC_Derivatives_UZH/,sub-NDARUZ200NRJ_acq-VNav_T1w,1
 T:/HBN/MRI/Site-CBIC_Derivatives_UZH/,sub-NDARUZ368BT4_acq-HCP_T1w,1
@@ -1549,6 +1566,7 @@ T:/HBN/MRI/Site-CBIC_Derivatives_UZH/,sub-NDARVB151GXF_acq-HCP_T1w,1
 T:/HBN/MRI/Site-CBIC_Derivatives_UZH/,sub-NDARVB151GXF_acq-VNav_T1w,1
 T:/HBN/MRI/Site-CBIC_Derivatives_UZH/,sub-NDARVB587ECK_acq-HCP_T1w,1
 T:/HBN/MRI/Site-CBIC_Derivatives_UZH/,sub-NDARVB587ECK_acq-VNav_T1w,1
+T:/HBN/MRI/Site-CBIC_Derivatives_UZH/,sub-NDARVB877VWL_acq-HCP_T1w,0
 T:/HBN/MRI/Site-CBIC_Derivatives_UZH/,sub-NDARVB877VWL_acq-VNav_T1w,1
 T:/HBN/MRI/Site-CBIC_Derivatives_UZH/,sub-NDARVB902GA5_acq-HCP_T1w,1
 T:/HBN/MRI/Site-CBIC_Derivatives_UZH/,sub-NDARVB902GA5_acq-VNav_T1w,1
@@ -1573,6 +1591,7 @@ T:/HBN/MRI/Site-CBIC_Derivatives_UZH/,sub-NDARVD543CMZ_acq-VNav_T1w,1
 T:/HBN/MRI/Site-CBIC_Derivatives_UZH/,sub-NDARVD552PRC_acq-HCP_run-01_T1w,1
 T:/HBN/MRI/Site-CBIC_Derivatives_UZH/,sub-NDARVD552PRC_acq-HCP_run-02_T1w,1
 T:/HBN/MRI/Site-CBIC_Derivatives_UZH/,sub-NDARVD552PRC_acq-VNav_T1w,1
+T:/HBN/MRI/Site-CBIC_Derivatives_UZH/,sub-NDARVE980WU5_acq-HCP_T1w,1
 T:/HBN/MRI/Site-CBIC_Derivatives_UZH/,sub-NDARVE980WU5_acq-VNav_T1w,1
 T:/HBN/MRI/Site-CBIC_Derivatives_UZH/,sub-NDARVF012BD2_acq-HCP_run-01_T1w,0
 T:/HBN/MRI/Site-CBIC_Derivatives_UZH/,sub-NDARVF012BD2_acq-HCP_run-02_T1w,0
@@ -1588,6 +1607,7 @@ T:/HBN/MRI/Site-CBIC_Derivatives_UZH/,sub-NDARVG127VW5_acq-HCP_run-01_T1w,1
 T:/HBN/MRI/Site-CBIC_Derivatives_UZH/,sub-NDARVG127VW5_acq-HCP_run-02_T1w,1
 T:/HBN/MRI/Site-CBIC_Derivatives_UZH/,sub-NDARVG132NF6_acq-HCP_T1w,0
 T:/HBN/MRI/Site-CBIC_Derivatives_UZH/,sub-NDARVG132NF6_acq-VNav_T1w,1
+T:/HBN/MRI/Site-CBIC_Derivatives_UZH/,sub-NDARVG761NR2_acq-HCP_T1w,0
 T:/HBN/MRI/Site-CBIC_Derivatives_UZH/,sub-NDARVG761NR2_acq-VNav_T1w,1
 T:/HBN/MRI/Site-CBIC_Derivatives_UZH/,sub-NDARVG777EUZ_acq-HCP_T1w,1
 T:/HBN/MRI/Site-CBIC_Derivatives_UZH/,sub-NDARVG777EUZ_acq-VNav_T1w,1
@@ -1608,6 +1628,7 @@ T:/HBN/MRI/Site-CBIC_Derivatives_UZH/,sub-NDARVM287DJK_acq-HCP_T1w,1
 T:/HBN/MRI/Site-CBIC_Derivatives_UZH/,sub-NDARVM287DJK_acq-VNav_T1w,1
 T:/HBN/MRI/Site-CBIC_Derivatives_UZH/,sub-NDARVM741LKK_acq-HCP_T1w,1
 T:/HBN/MRI/Site-CBIC_Derivatives_UZH/,sub-NDARVM741LKK_acq-VNav_T1w,1
+T:/HBN/MRI/Site-CBIC_Derivatives_UZH/,sub-NDARVM774PA5_acq-HCP_T1w,0
 T:/HBN/MRI/Site-CBIC_Derivatives_UZH/,sub-NDARVM774PA5_acq-VNav_T1w,1
 T:/HBN/MRI/Site-CBIC_Derivatives_UZH/,sub-NDARVN280JTN_acq-HCP_T1w,1
 T:/HBN/MRI/Site-CBIC_Derivatives_UZH/,sub-NDARVN280JTN_acq-VNav_T1w,1
@@ -1618,6 +1639,7 @@ T:/HBN/MRI/Site-CBIC_Derivatives_UZH/,sub-NDARVN629CRD_acq-HCP_run-01_T1w,1
 T:/HBN/MRI/Site-CBIC_Derivatives_UZH/,sub-NDARVN629CRD_acq-HCP_run-02_T1w,1
 T:/HBN/MRI/Site-CBIC_Derivatives_UZH/,sub-NDARVN715MJ9_acq-HCP_T1w,1
 T:/HBN/MRI/Site-CBIC_Derivatives_UZH/,sub-NDARVN715MJ9_acq-VNav_T1w,1
+T:/HBN/MRI/Site-CBIC_Derivatives_UZH/,sub-NDARVN883AU2_acq-HCP_T1w,0
 T:/HBN/MRI/Site-CBIC_Derivatives_UZH/,sub-NDARVN892TCF_acq-HCP_T1w,1
 T:/HBN/MRI/Site-CBIC_Derivatives_UZH/,sub-NDARVN892TCF_acq-VNav_T1w,1
 T:/HBN/MRI/Site-CBIC_Derivatives_UZH/,sub-NDARVP109DF0_acq-HCP_T1w,1
@@ -1739,6 +1761,7 @@ T:/HBN/MRI/Site-CBIC_Derivatives_UZH/,sub-NDARWY718TY7_acq-HCP_run-01_T1w,1
 T:/HBN/MRI/Site-CBIC_Derivatives_UZH/,sub-NDARWY718TY7_acq-HCP_run-02_T1w,1
 T:/HBN/MRI/Site-CBIC_Derivatives_UZH/,sub-NDARWZ115KC6_acq-HCP_T1w,1
 T:/HBN/MRI/Site-CBIC_Derivatives_UZH/,sub-NDARWZ115KC6_acq-VNav_T1w,1
+T:/HBN/MRI/Site-CBIC_Derivatives_UZH/,sub-NDARWZ346RV4_acq-HCP_T1w,0
 T:/HBN/MRI/Site-CBIC_Derivatives_UZH/,sub-NDARWZ865ZMK_acq-HCP_T1w,1
 T:/HBN/MRI/Site-CBIC_Derivatives_UZH/,sub-NDARWZ865ZMK_acq-VNav_T1w,1
 T:/HBN/MRI/Site-CBIC_Derivatives_UZH/,sub-NDARXB250PAC_acq-HCP_T1w,1
@@ -1778,6 +1801,7 @@ T:/HBN/MRI/Site-CBIC_Derivatives_UZH/,sub-NDARXH270TJ8_acq-HCP_T1w,1
 T:/HBN/MRI/Site-CBIC_Derivatives_UZH/,sub-NDARXH270TJ8_acq-VNav_T1w,1
 T:/HBN/MRI/Site-CBIC_Derivatives_UZH/,sub-NDARXH654EPQ_acq-HCP_run-01_T1w,1
 T:/HBN/MRI/Site-CBIC_Derivatives_UZH/,sub-NDARXH654EPQ_acq-HCP_run-02_T1w,1
+T:/HBN/MRI/Site-CBIC_Derivatives_UZH/,sub-NDARXJ452HAJ_acq-HCP_T1w,0
 T:/HBN/MRI/Site-CBIC_Derivatives_UZH/,sub-NDARXK009VGV_acq-HCP_T1w,1
 T:/HBN/MRI/Site-CBIC_Derivatives_UZH/,sub-NDARXK009VGV_acq-VNav_T1w,1
 T:/HBN/MRI/Site-CBIC_Derivatives_UZH/,sub-NDARXK986EK6_acq-HCP_T1w,1
@@ -1905,6 +1929,7 @@ T:/HBN/MRI/Site-CBIC_Derivatives_UZH/,sub-NDARYW514CH2_acq-HCP_run-01_T1w,1
 T:/HBN/MRI/Site-CBIC_Derivatives_UZH/,sub-NDARYW514CH2_acq-HCP_run-02_T1w,1
 T:/HBN/MRI/Site-CBIC_Derivatives_UZH/,sub-NDARYW789GNP_acq-HCP_T1w,1
 T:/HBN/MRI/Site-CBIC_Derivatives_UZH/,sub-NDARYW789GNP_acq-VNav_T1w,1
+T:/HBN/MRI/Site-CBIC_Derivatives_UZH/,sub-NDARYW946VTC_acq-HCP_T1w,0
 T:/HBN/MRI/Site-CBIC_Derivatives_UZH/,sub-NDARYW946VTC_acq-VNav_T1w,1
 T:/HBN/MRI/Site-CBIC_Derivatives_UZH/,sub-NDARYW984FLT_acq-HCP_run-01_T1w,1
 T:/HBN/MRI/Site-CBIC_Derivatives_UZH/,sub-NDARYW984FLT_acq-HCP_run-02_T1w,1
@@ -1912,6 +1937,7 @@ T:/HBN/MRI/Site-CBIC_Derivatives_UZH/,sub-NDARYX008UCU_acq-HCP_T1w,1
 T:/HBN/MRI/Site-CBIC_Derivatives_UZH/,sub-NDARYX008UCU_acq-VNav_T1w,1
 T:/HBN/MRI/Site-CBIC_Derivatives_UZH/,sub-NDARYX133FFQ_acq-HCP_T1w,1
 T:/HBN/MRI/Site-CBIC_Derivatives_UZH/,sub-NDARYX133FFQ_acq-VNav_T1w,1
+T:/HBN/MRI/Site-CBIC_Derivatives_UZH/,sub-NDARYX572VEW_acq-HCP_T1w,0
 T:/HBN/MRI/Site-CBIC_Derivatives_UZH/,sub-NDARYX572VEW_acq-VNav_T1w,1
 T:/HBN/MRI/Site-CBIC_Derivatives_UZH/,sub-NDARYZ871DXQ_acq-HCP_T1w,1
 T:/HBN/MRI/Site-CBIC_Derivatives_UZH/,sub-NDARYZ871DXQ_acq-VNav_T1w,1
@@ -1995,30 +2021,6 @@ T:/HBN/MRI/Site-CBIC_Derivatives_UZH/,sub-NDARZX745YLZ_acq-VNav_T1w,1
 T:/HBN/MRI/Site-CBIC_Derivatives_UZH/,sub-NDARZY101JNB_acq-HCP_T1w,1
 T:/HBN/MRI/Site-CBIC_Derivatives_UZH/,sub-NDARZZ810LVF_acq-HCP_T1w,1
 T:/HBN/MRI/Site-CBIC_Derivatives_UZH/,sub-NDARZZ810LVF_acq-VNav_T1w,1
-T:/HBN/MRI/Site-CBIC_Derivatives_UZH/,sub-NDARZJ539CD9_acq-VNav_T1w,1
-T:/HBN/MRI/Site-CBIC_Derivatives_UZH/,sub-NDARZJ587UZU_acq-HCP_T1w,1
-T:/HBN/MRI/Site-CBIC_Derivatives_UZH/,sub-NDARZJ587UZU_acq-VNav_T1w,1
-T:/HBN/MRI/Site-CBIC_Derivatives_UZH/,sub-NDARZK601NG9_acq-HCP_T1w,1
-T:/HBN/MRI/Site-CBIC_Derivatives_UZH/,sub-NDARZK601NG9_acq-VNav_T1w,1
-T:/HBN/MRI/Site-CBIC_Derivatives_UZH/,sub-NDARZK745JGG_acq-HCP_T1w,1
-T:/HBN/MRI/Site-CBIC_Derivatives_UZH/,sub-NDARZK745JGG_acq-VNav_T1w,1
-T:/HBN/MRI/Site-CBIC_Derivatives_UZH/,sub-NDARZL113CU0_acq-HCP_run-01_T1w,1
-T:/HBN/MRI/Site-CBIC_Derivatives_UZH/,sub-NDARZL113CU0_acq-HCP_run-02_T1w,1
-T:/HBN/MRI/Site-CBIC_Derivatives_UZH/,sub-NDARZL799MFW_acq-HCP_T1w,1
-T:/HBN/MRI/Site-CBIC_Derivatives_UZH/,sub-NDARZL799MFW_acq-VNav_T1w,1
-T:/HBN/MRI/Site-CBIC_Derivatives_UZH/,sub-NDARZM739MH6_acq-HCP_T1w,1
-T:/HBN/MRI/Site-CBIC_Derivatives_UZH/,sub-NDARZM739MH6_acq-VNav_T1w,1
-T:/HBN/MRI/Site-CBIC_Derivatives_UZH/,sub-NDARZM903TNL_acq-HCP_T1w,1
-T:/HBN/MRI/Site-CBIC_Derivatives_UZH/,sub-NDARZM903TNL_acq-VNav_T1w,1
-T:/HBN/MRI/Site-CBIC_Derivatives_UZH/,sub-NDARZN578YDP_acq-HCP_run-01_T1w,1
-T:/HBN/MRI/Site-CBIC_Derivatives_UZH/,sub-NDARZN578YDP_acq-HCP_run-02_T1w,1
-T:/HBN/MRI/Site-CBIC_Derivatives_UZH/,sub-NDARZN677EYE_acq-VNav_T1w,1
-T:/HBN/MRI/Site-CBIC_Derivatives_UZH/,sub-NDARZN914GPB_acq-HCP_run-01_T1w,1
-T:/HBN/MRI/Site-CBIC_Derivatives_UZH/,sub-NDARZN914GPB_acq-HCP_run-02_T1w,1
-T:/HBN/MRI/Site-CBIC_Derivatives_UZH/,sub-NDARZP599GRG_acq-HCP_T1w,1
-T:/HBN/MRI/Site-CBIC_Derivatives_UZH/,sub-NDARZP599GRG_acq-VNav_T1w,1
-T:/HBN/MRI/Site-CBIC_Derivatives_UZH/,sub-NDARZR180BM6_acq-HCP_T1w,1
-T:/HBN/MRI/Site-CBIC_Derivatives_UZH/,sub-NDARZR180BM6_acq-VNav_T1w,1
 T:/HBN/MRI/Site-CBIC_Derivatives_UZH/,sub-NDARZT940RZG_acq-HCP_T1w,1
 T:/HBN/MRI/Site-CBIC_Derivatives_UZH/,sub-NDARZT940RZG_acq-VNav_T1w,1
 T:/HBN/MRI/Site-CBIC_Derivatives_UZH/,sub-NDARZT957CWG_acq-HCP_T1w,1
@@ -2197,7 +2199,7 @@ T:/HBN/MRI/Site-CUNY_Derivatives_UZH/,sub-NDARYE576WR6_acq-HCP_T1w,1
 T:/HBN/MRI/Site-CUNY_Derivatives_UZH/,sub-NDARYE576WR6_acq-VNav_T1w,1
 T:/HBN/MRI/Site-CUNY_Derivatives_UZH/,sub-NDARYL443NG6_acq-HCP_T1w,1
 T:/HBN/MRI/Site-CUNY_Derivatives_UZH/,sub-NDARYL443NG6_acq-VNav_T1w,1
-T:/HBN/MRI/Site-CUNY_Derivatives_UZH/,sub-NDARYU719EPL_acq-HCP_T1w,0
+T:/HBN/MRI/Site-CUNY_Derivatives_UZH/,sub-NDARYU719EPL_acq-HCP_T1w,1
 T:/HBN/MRI/Site-CUNY_Derivatives_UZH/,sub-NDARYU719EPL_acq-VNav_T1w,1
 T:/HBN/MRI/Site-CUNY_Derivatives_UZH/,sub-NDARYW170CAA_acq-HCP_T1w,1
 T:/HBN/MRI/Site-CUNY_Derivatives_UZH/,sub-NDARYW170CAA_acq-VNav_T1w,1
@@ -2219,7 +2221,7 @@ T:/HBN/MRI/Site-CUNY_Derivatives_UZH/,sub-NDARYE576WR6_acq-HCP_T1w,1
 T:/HBN/MRI/Site-CUNY_Derivatives_UZH/,sub-NDARYE576WR6_acq-VNav_T1w,1
 T:/HBN/MRI/Site-CUNY_Derivatives_UZH/,sub-NDARYL443NG6_acq-HCP_T1w,1
 T:/HBN/MRI/Site-CUNY_Derivatives_UZH/,sub-NDARYL443NG6_acq-VNav_T1w,1
-T:/HBN/MRI/Site-CUNY_Derivatives_UZH/,sub-NDARYU719EPL_acq-HCP_T1w,0
+T:/HBN/MRI/Site-CUNY_Derivatives_UZH/,sub-NDARYU719EPL_acq-HCP_T1w,1
 T:/HBN/MRI/Site-CUNY_Derivatives_UZH/,sub-NDARYU719EPL_acq-VNav_T1w,1
 T:/HBN/MRI/Site-CUNY_Derivatives_UZH/,sub-NDARYW170CAA_acq-HCP_T1w,1
 T:/HBN/MRI/Site-CUNY_Derivatives_UZH/,sub-NDARYW170CAA_acq-VNav_T1w,1
@@ -2350,11 +2352,11 @@ T:/HBN/MRI/Site-RU_Derivatives_UZH/,sub-NDARCF247TDJ_acq-HCP_T1w,1
 T:/HBN/MRI/Site-RU_Derivatives_UZH/,sub-NDARCG037CX4_acq-HCP_T1w,1
 T:/HBN/MRI/Site-RU_Derivatives_UZH/,sub-NDARCG073GZ6_acq-HCP_T1w,1
 T:/HBN/MRI/Site-RU_Derivatives_UZH/,sub-NDARCG438NML_acq-HCP_T1w,1
-T:/HBN/MRI/Site-RU_Derivatives_UZH/,sub-NDARCG698LHB_acq-HCP_T1w,0
+T:/HBN/MRI/Site-RU_Derivatives_UZH/,sub-NDARCG698LHB_acq-HCP_T1w,1
 T:/HBN/MRI/Site-RU_Derivatives_UZH/,sub-NDARCH001CN2_acq-HCP_T1w,1
 T:/HBN/MRI/Site-RU_Derivatives_UZH/,sub-NDARCH868WVX_acq-HCP_T1w,1
 T:/HBN/MRI/Site-RU_Derivatives_UZH/,sub-NDARCH881EFG_acq-HCP_T1w,1
-T:/HBN/MRI/Site-RU_Derivatives_UZH/,sub-NDARCJ170CT9_acq-HCP_T1w,0
+T:/HBN/MRI/Site-RU_Derivatives_UZH/,sub-NDARCJ170CT9_acq-HCP_T1w,1
 T:/HBN/MRI/Site-RU_Derivatives_UZH/,sub-NDARCJ330NBP_acq-HCP_T1w,1
 T:/HBN/MRI/Site-RU_Derivatives_UZH/,sub-NDARCJ363KLE_acq-HCP_T1w,1
 T:/HBN/MRI/Site-RU_Derivatives_UZH/,sub-NDARCJ433TCG_acq-HCP_T1w,1
@@ -2434,7 +2436,7 @@ T:/HBN/MRI/Site-RU_Derivatives_UZH/,sub-NDARDU314YVY_acq-HCP_T1w,1
 T:/HBN/MRI/Site-RU_Derivatives_UZH/,sub-NDARDU566NUY_acq-HCP_T1w,1
 T:/HBN/MRI/Site-RU_Derivatives_UZH/,sub-NDARDU853XZ6_acq-HCP_T1w,1
 T:/HBN/MRI/Site-RU_Derivatives_UZH/,sub-NDARDU986RBM_acq-HCP_T1w,1
-T:/HBN/MRI/Site-RU_Derivatives_UZH/,sub-NDARDV222JZ6_acq-HCP_T1w,0
+T:/HBN/MRI/Site-RU_Derivatives_UZH/,sub-NDARDV222JZ6_acq-HCP_T1w,1
 T:/HBN/MRI/Site-RU_Derivatives_UZH/,sub-NDARDW416KWZ_acq-HCP_T1w,1
 T:/HBN/MRI/Site-RU_Derivatives_UZH/,sub-NDARDW711NYZ_acq-HCP_T1w,1
 T:/HBN/MRI/Site-RU_Derivatives_UZH/,sub-NDARDX173WLD_acq-HCP_T1w,1
@@ -2496,7 +2498,7 @@ T:/HBN/MRI/Site-RU_Derivatives_UZH/,sub-NDAREW671HZW_acq-HCP_T1w,1
 T:/HBN/MRI/Site-RU_Derivatives_UZH/,sub-NDAREW937RMY_acq-HCP_T1w,1
 T:/HBN/MRI/Site-RU_Derivatives_UZH/,sub-NDAREX065KJU_acq-HCP_T1w,1
 T:/HBN/MRI/Site-RU_Derivatives_UZH/,sub-NDAREX091KUR_acq-HCP_T1w,1
-T:/HBN/MRI/Site-RU_Derivatives_UZH/,sub-NDAREX589EXG_acq-HCP_T1w,0
+T:/HBN/MRI/Site-RU_Derivatives_UZH/,sub-NDAREX589EXG_acq-HCP_T1w,1
 T:/HBN/MRI/Site-RU_Derivatives_UZH/,sub-NDAREY381DEQ_acq-HCP_T1w,1
 T:/HBN/MRI/Site-RU_Derivatives_UZH/,sub-NDAREY778CR9_acq-HCP_T1w,1
 T:/HBN/MRI/Site-RU_Derivatives_UZH/,sub-NDARFA165XBV_acq-HCP_T1w,1
@@ -2685,7 +2687,7 @@ T:/HBN/MRI/Site-RU_Derivatives_UZH/,sub-NDARJE686DJL_acq-HCP_T1w,1
 T:/HBN/MRI/Site-RU_Derivatives_UZH/,sub-NDARJF322BN4_acq-HCP_T1w,1
 T:/HBN/MRI/Site-RU_Derivatives_UZH/,sub-NDARJF755DT9_acq-HCP_T1w,1
 T:/HBN/MRI/Site-RU_Derivatives_UZH/,sub-NDARJG298YVA_acq-HCP_T1w,1
-T:/HBN/MRI/Site-RU_Derivatives_UZH/,sub-NDARJG300HWH_acq-HCP_T1w,0
+T:/HBN/MRI/Site-RU_Derivatives_UZH/,sub-NDARJG300HWH_acq-HCP_T1w,1
 T:/HBN/MRI/Site-RU_Derivatives_UZH/,sub-NDARJG488XHT_acq-HCP_T1w,1
 T:/HBN/MRI/Site-RU_Derivatives_UZH/,sub-NDARJG494YDY_acq-HCP_T1w,1
 T:/HBN/MRI/Site-RU_Derivatives_UZH/,sub-NDARJG687YYX_acq-HCP_T1w,1
@@ -2726,7 +2728,7 @@ T:/HBN/MRI/Site-RU_Derivatives_UZH/,sub-NDARJW072UJ3_acq-HCP_T1w,1
 T:/HBN/MRI/Site-RU_Derivatives_UZH/,sub-NDARJW315BUA_acq-HCP_T1w,1
 T:/HBN/MRI/Site-RU_Derivatives_UZH/,sub-NDARJW373UE3_acq-HCP_T1w,0
 T:/HBN/MRI/Site-RU_Derivatives_UZH/,sub-NDARJW503GA0_acq-HCP_T1w,1
-T:/HBN/MRI/Site-RU_Derivatives_UZH/,sub-NDARJW685KBA_acq-HCP_T1w,0
+T:/HBN/MRI/Site-RU_Derivatives_UZH/,sub-NDARJW685KBA_acq-HCP_T1w,1
 T:/HBN/MRI/Site-RU_Derivatives_UZH/,sub-NDARJW989EM6_acq-HCP_T1w,1
 T:/HBN/MRI/Site-RU_Derivatives_UZH/,sub-NDARJX121GKP_acq-HCP_T1w,1
 T:/HBN/MRI/Site-RU_Derivatives_UZH/,sub-NDARJX505XD6_acq-HCP_T1w,1
@@ -2734,6 +2736,7 @@ T:/HBN/MRI/Site-RU_Derivatives_UZH/,sub-NDARJY033DKZ_acq-HCP_T1w,1
 T:/HBN/MRI/Site-RU_Derivatives_UZH/,sub-NDARJY141RFE_acq-HCP_T1w,1
 T:/HBN/MRI/Site-RU_Derivatives_UZH/,sub-NDARJY577WNJ_acq-HCP_T1w,1
 T:/HBN/MRI/Site-RU_Derivatives_UZH/,sub-NDARJY645CRH_acq-HCP_T1w,1
+T:/HBN/MRI/Site-RU_Derivatives_UZH/,sub-NDARJZ089HVP_acq-HCP_T1w,0
 T:/HBN/MRI/Site-RU_Derivatives_UZH/,sub-NDARJZ274PRQ_acq-HCP_T1w,1
 T:/HBN/MRI/Site-RU_Derivatives_UZH/,sub-NDARJZ526HN3_acq-HCP_T1w,1
 T:/HBN/MRI/Site-RU_Derivatives_UZH/,sub-NDARJZ679KXJ_acq-HCP_T1w,1
@@ -2765,8 +2768,9 @@ T:/HBN/MRI/Site-RU_Derivatives_UZH/,sub-NDARKK732JW3_acq-HCP_T1w,1
 T:/HBN/MRI/Site-RU_Derivatives_UZH/,sub-NDARKK774VP5_acq-HCP_T1w,1
 T:/HBN/MRI/Site-RU_Derivatives_UZH/,sub-NDARKL156NJG_acq-HCP_T1w,1
 T:/HBN/MRI/Site-RU_Derivatives_UZH/,sub-NDARKL223LLF_acq-HCP_T1w,1
+T:/HBN/MRI/Site-RU_Derivatives_UZH/,sub-NDARKL916FDC_acq-HCP_T1w,0
 T:/HBN/MRI/Site-RU_Derivatives_UZH/,sub-NDARKM301DY0_acq-HCP_run-01_T1w,0
-T:/HBN/MRI/Site-RU_Derivatives_UZH/,sub-NDARKM301DY0_acq-HCP_run-02_T1w,0
+T:/HBN/MRI/Site-RU_Derivatives_UZH/,sub-NDARKM301DY0_acq-HCP_run-02_T1w,1
 T:/HBN/MRI/Site-RU_Derivatives_UZH/,sub-NDARKM497VKX_acq-HCP_T1w,1
 T:/HBN/MRI/Site-RU_Derivatives_UZH/,sub-NDARKM635UY0_acq-HCP_T1w,1
 T:/HBN/MRI/Site-RU_Derivatives_UZH/,sub-NDARKM784VA7_acq-HCP_T1w,1
@@ -2813,6 +2817,7 @@ T:/HBN/MRI/Site-RU_Derivatives_UZH/,sub-NDARLH423CR7_acq-HCP_T1w,1
 T:/HBN/MRI/Site-RU_Derivatives_UZH/,sub-NDARLH979WFX_acq-HCP_T1w,1
 T:/HBN/MRI/Site-RU_Derivatives_UZH/,sub-NDARLJ148JH2_acq-HCP_T1w,1
 T:/HBN/MRI/Site-RU_Derivatives_UZH/,sub-NDARLJ334YD0_acq-HCP_T1w,1
+T:/HBN/MRI/Site-RU_Derivatives_UZH/,sub-NDARLJ356HAQ_acq-HCP_T1w,1
 T:/HBN/MRI/Site-RU_Derivatives_UZH/,sub-NDARLJ472DLM_acq-HCP_T1w,1
 T:/HBN/MRI/Site-RU_Derivatives_UZH/,sub-NDARLJ654TZ0_acq-HCP_T1w,1
 T:/HBN/MRI/Site-RU_Derivatives_UZH/,sub-NDARLJ886BFK_acq-HCP_T1w,1
@@ -2826,6 +2831,7 @@ T:/HBN/MRI/Site-RU_Derivatives_UZH/,sub-NDARLM713ZAM_acq-HCP_T1w,1
 T:/HBN/MRI/Site-RU_Derivatives_UZH/,sub-NDARLM877UZM_acq-HCP_T1w,1
 T:/HBN/MRI/Site-RU_Derivatives_UZH/,sub-NDARLN070VX7_acq-HCP_T1w,1
 T:/HBN/MRI/Site-RU_Derivatives_UZH/,sub-NDARLN550RM6_acq-HCP_T1w,1
+T:/HBN/MRI/Site-RU_Derivatives_UZH/,sub-NDARLN778RYN_acq-HCP_T1w,1
 T:/HBN/MRI/Site-RU_Derivatives_UZH/,sub-NDARLN961XGP_acq-HCP_T1w,1
 T:/HBN/MRI/Site-RU_Derivatives_UZH/,sub-NDARLP246NT6_acq-HCP_T1w,1
 T:/HBN/MRI/Site-RU_Derivatives_UZH/,sub-NDARLP417RC6_acq-HCP_T1w,1
@@ -2836,6 +2842,7 @@ T:/HBN/MRI/Site-RU_Derivatives_UZH/,sub-NDARLR083PKF_acq-HCP_T1w,1
 T:/HBN/MRI/Site-RU_Derivatives_UZH/,sub-NDARLR586MPX_acq-HCP_T1w,1
 T:/HBN/MRI/Site-RU_Derivatives_UZH/,sub-NDARLR620FW6_acq-HCP_T1w,1
 T:/HBN/MRI/Site-RU_Derivatives_UZH/,sub-NDARLU111UYF_acq-HCP_T1w,1
+T:/HBN/MRI/Site-RU_Derivatives_UZH/,sub-NDARLU529MP7_acq-HCP_T1w,0
 T:/HBN/MRI/Site-RU_Derivatives_UZH/,sub-NDARLU606ZDD_acq-HCP_T1w,1
 T:/HBN/MRI/Site-RU_Derivatives_UZH/,sub-NDARLV252DY2_acq-HCP_T1w,1
 T:/HBN/MRI/Site-RU_Derivatives_UZH/,sub-NDARLV387GP4_acq-HCP_T1w,1
@@ -2844,10 +2851,14 @@ T:/HBN/MRI/Site-RU_Derivatives_UZH/,sub-NDARLY030ZBG_acq-HCP_T1w,1
 T:/HBN/MRI/Site-RU_Derivatives_UZH/,sub-NDARLY483UNZ_acq-HCP_T1w,1
 T:/HBN/MRI/Site-RU_Derivatives_UZH/,sub-NDARLY585ZVN_acq-HCP_T1w,1
 T:/HBN/MRI/Site-RU_Derivatives_UZH/,sub-NDARLY687YDQ_acq-HCP_T1w,1
+T:/HBN/MRI/Site-RU_Derivatives_UZH/,sub-NDARLY872ZXA_acq-HCP_T1w,1
 T:/HBN/MRI/Site-RU_Derivatives_UZH/,sub-NDARMA273ZL6_acq-HCP_T1w,1
 T:/HBN/MRI/Site-RU_Derivatives_UZH/,sub-NDARMA449JDZ_acq-HCP_T1w,1
 T:/HBN/MRI/Site-RU_Derivatives_UZH/,sub-NDARMB290GPL_acq-HCP_T1w,1
 T:/HBN/MRI/Site-RU_Derivatives_UZH/,sub-NDARMB945WN7_acq-HCP_T1w,1
+T:/HBN/MRI/Site-RU_Derivatives_UZH/,sub-NDARMC325JCN_acq-HCP_T1w,1
+T:/HBN/MRI/Site-RU_Derivatives_UZH/,sub-NDARMC694YF3_acq-HCP_T1w,0
+T:/HBN/MRI/Site-RU_Derivatives_UZH/,sub-NDARMC759CX3_acq-HCP_T1w,0
 T:/HBN/MRI/Site-RU_Derivatives_UZH/,sub-NDARMC950EUL_acq-HCP_T1w,1
 T:/HBN/MRI/Site-RU_Derivatives_UZH/,sub-NDARMD278GEN_acq-HCP_T1w,1
 T:/HBN/MRI/Site-RU_Derivatives_UZH/,sub-NDARMD575AXD_acq-HCP_T1w,1
@@ -2856,6 +2867,7 @@ T:/HBN/MRI/Site-RU_Derivatives_UZH/,sub-NDARME736MN8_acq-HCP_T1w,1
 T:/HBN/MRI/Site-RU_Derivatives_UZH/,sub-NDARMF116AFR_acq-HCP_T1w,1
 T:/HBN/MRI/Site-RU_Derivatives_UZH/,sub-NDARMF230VEX_acq-HCP_T1w,1
 T:/HBN/MRI/Site-RU_Derivatives_UZH/,sub-NDARMF444MAY_acq-HCP_T1w,1
+T:/HBN/MRI/Site-RU_Derivatives_UZH/,sub-NDARMF508PA2_acq-HCP_T1w,0
 T:/HBN/MRI/Site-RU_Derivatives_UZH/,sub-NDARMF560MUH_acq-HCP_T1w,1
 T:/HBN/MRI/Site-RU_Derivatives_UZH/,sub-NDARMG196KV4_acq-HCP_T1w,1
 T:/HBN/MRI/Site-RU_Derivatives_UZH/,sub-NDARMG263JRX_acq-HCP_T1w,1
@@ -2875,6 +2887,7 @@ T:/HBN/MRI/Site-RU_Derivatives_UZH/,sub-NDARMM137PT6_acq-HCP_T1w,1
 T:/HBN/MRI/Site-RU_Derivatives_UZH/,sub-NDARMM326JCB_acq-HCP_T1w,1
 T:/HBN/MRI/Site-RU_Derivatives_UZH/,sub-NDARMM486AJU_acq-HCP_T1w,1
 T:/HBN/MRI/Site-RU_Derivatives_UZH/,sub-NDARMM951YEH_acq-HCP_T1w,1
+T:/HBN/MRI/Site-RU_Derivatives_UZH/,sub-NDARMN302YAV_acq-HCP_T1w,1
 T:/HBN/MRI/Site-RU_Derivatives_UZH/,sub-NDARMN376BMF_acq-HCP_T1w,1
 T:/HBN/MRI/Site-RU_Derivatives_UZH/,sub-NDARMN415AXR_acq-HCP_T1w,1
 T:/HBN/MRI/Site-RU_Derivatives_UZH/,sub-NDARMN690FGZ_acq-HCP_T1w,1
@@ -2882,6 +2895,7 @@ T:/HBN/MRI/Site-RU_Derivatives_UZH/,sub-NDARMN695VFH_acq-HCP_T1w,1
 T:/HBN/MRI/Site-RU_Derivatives_UZH/,sub-NDARMP745EAC_acq-HCP_T1w,1
 T:/HBN/MRI/Site-RU_Derivatives_UZH/,sub-NDARMP977RHZ_acq-HCP_T1w,1
 T:/HBN/MRI/Site-RU_Derivatives_UZH/,sub-NDARMR039JV5_acq-HCP_T1w,1
+T:/HBN/MRI/Site-RU_Derivatives_UZH/,sub-NDARMR134HUY_acq-HCP_T1w,0
 T:/HBN/MRI/Site-RU_Derivatives_UZH/,sub-NDARMR277TT7_acq-HCP_T1w,1
 T:/HBN/MRI/Site-RU_Derivatives_UZH/,sub-NDARMT064WBB_acq-HCP_T1w,1
 T:/HBN/MRI/Site-RU_Derivatives_UZH/,sub-NDARMT732GKM_acq-HCP_T1w,1
@@ -2889,6 +2903,7 @@ T:/HBN/MRI/Site-RU_Derivatives_UZH/,sub-NDARMT784NED_acq-HCP_T1w,1
 T:/HBN/MRI/Site-RU_Derivatives_UZH/,sub-NDARMT882AWE_acq-HCP_T1w,1
 T:/HBN/MRI/Site-RU_Derivatives_UZH/,sub-NDARMU053YEU_acq-HCP_T1w,1
 T:/HBN/MRI/Site-RU_Derivatives_UZH/,sub-NDARMU518TVN_acq-HCP_T1w,1
+T:/HBN/MRI/Site-RU_Derivatives_UZH/,sub-NDARMU589LP6_acq-HCP_T1w,0
 T:/HBN/MRI/Site-RU_Derivatives_UZH/,sub-NDARMU791UN7_acq-HCP_T1w,1
 T:/HBN/MRI/Site-RU_Derivatives_UZH/,sub-NDARMV274TAY_acq-HCP_T1w,1
 T:/HBN/MRI/Site-RU_Derivatives_UZH/,sub-NDARMV718DYL_acq-HCP_T1w,1
@@ -2906,7 +2921,9 @@ T:/HBN/MRI/Site-RU_Derivatives_UZH/,sub-NDARMY456WML_acq-HCP_T1w,1
 T:/HBN/MRI/Site-RU_Derivatives_UZH/,sub-NDARMZ119VPH_acq-HCP_T1w,1
 T:/HBN/MRI/Site-RU_Derivatives_UZH/,sub-NDARMZ200GVD_acq-HCP_T1w,1
 T:/HBN/MRI/Site-RU_Derivatives_UZH/,sub-NDARMZ687XRR_acq-HCP_T1w,1
+T:/HBN/MRI/Site-RU_Derivatives_UZH/,sub-NDARMZ790VHM_acq-HCP_T1w,0
 T:/HBN/MRI/Site-RU_Derivatives_UZH/,sub-NDARMZ981YUK_acq-HCP_T1w,1
+T:/HBN/MRI/Site-RU_Derivatives_UZH/,sub-NDARNB390JL3_acq-HCP_T1w,1
 T:/HBN/MRI/Site-RU_Derivatives_UZH/,sub-NDARNB674VMY_acq-HCP_T1w,1
 T:/HBN/MRI/Site-RU_Derivatives_UZH/,sub-NDARNC561KDP_acq-HCP_T1w,1
 T:/HBN/MRI/Site-RU_Derivatives_UZH/,sub-NDARND085WZK_acq-HCP_T1w,1
@@ -2914,6 +2931,7 @@ T:/HBN/MRI/Site-RU_Derivatives_UZH/,sub-NDARND348HB3_acq-HCP_T1w,1
 T:/HBN/MRI/Site-RU_Derivatives_UZH/,sub-NDARND697FLK_acq-HCP_T1w,1
 T:/HBN/MRI/Site-RU_Derivatives_UZH/,sub-NDARND805ZTP_acq-HCP_T1w,1
 T:/HBN/MRI/Site-RU_Derivatives_UZH/,sub-NDARNE196LV0_acq-HCP_T1w,1
+T:/HBN/MRI/Site-RU_Derivatives_UZH/,sub-NDARNE406XC3_acq-HCP_T1w,1
 T:/HBN/MRI/Site-RU_Derivatives_UZH/,sub-NDARNE758RD6_acq-HCP_T1w,1
 T:/HBN/MRI/Site-RU_Derivatives_UZH/,sub-NDARNF341BNN_acq-HCP_T1w,1
 T:/HBN/MRI/Site-RU_Derivatives_UZH/,sub-NDARNF994TPA_acq-HCP_T1w,1
@@ -2927,8 +2945,10 @@ T:/HBN/MRI/Site-RU_Derivatives_UZH/,sub-NDARNK322PHW_acq-HCP_T1w,1
 T:/HBN/MRI/Site-RU_Derivatives_UZH/,sub-NDARNK329VC3_acq-HCP_T1w,1
 T:/HBN/MRI/Site-RU_Derivatives_UZH/,sub-NDARNK740ZVM_acq-HCP_T1w,1
 T:/HBN/MRI/Site-RU_Derivatives_UZH/,sub-NDARNK768THB_acq-HCP_T1w,1
+T:/HBN/MRI/Site-RU_Derivatives_UZH/,sub-NDARNK826AFY_acq-HCP_T1w,0
 T:/HBN/MRI/Site-RU_Derivatives_UZH/,sub-NDARNL134VF0_acq-HCP_T1w,1
 T:/HBN/MRI/Site-RU_Derivatives_UZH/,sub-NDARNL807DKC_acq-HCP_T1w,1
+T:/HBN/MRI/Site-RU_Derivatives_UZH/,sub-NDARNM147CG2_acq-HCP_T1w,0
 T:/HBN/MRI/Site-RU_Derivatives_UZH/,sub-NDARNM708YTF_acq-HCP_T1w,1
 T:/HBN/MRI/Site-RU_Derivatives_UZH/,sub-NDARNM783ZVV_acq-HCP_T1w,1
 T:/HBN/MRI/Site-RU_Derivatives_UZH/,sub-NDARNN042YCH_acq-HCP_T1w,1
@@ -2945,10 +2965,12 @@ T:/HBN/MRI/Site-RU_Derivatives_UZH/,sub-NDARNT043XGH_acq-HCP_T1w,1
 T:/HBN/MRI/Site-RU_Derivatives_UZH/,sub-NDARNT113YX7_acq-HCP_T1w,1
 T:/HBN/MRI/Site-RU_Derivatives_UZH/,sub-NDARNT205ZKP_acq-HCP_T1w,1
 T:/HBN/MRI/Site-RU_Derivatives_UZH/,sub-NDARNT225UVD_acq-HCP_T1w,1
+T:/HBN/MRI/Site-RU_Derivatives_UZH/,sub-NDARNT245TP0_acq-HCP_T1w,0
 T:/HBN/MRI/Site-RU_Derivatives_UZH/,sub-NDARNT541VT2_acq-HCP_T1w,1
 T:/HBN/MRI/Site-RU_Derivatives_UZH/,sub-NDARNT676ZN4_acq-HCP_T1w,1
 T:/HBN/MRI/Site-RU_Derivatives_UZH/,sub-NDARNU137XR4_acq-HCP_T1w,1
 T:/HBN/MRI/Site-RU_Derivatives_UZH/,sub-NDARNU497GTX_acq-HCP_T1w,1
+T:/HBN/MRI/Site-RU_Derivatives_UZH/,sub-NDARNV399BV4_acq-HCP_T1w,0
 T:/HBN/MRI/Site-RU_Derivatives_UZH/,sub-NDARNV570NHA_acq-HCP_T1w,1
 T:/HBN/MRI/Site-RU_Derivatives_UZH/,sub-NDARNV694EMG_acq-HCP_T1w,1
 T:/HBN/MRI/Site-RU_Derivatives_UZH/,sub-NDARNW945XLL_acq-HCP_T1w,1
@@ -2957,6 +2979,7 @@ T:/HBN/MRI/Site-RU_Derivatives_UZH/,sub-NDARNX218UY5_acq-HCP_T1w,1
 T:/HBN/MRI/Site-RU_Derivatives_UZH/,sub-NDARNX223DY3_acq-HCP_T1w,1
 T:/HBN/MRI/Site-RU_Derivatives_UZH/,sub-NDARNY023FWG_acq-HCP_T1w,1
 T:/HBN/MRI/Site-RU_Derivatives_UZH/,sub-NDARNY205RK8_acq-HCP_T1w,1
+T:/HBN/MRI/Site-RU_Derivatives_UZH/,sub-NDARNY875DR2_acq-HCP_T1w,1
 T:/HBN/MRI/Site-RU_Derivatives_UZH/,sub-NDARNY894TH7_acq-HCP_T1w,1
 T:/HBN/MRI/Site-RU_Derivatives_UZH/,sub-NDARNZ043VH0_acq-HCP_T1w,1
 T:/HBN/MRI/Site-RU_Derivatives_UZH/,sub-NDARNZ610KZY_acq-HCP_T1w,1
@@ -2965,9 +2988,13 @@ T:/HBN/MRI/Site-RU_Derivatives_UZH/,sub-NDARNZ792HBN_acq-HCP_T1w,1
 T:/HBN/MRI/Site-RU_Derivatives_UZH/,sub-NDARNZ917TDK_acq-HCP_T1w,1
 T:/HBN/MRI/Site-RU_Derivatives_UZH/,sub-NDARPA005VVK_acq-HCP_T1w,1
 T:/HBN/MRI/Site-RU_Derivatives_UZH/,sub-NDARPA570LBF_acq-HCP_T1w,1
+T:/HBN/MRI/Site-RU_Derivatives_UZH/,sub-NDARPA827UBJ_acq-HCP_T1w,0
+T:/HBN/MRI/Site-RU_Derivatives_UZH/,sub-NDARPB619PHV_acq-HCP_T1w,0
 T:/HBN/MRI/Site-RU_Derivatives_UZH/,sub-NDARPC418NZL_acq-HCP_T1w,1
+T:/HBN/MRI/Site-RU_Derivatives_UZH/,sub-NDARPC714TKA_acq-HCP_T1w,0
 T:/HBN/MRI/Site-RU_Derivatives_UZH/,sub-NDARPC745LTD_acq-HCP_T1w,1
 T:/HBN/MRI/Site-RU_Derivatives_UZH/,sub-NDARPC817XZ5_acq-HCP_T1w,1
+T:/HBN/MRI/Site-RU_Derivatives_UZH/,sub-NDARPD029JVJ_acq-HCP_T1w,0
 T:/HBN/MRI/Site-RU_Derivatives_UZH/,sub-NDARPD568LHV_acq-HCP_T1w,1
 T:/HBN/MRI/Site-RU_Derivatives_UZH/,sub-NDARPD891BX3_acq-HCP_T1w,1
 T:/HBN/MRI/Site-RU_Derivatives_UZH/,sub-NDARPE056ACA_acq-HCP_T1w,1
@@ -2979,6 +3006,7 @@ T:/HBN/MRI/Site-RU_Derivatives_UZH/,sub-NDARPG134TF1_acq-HCP_T1w,1
 T:/HBN/MRI/Site-RU_Derivatives_UZH/,sub-NDARPG847LB8_acq-HCP_T1w,1
 T:/HBN/MRI/Site-RU_Derivatives_UZH/,sub-NDARPH105ZFF_acq-HCP_T1w,1
 T:/HBN/MRI/Site-RU_Derivatives_UZH/,sub-NDARPH567WUB_acq-HCP_T1w,1
+T:/HBN/MRI/Site-RU_Derivatives_UZH/,sub-NDARPH834YB1_acq-HCP_T1w,0
 T:/HBN/MRI/Site-RU_Derivatives_UZH/,sub-NDARPH844KP2_acq-HCP_T1w,1
 T:/HBN/MRI/Site-RU_Derivatives_UZH/,sub-NDARPH923FN7_acq-HCP_T1w,1
 T:/HBN/MRI/Site-RU_Derivatives_UZH/,sub-NDARPJ001BVE_acq-HCP_T1w,1
@@ -3006,6 +3034,7 @@ T:/HBN/MRI/Site-RU_Derivatives_UZH/,sub-NDARPV009TYX_acq-HCP_T1w,1
 T:/HBN/MRI/Site-RU_Derivatives_UZH/,sub-NDARPV145KGL_acq-HCP_T1w,1
 T:/HBN/MRI/Site-RU_Derivatives_UZH/,sub-NDARPV303LAX_acq-HCP_T1w,1
 T:/HBN/MRI/Site-RU_Derivatives_UZH/,sub-NDARPV412JEN_acq-HCP_T1w,1
+T:/HBN/MRI/Site-RU_Derivatives_UZH/,sub-NDARPW313LAJ_acq-HCP_T1w,0
 T:/HBN/MRI/Site-RU_Derivatives_UZH/,sub-NDARPW577WJ7_acq-HCP_T1w,1
 T:/HBN/MRI/Site-RU_Derivatives_UZH/,sub-NDARPW635LN4_acq-HCP_T1w,1
 T:/HBN/MRI/Site-RU_Derivatives_UZH/,sub-NDARPW786GC4_acq-HCP_T1w,1
@@ -3067,11 +3096,13 @@ T:/HBN/MRI/Site-RU_Derivatives_UZH/,sub-NDARRW100AU0_acq-HCP_T1w,1
 T:/HBN/MRI/Site-RU_Derivatives_UZH/,sub-NDARRW141HUT_acq-HCP_T1w,1
 T:/HBN/MRI/Site-RU_Derivatives_UZH/,sub-NDARRW536ZM2_acq-HCP_T1w,1
 T:/HBN/MRI/Site-RU_Derivatives_UZH/,sub-NDARRW940BL6_acq-HCP_T1w,1
+T:/HBN/MRI/Site-RU_Derivatives_UZH/,sub-NDARRW951BYF_acq-HCP_T1w,0
 T:/HBN/MRI/Site-RU_Derivatives_UZH/,sub-NDARRX552PP2_acq-HCP_T1w,1
 T:/HBN/MRI/Site-RU_Derivatives_UZH/,sub-NDARRX819BZ0_acq-HCP_T1w,1
 T:/HBN/MRI/Site-RU_Derivatives_UZH/,sub-NDARRY268AF2_acq-HCP_T1w,1
 T:/HBN/MRI/Site-RU_Derivatives_UZH/,sub-NDARRY280KNW_acq-HCP_T1w,1
 T:/HBN/MRI/Site-RU_Derivatives_UZH/,sub-NDARRY714GEY_acq-HCP_T1w,1
+T:/HBN/MRI/Site-RU_Derivatives_UZH/,sub-NDARRY715CY4_acq-HCP_T1w,0
 T:/HBN/MRI/Site-RU_Derivatives_UZH/,sub-NDARRZ927VC3_acq-HCP_T1w,1
 T:/HBN/MRI/Site-RU_Derivatives_UZH/,sub-NDARTA819MF0_acq-HCP_T1w,1
 T:/HBN/MRI/Site-RU_Derivatives_UZH/,sub-NDARTB003FDD_acq-HCP_T1w,1
@@ -3086,6 +3117,7 @@ T:/HBN/MRI/Site-RU_Derivatives_UZH/,sub-NDARTD624AF9_acq-HCP_T1w,1
 T:/HBN/MRI/Site-RU_Derivatives_UZH/,sub-NDARTE424BUF_acq-HCP_T1w,1
 T:/HBN/MRI/Site-RU_Derivatives_UZH/,sub-NDARTE432ZRH_acq-HCP_T1w,1
 T:/HBN/MRI/Site-RU_Derivatives_UZH/,sub-NDARTE785ZMJ_acq-HCP_T1w,1
+T:/HBN/MRI/Site-RU_Derivatives_UZH/,sub-NDARTF133LLM_acq-HCP_T1w,0
 T:/HBN/MRI/Site-RU_Derivatives_UZH/,sub-NDARTF566PYH_acq-HCP_T1w,1
 T:/HBN/MRI/Site-RU_Derivatives_UZH/,sub-NDARTG035JK8_acq-HCP_T1w,1
 T:/HBN/MRI/Site-RU_Derivatives_UZH/,sub-NDARTG396FGE_acq-HCP_T1w,1
@@ -3135,8 +3167,8 @@ T:/HBN/MRI/Site-RU_Derivatives_UZH/,sub-NDARUC144FN6_acq-HCP_T1w,1
 T:/HBN/MRI/Site-RU_Derivatives_UZH/,sub-NDARUC715YN4_acq-HCP_T1w,1
 T:/HBN/MRI/Site-RU_Derivatives_UZH/,sub-NDARUC851WHU_acq-HCP_T1w,1
 T:/HBN/MRI/Site-RU_Derivatives_UZH/,sub-NDARUD776KFT_acq-HCP_T1w,1
-T:/HBN/MRI/Site-RU_Derivatives_UZH/,sub-NDARUE483WZ4_acq-HCP_run-01_T1w,0
-T:/HBN/MRI/Site-RU_Derivatives_UZH/,sub-NDARUE483WZ4_acq-HCP_run-02_T1w,0
+T:/HBN/MRI/Site-RU_Derivatives_UZH/,sub-NDARUE483WZ4_acq-HCP_run-01_T1w,1
+T:/HBN/MRI/Site-RU_Derivatives_UZH/,sub-NDARUE483WZ4_acq-HCP_run-02_T1w,1
 T:/HBN/MRI/Site-RU_Derivatives_UZH/,sub-NDARUE533XNH_acq-HCP_T1w,1
 T:/HBN/MRI/Site-RU_Derivatives_UZH/,sub-NDARUE603CHQ_acq-HCP_T1w,1
 T:/HBN/MRI/Site-RU_Derivatives_UZH/,sub-NDARUF170ABA_acq-HCP_T1w,1
@@ -3419,26 +3451,6 @@ T:/HBN/MRI/Site-RU_Derivatives_UZH/,sub-NDARZW930MF2_acq-HCP_T1w,1
 T:/HBN/MRI/Site-RU_Derivatives_UZH/,sub-NDARZY668NMV_acq-HCP_T1w,1
 T:/HBN/MRI/Site-RU_Derivatives_UZH/,sub-NDARZZ740MLM_acq-HCP_T1w,1
 T:/HBN/MRI/Site-RU_Derivatives_UZH/,sub-NDARZZ993CEV_acq-HCP_T1w,1
-T:/HBN/MRI/Site-RU_Derivatives_UZH/,sub-NDARZD985LU8_acq-HCP_T1w,1
-T:/HBN/MRI/Site-RU_Derivatives_UZH/,sub-NDARZE389XF0_acq-HCP_T1w,1
-T:/HBN/MRI/Site-RU_Derivatives_UZH/,sub-NDARZE685UJ5_acq-HCP_T1w,1
-T:/HBN/MRI/Site-RU_Derivatives_UZH/,sub-NDARZE850WXD_acq-HCP_T1w,1
-T:/HBN/MRI/Site-RU_Derivatives_UZH/,sub-NDARZF292VZA_acq-HCP_T1w,1
-T:/HBN/MRI/Site-RU_Derivatives_UZH/,sub-NDARZF625MH8_acq-HCP_T1w,1
-T:/HBN/MRI/Site-RU_Derivatives_UZH/,sub-NDARZG690NHH_acq-HCP_T1w,1
-T:/HBN/MRI/Site-RU_Derivatives_UZH/,sub-NDARZH451LRZ_acq-HCP_T1w,1
-T:/HBN/MRI/Site-RU_Derivatives_UZH/,sub-NDARZH672BAM_acq-HCP_T1w,1
-T:/HBN/MRI/Site-RU_Derivatives_UZH/,sub-NDARZJ016GL0_acq-HCP_T1w,1
-T:/HBN/MRI/Site-RU_Derivatives_UZH/,sub-NDARZJ460RWZ_acq-HCP_T1w,1
-T:/HBN/MRI/Site-RU_Derivatives_UZH/,sub-NDARZJ603JM0_acq-HCP_T1w,1
-T:/HBN/MRI/Site-RU_Derivatives_UZH/,sub-NDARZK732FZ0_acq-HCP_T1w,1
-T:/HBN/MRI/Site-RU_Derivatives_UZH/,sub-NDARZK753WGR_acq-HCP_T1w,1
-T:/HBN/MRI/Site-RU_Derivatives_UZH/,sub-NDARZL724HAX_acq-HCP_T1w,1
-T:/HBN/MRI/Site-RU_Derivatives_UZH/,sub-NDARZL855WVA_acq-HCP_T1w,1
-T:/HBN/MRI/Site-RU_Derivatives_UZH/,sub-NDARZM580BG2_acq-HCP_T1w,1
-T:/HBN/MRI/Site-RU_Derivatives_UZH/,sub-NDARZM865KE8_acq-HCP_T1w,1
-T:/HBN/MRI/Site-RU_Derivatives_UZH/,sub-NDARZN277NR6_acq-HCP_T1w,1
-T:/HBN/MRI/Site-RU_Derivatives_UZH/,sub-NDARZN610GTY_acq-HCP_T1w,1
 T:/HBN/MRI/Site-RU_Derivatives_UZH/,sub-NDARZP630WYL_acq-HCP_T1w,1
 T:/HBN/MRI/Site-RU_Derivatives_UZH/,sub-NDARZR529EJ1_acq-HCP_T1w,1
 T:/HBN/MRI/Site-RU_Derivatives_UZH/,sub-NDARZR968TLL_acq-HCP_T1w,1
