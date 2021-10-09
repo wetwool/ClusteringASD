@@ -14,23 +14,18 @@ library(dplyr)
 library(plotly)
 library(ggpubr)
 library(factoextra)
+source("ASDClusteringParams.R")
 
-setwd("E:/Box Sync/Arbeit/UZH/MasterArbeit/ClusteringASD/R")
-#setwd("C:/Users/andreas.papageorgiou.ADM/ownCloud/Arbeit/UZH/MasterArbeit/HBN")
-load(file = "filteredASD.Rda")
-PR <- read.csv("ParcellationReference.csv", sep = ";",stringsAsFactors = F )
-sites <- c("RU","SI", "CBIC", "CUNY")
-
-hcAgeRange <- 1
-hcMinGroupSize <- 10
-filterControlsBySite = F
+setwd(params$WorkingDirectory)
+load(file = params$FilteredDataFile)
+PR <- read.csv(params$ParcellationReferenceFile, sep = ";",stringsAsFactors = F)
 ```
 
 
 ```{r}
 zScore <- function(value, distribution) {
   z <- NA
-  if(length(distribution) > hcMinGroupSize ){
+  if(length(distribution) > params$zScoringMinGroupSize){
     z <- (as.numeric(value) - mean(distribution))/sd(distribution)
   } 
   return(z)
@@ -40,11 +35,11 @@ zScore_SBJ <- function(s, ftrs, hc) {
   for (f in ftrs) {
     value <- s[f]
     # controlDistribution <- hc[which(round(as.numeric(hc$Age)) == round(as.numeric(s["Age"])) &  hc["site"] == s["site"]),f]
-    if (filterControlsBySite){
-      controlDistribution <- hc[which(abs(hc$Age - s["Age"]) < hcAgeRange &  hc["site"] == s["site"]),f]
+    if (params$zScoringBySite){
+      controlDistribution <- hc[which(abs(hc$Age - s["Age"]) < params$zScoringAgeRange &  hc["site"] == s["site"]),f]
       
     } else{
-      controlDistribution <- hc[which(abs(hc$Age - s["Age"]) < hcAgeRange),f]
+      controlDistribution <- hc[which(abs(hc$Age - s["Age"]) < params$zScoringAgeRange),f]
     }
     s[f] <- zScore(value, controlDistribution)
   }
@@ -57,10 +52,10 @@ zScore_SBJ_loop <- function(sbj, ftrs, hc) {
     for (f in ftrs) {
       value <- sbj[i, f]
       # controlDistribution <- hc[which(round(as.numeric(hc$Age)) == round(as.numeric(sbj[i,"Age"])) &  hc[,"site"] == sbj[i,"site"]),f]
-      if (filterControlsBySite){
-        controlDistribution <- hc[which((abs(hc$Age - sbj[i,"Age"]) < hcAgeRange) &  hc[,"site"] == sbj[i,"site"]),f]
+      if (params$zScoringBySite){
+        controlDistribution <- hc[which((abs(hc$Age - sbj[i,"Age"]) < params$zScoringAgeRange) &  hc[,"site"] == sbj[i,"site"]),f]
       } else {
-        controlDistribution <- hc[which((abs(hc$Age - sbj[i,"Age"]) < hcAgeRange)),f]
+        controlDistribution <- hc[which((abs(hc$Age - sbj[i,"Age"]) < params$zScoringAgeRange)),f]
       }
       # browser()
       sbj[i,f] <- zScore(value, controlDistribution)
@@ -76,16 +71,16 @@ zScore_leaveOut <- function(s, ftrs, df) {
     # controlDistribution <- df[which(round(as.numeric(df$Age)) == round(as.numeric(s["Age"])) &  
     #                                   df["site"] == s["site"] &  
     #                                   df["Subject"] == s["Subject"] & 
-    #                                   df["lh.aparc.thickness"] != s["lh.aparc.thickness"]),f]    # value <- s[f]
-    if (filterControlsBySite){
-      controlDistribution <- df[which(abs(hc$Age - s["Age"]) < hcAgeRange  &
+    #                                   df[params$VID] != s[params$VID]),f]    # value <- s[f]
+    if (params$zScoringBySite){
+      controlDistribution <- df[which(abs(hc$Age - s["Age"]) < params$zScoringAgeRange  &
                                         df["site"] == s["site"] &
                                         df["Subject"] == s["Subject"] &
-                                        df["lh.aparc.thickness"] != s["lh.aparc.thickness"]),f]
+                                        df[params$VID] != s[params$VID]),f]
     } else {
-      controlDistribution <- df[which(abs(hc$Age - s["Age"]) < hcAgeRange  &
+      controlDistribution <- df[which(abs(hc$Age - s["Age"]) < params$zScoringAgeRange  &
                                         df["Subject"] == s["Subject"] &
-                                        df["lh.aparc.thickness"] != s["lh.aparc.thickness"]),f]
+                                        df[params$VID] != s[params$VID]),f]
     }
     
     s[f] <- zScore(value, controlDistribution)
@@ -99,32 +94,32 @@ zScore_leaveOut_loop <- function(sbj, ftrs, df) {
     # nControlDistribution = length(df[which(round(as.numeric(df$Age)) == round(as.numeric(sbj[i,"Age"])) &  
     #                                   df[,"site"] == sbj[i,"site"] &  
     #                                   df[,"Subject"] == sbj[i,"Subject"] & 
-    #                                   df[,"lh.aparc.thickness"] != sbj[i,"lh.aparc.thickness"]),"Age"])
-    if (filterControlsBySite){
-      nControlDistribution = length(df[which(round(abs(df$Age - sbj[i,"Age"]) < hcAgeRange)  &  
+    #                                   df[,params$VID] != sbj[i,params$VID]),"Age"])
+    if (params$zScoringBySite){
+      nControlDistribution = length(df[which(round(abs(df$Age - sbj[i,"Age"]) < params$zScoringAgeRange)  &  
                                                df[,"site"] == sbj[i,"site"] &  
                                                df[,"Subject"] == sbj[i,"Subject"] & 
-                                               df[,"lh.aparc.thickness"] != sbj[i,"lh.aparc.thickness"]),"Age"])
+                                               df[,params$VID] != sbj[i,params$VID]),"Age"])
     } else {    
-      nControlDistribution = length(df[which(round(abs(df$Age - sbj[i,"Age"]) < hcAgeRange)  &    
+      nControlDistribution = length(df[which(round(abs(df$Age - sbj[i,"Age"]) < params$zScoringAgeRange)  &    
                                                df[,"Subject"] == sbj[i,"Subject"] & 
-                                               df[,"lh.aparc.thickness"] != sbj[i,"lh.aparc.thickness"]),"Age"]) }
+                                               df[,params$VID] != sbj[i,params$VID]),"Age"]) }
     for (f in ftrs) {
       # browser()
       value <- sbj[i, f]
       # controlDistribution <- df[which(round(as.numeric(df$Age)) == round(as.numeric(sbj[i,"Age"])) &  
       #                               df[,"site"] == sbj[i,"site"] &  
       #                               df[,"Subject"] == sbj[i,"Subject"] & 
-      #                               df[,"lh.aparc.thickness"] != sbj[i,"lh.aparc.thickness"]),f]
-      if (filterControlsBySite){
-        controlDistribution <- df[which(round(abs(df$Age - sbj[i,"Age"]) < hcAgeRange)  &  
+      #                               df[,params$VID] != sbj[i,params$VID]),f]
+      if (params$zScoringBySite){
+        controlDistribution <- df[which(round(abs(df$Age - sbj[i,"Age"]) < params$zScoringAgeRange)  &  
                                           df[,"site"] == sbj[i,"site"] &  
                                           df[,"Subject"] == sbj[i,"Subject"] & 
-                                          df[,"lh.aparc.thickness"] != sbj[i,"lh.aparc.thickness"]),f]
+                                          df[,params$VID] != sbj[i,params$VID]),f]
       } else {  
-        controlDistribution <- df[which(round(abs(df$Age - sbj[i,"Age"]) < hcAgeRange)  &    
+        controlDistribution <- df[which(round(abs(df$Age - sbj[i,"Age"]) < params$zScoringAgeRange)  &    
                                           df[,"Subject"] == sbj[i,"Subject"] & 
-                                          df[,"lh.aparc.thickness"] != sbj[i,"lh.aparc.thickness"]),f]
+                                          df[,params$VID] != sbj[i,params$VID]),f]
       }
       # print(length(controlDistribution))
       sbj[i,f] <- zScore(value, controlDistribution)
@@ -146,7 +141,7 @@ features <- append(areas,thicknesses)
 data[,features] <- lapply(data[,features], as.numeric)
 data$Age <- as.numeric(data$Age)
 
-rhm <- data[which(data$Sex == 0 & data$EHQ_Total > 0 & data$Protocol == "HCP"),]
+rhm <- data[which(data$Sex == params$Sex & data$EHQ_Total > params$EHQCutoff & data$Protocol == params$Protocols$HCP),]
 rhm$site <- factor(rhm$site)
 # GLM to extract residuals of [features] ~ Age, Site
 for (feature in features) {
@@ -160,7 +155,7 @@ z-scoring of [features] vs HC distribution
 ```{r}
 # zScored <- data
 sbj <- rhm[which(rhm$Subject == 1),]# & !is.na(rhm[,features])
-hC <- rhm[which(rhm$Subject == 0 & rhm$dxCount <11),]
+hC <- rhm[which(rhm$Subject == 0 & rhm$dxCount <= params$MaxDiagnosisCount),]
 
 asdZScored <-zScore_SBJ_loop(sbj, features, hC)
 asdZScored <- asdZScored[complete.cases(asdZScored[,features]),]
@@ -206,27 +201,29 @@ colnames(descriptives) <- c("mean", "standard deviation", "feature")
 Clustering
 ```{r}
 featureMatrix <-asdZScored[,features]
-asd_distance = dist(featureMatrix, method="euclidean")
-nbResultDB <- NbClust(asdZScored[,features], min.nc = 2, max.nc = 20, method = "ward.D", index="db")
+asd_distance = dist(featureMatrix, method= params$Distance)
+nbResultDB <- NbClust(asdZScored[,features], min.nc = 2, max.nc = 20, method = params$ClusterMethod, index="db")
 nbResultDB$Best.nc[1]
-nbResultSi <- NbClust(asdZScored[,features], min.nc = 2, max.nc = 20, method = "ward.D", index="silhouette")
+params$kList$db = nbResultDB$Best.nc[1]
+nbResultSi <- NbClust(asdZScored[,features], min.nc = 2, max.nc = 20, method = params$ClusterMethod, index="silhouette")
 nbResultSi$Best.nc[1]
+params$kList$silhouette = nbResultSi$Best.nc[1]
 # silhouetteResult <- silhouette(2:20, dist = distance)
-hcRes = hclust(asd_distance, "ward.D")
-groups = cutree(hcRes, k = 2)# nbResultDB$Best.nc[1]) #
+hcRes = hclust(asd_distance, params$ClusterMethod)
+groups = cutree(hcRes, k = params$k())# nbResultDB$Best.nc[1]) #
 table(groups)
 asdZScored$clust <- groups
 ```
 ```{r}
 hc_featureMatrix <-hcZScored[,features]
-hc_distance = dist(hc_featureMatrix, method="euclidean")
-hc_nbResultDB <- NbClust(hcZScored[,features], min.nc = 2, max.nc = 20, method = "ward.D", index="db")
+hc_distance = dist(hc_featureMatrix, method=params$Distance)
+hc_nbResultDB <- NbClust(hcZScored[,features], min.nc = 2, max.nc = 20, method = params$ClusterMethod, index="db")
 hc_nbResultDB$Best.nc[1]
-hc_nbResultSi <- NbClust(hcZScored[,features], min.nc = 2, max.nc = 20, method = "ward.D", index="silhouette")
+hc_nbResultSi <- NbClust(hcZScored[,features], min.nc = 2, max.nc = 20, method = params$ClusterMethod, index="silhouette")
 hc_nbResultSi$Best.nc[1]
 # silhouetteResult <- silhouette(2:20, dist = distance)
-clusterRes = hclust(hc_distance, "ward.D")
-hc_groups = cutree(clusterRes, k = 2)# nbResultDB$Best.nc[1]) #
+clusterRes = hclust(hc_distance, params$ClusterMethod)
+hc_groups = cutree(clusterRes, k = params$k())# nbResultDB$Best.nc[1]) #
 table(hc_groups)
 hcZScored$clust <- hc_groups
 ```
@@ -362,14 +359,14 @@ pairwise.t.test(as.numeric(asdZScored$PSI_Total), asdZScored$clust, p.adjust.met
 source("freesurfer_helper.R")
 variables <- list()#"ASSQ_Total", "SRS_Total")
 title <- "ASD_anatomy_withHC_GLM"
-generateFSGDPerSite(asdZScored, data, sites, variables, title, directory = "E:/Box Sync/Arbeit/UZH/MasterArbeit/ScienceCloud/GLM/")
-generateGLMPerSite(sites = sites, features= c("thickness", "area"),title = title, directory = "E:/Box Sync/Arbeit/UZH/MasterArbeit/ScienceCloud/GLM/")
+generateFSGDPerSite(asdZScored, data, params$Sites, variables, title, directory = "E:/Box Sync/Arbeit/UZH/MasterArbeit/ScienceCloud/GLM/")
+generateGLMPerSite(sites = params$Sites, features= c("thickness", "area"), title = title, directory = "E:/Box Sync/Arbeit/UZH/MasterArbeit/ScienceCloud/GLM/")
 
 
-title <- "ASD_anatomy_GLM"
+title <- "AnatomyComparison"
 generateFSGDASD(asdZScored, variables, title, directory = "E:/Box Sync/Arbeit/UZH/MasterArbeit/ScienceCloud/GLM/")
 generateGLMASD(features= c("thickness", "area"),title = title, directory = "E:/Box Sync/Arbeit/UZH/MasterArbeit/ScienceCloud/GLM/")
-generateSimLinkCMD(asdZScored, hcZScored, sites)
+generateSimLinkCMD(asdZScored, hcZScored, params$Sites)
 
 ```
 
@@ -377,7 +374,7 @@ generateSimLinkCMD(asdZScored, hcZScored, sites)
 print_clusters <- function(labels, k) {             
   for(i in 1:k) {
     print(paste("cluster", i))
-    print(asdZScored[labels==i,"lh.aparc.thickness"])
+    print(asdZScored[labels==i,params$VID])
   }
 }
 
@@ -386,28 +383,27 @@ print_clusters <- function(labels, k) {
 ```{r}
 
 library(fpc)
-boots <- 100
 
 bootstrapJaccardMeans <- function(sampleDescriptor, featureMatrix, boots){
-  distanceMatrix <- dist(featureMatrix, method="euclidean")
-  clusterRes = hclust(distanceMatrix, "ward.D")
-  groups = cutree(clusterRes, k = 2)
+  distanceMatrix <- dist(featureMatrix, method = params$Distance)
+  clusterRes = hclust(distanceMatrix, params$ClusterMethod)
+  groups = cutree(clusterRes, k = params$k())
   clustSize <- c(sum(groups == 1), sum(groups==2))
-  clustBoot <- clusterboot(distanceMatrix,clustermethod=hclustCBI, method="ward.D", k=2, B=boots, multipleboot = T)
+  clustBoot <- clusterboot(distanceMatrix, clustermethod=hclustCBI, method=params$ClusterMethod, k=params$k(), B=boots, multipleboot = T)
   clusterBootJaccardMeans <- data.frame(sample = sampleDescriptor,
                                         c1_Count = clustSize[1], c1_JaccardMean = clustBoot$bootmean[1],
                                         c2_Count = clustSize[2], c2_JaccardMean = clustBoot$bootmean[2])
   return(list(bootResult = clustBoot, jaccardMeans = clusterBootJaccardMeans))
 }
 
-JaccardData <- bootstrapJaccardMeans("ASD", asdZScored[,features], boots=boots)$jaccardMeans
-JaccardData <- rbind(JaccardData, bootstrapJaccardMeans("HC", hcZScored[,features], boots=boots)$jaccardMeans)
+JaccardData <- bootstrapJaccardMeans("ASD", asdZScored[,features], boots = params$BootCount)$jaccardMeans
+JaccardData <- rbind(JaccardData, bootstrapJaccardMeans("HC", hcZScored[,features], boots = params$BootCount)$jaccardMeans)
 JaccardData <- rbind(JaccardData, bootstrapJaccardMeans("HC_ASD", rbind(hcZScored[,features], 
-                                                                        asdZScored[,features]), boots=boots)$jaccardMeans)
+                                                                        asdZScored[,features]), boots=params$BootCount)$jaccardMeans)
 JaccardData <- rbind(JaccardData, bootstrapJaccardMeans("HC_ASD1", rbind(hcZScored[,features], 
-                                                                        asdZScored[asdZScored$clust==1,features]), boots=boots)$jaccardMeans)
+                                                                        asdZScored[asdZScored$clust==1,features]), boots=params$BootCount)$jaccardMeans)
 JaccardData <- rbind(JaccardData, bootstrapJaccardMeans("HC_ASD2", rbind(hcZScored[,features], 
-                                                                        asdZScored[asdZScored$clust==2,features]), boots=boots)$jaccardMeans)
+                                                                        asdZScored[asdZScored$clust==2,features]), boots=params$BootCount)$jaccardMeans)
 kable(JaccardData)
 
 #diff all, comp asd distr, asd1 hc, asd2 hc
@@ -421,7 +417,7 @@ print(count(allZScored, clust))
 ptt <- pairwise.t.test(allZScored$lh_supramarginal_area, allZScored$clust, p.adjust.method = "bonferroni") 
 library(rsample)
 
-resamples <- bootstraps(allZScored, times = 1000)
+resamples <- bootstraps(allZScored, times = params$BootCout)
 
 map()
 ```

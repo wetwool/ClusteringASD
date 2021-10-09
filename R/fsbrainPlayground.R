@@ -13,6 +13,6 @@ cat(sprintf("Data length is %d for subject1, %d for subject2./n", length(groupda
 vis.subject.annot(subj_dir, 'fsaverage', 'aparc', 'both', views=c('si'));
 
 # lh_demo_cluster_file = system.file("extdata","E:/Linux/Exchange/lh.DEMO.thickness.10.glmdir/clustComparison/cache.th30.abs.sig.cluster.mgh", package = "fsbrain", mustWork = TRUE);
-lh_clust = read.fs.morph ("E:/Box Sync/Arbeit/UZH/MasterArbeit/ScienceCloud/GLM/lh.ASD_anatomy_GLM.area.10.glmdir/clustComparison/cache.th30.abs.sig.cluster.mgh", "mgh")
+lh_clust = read.fs.morph ("E:/Box Sync/Arbeit/UZH/MasterArbeit/ScienceCloud/GLM/rh.ASD_anatomy_GLM.thickness.10.glmdir/clustComparison/cache.th30.abs.sig.cluster.mgh", "mgh")
 
 vis.data.on.fsaverage(subj_dir,morph_data_lh = lh_clust,bg="curv_light",views=c('si'))

@@ -1,0 +1,16 @@
+SUBJECTS_DIR=/mnt/methlab-drive/methlab-analysis/anpapa/AllSubjects
+mris_preproc --fsgd ASD_anatomy_GLM.fsgd --cache-in thickness.fwhm10.fsaverage --target fsaverage --hemi lh --out lh.ASD_anatomy_GLM.thickness.10.mgh
+mri_glmfit --y lh.ASD_anatomy_GLM.thickness.10.mgh --fsgd ASD_anatomy_GLM.fsgd dods --surf fsaverage lh --C clustComparison.mtx --cortex --glmdir lh.ASD_anatomy_GLM.thickness.10.glmdir
+mri_glmfit-sim --glmdir lh.ASD_anatomy_GLM.thickness.10.glmdir --cache 3 abs --cwp 0.05 --2spaces
+SUBJECTS_DIR=/mnt/methlab-drive/methlab-analysis/anpapa/AllSubjects
+mris_preproc --fsgd ASD_anatomy_GLM.fsgd --cache-in area.fwhm10.fsaverage --target fsaverage --hemi lh --out lh.ASD_anatomy_GLM.area.10.mgh
+mri_glmfit --y lh.ASD_anatomy_GLM.area.10.mgh --fsgd ASD_anatomy_GLM.fsgd dods --surf fsaverage lh --C clustComparison.mtx --cortex --glmdir lh.ASD_anatomy_GLM.area.10.glmdir
+mri_glmfit-sim --glmdir lh.ASD_anatomy_GLM.area.10.glmdir --cache 3 abs --cwp 0.05 --2spaces
+SUBJECTS_DIR=/mnt/methlab-drive/methlab-analysis/anpapa/AllSubjects
+mris_preproc --fsgd ASD_anatomy_GLM.fsgd --cache-in thickness.fwhm10.fsaverage --target fsaverage --hemi rh --out rh.ASD_anatomy_GLM.thickness.10.mgh
+mri_glmfit --y rh.ASD_anatomy_GLM.thickness.10.mgh --fsgd ASD_anatomy_GLM.fsgd dods --surf fsaverage rh --C clustComparison.mtx --cortex --glmdir rh.ASD_anatomy_GLM.thickness.10.glmdir
+mri_glmfit-sim --glmdir rh.ASD_anatomy_GLM.thickness.10.glmdir --cache 3 abs --cwp 0.05 --2spaces
+SUBJECTS_DIR=/mnt/methlab-drive/methlab-analysis/anpapa/AllSubjects
+mris_preproc --fsgd ASD_anatomy_GLM.fsgd --cache-in area.fwhm10.fsaverage --target fsaverage --hemi rh --out rh.ASD_anatomy_GLM.area.10.mgh
+mri_glmfit --y rh.ASD_anatomy_GLM.area.10.mgh --fsgd ASD_anatomy_GLM.fsgd dods --surf fsaverage rh --C clustComparison.mtx --cortex --glmdir rh.ASD_anatomy_GLM.area.10.glmdir
+mri_glmfit-sim --glmdir rh.ASD_anatomy_GLM.area.10.glmdir --cache 3 abs --cwp 0.05 --2spaces

@@ -65,9 +65,6 @@ generateGroupComparisonCommands <- function(subjectDir, analysis, hemi, fsgdFile
   sim <- generateGLMSimCMD(analysis, cacheValue, cacheDirection, cwp, hemi,cacheFeature,cacheKernel)
   cmds <- paste(subDir, preproc, GLM, sim, sep="\n")
   fileConn<-file(path, "wb")
-  # for (i in 1:length(data)){
-  #   cat(paste(data[i],"\n",sep="" ),file = path,append = T)
-  # }
   writeLines(cmds, fileConn, sep = "\n")
   close(fileConn)
   return(cmds)

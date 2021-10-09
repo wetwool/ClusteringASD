@@ -12,28 +12,27 @@ library(plyr)
 library(dplyr)
 library(stringr)
 library(knitr)
-
-setwd("E:/Box Sync/Arbeit/UZH/MasterArbeit/ClusteringASD/R")
+source("ASDClusteringParams.R")
+setwd(params$WorkingDirectory)
 
 #Variables
 ##Behavioral
-defaultAllDataCSVPath <- "U:/HBN/BehavioralData/Data_Download_22_02_2021_LORIS/BD.csv"
+defaultAllDataCSVPath <- params$AllDataCSV
 
 ##MRI
 #MRIDir <- "T:/HBN/MRI/"
-MRIDir <- "E:/Box Sync/Arbeit/UZH/MasterArbeit/ScienceCloud/"
+MRIDir <- params$StatsTablesFolder
 #mriDirPrefix = "Site-"
 mriDirPrefix = ""
 #mriDirSuffix = "_Derivatives_UZH"
 mriDirSuffix = "/"
 
-sites <- c("RU","SI", "CBIC", "CUNY")
 
 ```
 
 ### Import Behavioral Data:
 ```{r}
-allDataCSV <- choose.files(default = defaultAllDataCSVPath, multi = F, caption =  "AllData.csv")
+allDataCSV <- choose.files(default = params$AllDataCSV, multi = F, caption =  "AllData.csv")
 
 allData <- read.csv(allDataCSV)
 ```
@@ -47,7 +46,7 @@ dissassembleRunID <- function(RunID) {
   EID <- strsplit(splt1[[1]][1],"-")[[1]][2]
   Protocol <- strsplit(splt1[[1]][2],"-")[[1]][2]
   if (is.na(Protocol)) {
-    Protocol = "Not Specified"
+    Protocol = params$Protocols$Other
   }
   Run <- 1
   if (length(splt1[[1]]) == 4) {
@@ -62,7 +61,7 @@ Actual Import:
 ```{r warning=FALSE}
 mriData = data.frame()
 
-for (site in sites) {
+for (site in params$Sites) {
   lhThickness <- read.csv(paste(MRIDir,mriDirPrefix, site, mriDirSuffix,
                                 "aparc_stats_", site, "_thickness_LH.txt",sep=""),sep = "\t", header = TRUE)
   rhThickness <- read.csv(paste(MRIDir,mriDirPrefix, site, mriDirSuffix,
@@ -103,14 +102,14 @@ mri <- mriData %>% filter(Run == 1)
 nRun1 <- nrow(mri)
 #
 
-nHCP <- nrow(filter(mri, Protocol == "HCP"))
-nVNav <- nrow(filter(mri, Protocol == "VNav"))
-nNA <- nrow(filter(mri, Protocol == "Not Specified"))
+nHCP <- nrow(filter(mri, Protocol == params$Protocols$HCP))
+nVNav <- nrow(filter(mri, Protocol == params$Protocols$VNav))
+nNA <- nrow(filter(mri, Protocol == params$Protocols$Other))
 
 # mri <- mri %>% filter(Protocol == "HCP")
 
-finishedStates <- read.csv("../Python/fsFinishedTable.csv",col.names = c("Path", "Sub", "State"))
-filesComplete <- read.csv("../Python/filesFound.csv",col.names = c("Path", "Sub", "State"))
+finishedStates <- read.csv(params$FinishiedStatesFile, col.names = c("Path", "Sub", "State"))
+filesComplete <- read.csv(params$CompleteSubjectsFile, col.names = c("Path", "Sub", "State"))
 incompleteSubjects <- finishedStates[finishedStates$State == 0,]$Sub
 incompleteSubjects <- append(incompleteSubjects, filesComplete[filesComplete$State == 0,]$Sub)
 mri <- mri %>% filter(!lh.aparc.thickness %in% incompleteSubjects)
@@ -138,10 +137,10 @@ bdAutism <- allData %>% filter(DX_01 == "Autism Spectrum Disorder" |
                                    DX_10 == "Autism Spectrum Disorder")
 nAutismDiagnosed <- nrow(bdAutism)
 
-bdAutism <- bdAutism %>% filter(Sex == 0)
+bdAutism <- bdAutism %>% filter(Sex == params$Sex)
 nMaleASD <- nrow(bdAutism)
 
-bdAutism <- bdAutism %>% filter(EHQ_Total > 40)
+bdAutism <- bdAutism %>% filter(EHQ_Total > params$EHQCutoff)
 nRhMaleASD <- nrow(bdAutism)
 filterCountsBD <- data.frame(Filter = c("Total Behavioral", "Diagnosed with ASD", "Males with ASD", "Right-handed males with ASD"), countBD = c(nTotalBehavioral, nAutismDiagnosed, nMaleASD, nRhMaleASD))
 ```
@@ -173,7 +172,7 @@ data[data[,"EID"] %in% subjects[,"EID"],]["Subject"] <- 1
 filterCountsTotal <- data.frame(Filter = c("Total MRI and BD available", "ASD MRI and BD available", " ASD At least one ASD scale"), 
                                 countTotal = c(nrow(data),nBDandMRI, nOneASDScale))
 
-save(data, file = "filteredASD.Rda", ascii = T)
+save(data, file = params$FilteredDataFile, ascii = T)
 ```
 
 Data available according to HBN can be seen [here](http://fcon_1000.projects.nitrc.org/indi/cmi_healthy_brain_network/Release%20information.html)
