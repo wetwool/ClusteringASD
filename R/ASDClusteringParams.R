@@ -29,10 +29,13 @@ params <- list(
   CompleteSubjectsFile = "../Python/filesFound.csv",
   FilteredDataFile = "filteredASD.Rda",
   ParcellationReferenceFile = "ParcellationReference.csv",
+  GLMFolder = "E:/Box Sync/Arbeit/UZH/MasterArbeit/ScienceCloud/GLM/",
   
   # MRI specific params
   Sites = list(RU = "RU", SI = "SI", CBIC =  "CBIC", CUNY = "CUNY"),
   Protocols = list(HCP = "HCP", VNav = "VNav", Other = "Not Specified"),
+  Hemis = c("lh", "rh"),
+  Features = c("area", "thickness"),
   
   # Subject filtering
   Sex = 0, # male is 0, female 1
@@ -60,6 +63,14 @@ params <- list(
   GLMSigLevel = "0.05",
   GLMDirections = list(absolute = "abs", positive = "pos", negative = "neg"),
   ComparisonSubject = "fsaverage",
+  GLMFolder = "E:/Box Sync/Arbeit/UZH/MasterArbeit/ScienceCloud/GLM/",
+  GLMProjectNameClusteredASD = "ClusterASDComparison",
+  GLMProjectNameClusteredASDvHC = "ClusterASDvHCComparison",
+  GLMProjectNameASDvHC = "rawASDvHCComparison",
+  GLMContrasts = "clustComparison.mtx",
+  fsaverageFolder = "/home/ubuntu/freesurfer/subjects/fsaverage",
+  MRIFoldersPrefix = "/mnt/methlab-drive/methlab_data/HBN/MRI/Site-",
+  MRIFolderSuffix = "_Derivatives_UZH/",
   
   #bootstrapping values
   BootCount = 100

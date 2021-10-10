@@ -358,15 +358,25 @@ pairwise.t.test(as.numeric(asdZScored$PSI_Total), asdZScored$clust, p.adjust.met
 ```{r}
 source("freesurfer_helper.R")
 variables <- list()#"ASSQ_Total", "SRS_Total")
-title <- "ASD_anatomy_withHC_GLM"
-generateFSGDPerSite(asdZScored, data, params$Sites, variables, title, directory = "E:/Box Sync/Arbeit/UZH/MasterArbeit/ScienceCloud/GLM/")
-generateGLMPerSite(sites = params$Sites, features= c("thickness", "area"), title = title, directory = "E:/Box Sync/Arbeit/UZH/MasterArbeit/ScienceCloud/GLM/")
+# generateFSGDPerSite(asdZScored, data, params$Sites, variables, params$GLMProjectNameASDvHC, directory = params$GLMFolder)
+# generateGLMPerSite(sites = params$Sites, features= params$Features, title = params$GLMProjectNameASDvHC, directory = params$GLMFolder)
 
 
-title <- "AnatomyComparison"
-generateFSGDASD(asdZScored, variables, title, directory = "E:/Box Sync/Arbeit/UZH/MasterArbeit/ScienceCloud/GLM/")
-generateGLMASD(features= c("thickness", "area"),title = title, directory = "E:/Box Sync/Arbeit/UZH/MasterArbeit/ScienceCloud/GLM/")
-generateSimLinkCMD(asdZScored, hcZScored, params$Sites)
+generateFSGDASD(asdZScored, variables, params$GLMProjectNameClusteredASD, directory = params$GLMFolder)
+generateGLMASD(features= params$Features,title = params$GLMProjectNameClusteredASD, directory = params$GLMFolder)
+
+hcNoMissings <- hcZScored
+hcNoMissings$clust <- 3
+allSubs <- rbind(asdZScored, hcNoMissings[hcNoMissings$Subject == 0,])
+generateFSGDALL(allSubs, variables, params$GLMProjectNameClusteredASDvHC, directory = params$GLMFolder)
+generateGLMALL(features= params$Features,title = params$GLMProjectNameClusteredASDvHC, directory = params$GLMFolder)
+
+hcNoClusters <- allSubs
+hcNoClusters$clust <- hcNoClusters$Subject +1
+generateFSGDASD(hcNoClusters, variables, params$GLMProjectNameASDvHC, directory = params$GLMFolder)
+generateGLMASD(features= params$Features,title = params$GLMProjectNameASDvHC, directory = params$GLMFolder)
+
+generateSimLinkCMD(asdZScored, hcNoMissings[hcNoMissings$Subject == 0,], params$Sites)
 
 ```
 

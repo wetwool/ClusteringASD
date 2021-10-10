@@ -1,0 +1,107 @@
+---
+title: "GLMAnalysis"
+output: html_document
+---
+Setup:
+
+```{r}
+library("fsbrain")
+library("freesurferformats")
+library("stringr")
+source("ASDClusteringParams.R")
+setwd(params$WorkingDirectory)
+
+```
+
+```{r}
+getResultsDirPath <- function(baseDir, hemisphere, projectname, feature, kernelsize, contrastsName) {
+  return(
+    paste(
+      baseDir,
+      hemisphere, ".",
+      projectname, ".",
+      feature, ".",
+      kernelsize, ".glmdir/",
+      contrastsName, "/",
+      sep = ""
+    )
+  )
+}
+getGLMResultFiles <- function(dir, threshold, direction) {
+  prefix <- paste(dir, "cache.th", as.numeric(threshold)*10,".", direction,".sig.", sep ="")
+  return(
+    list(
+      cluster.summary = paste(prefix, "cluster.summary",sep=""),
+      cluster = paste(prefix,"cluster.mgh",sep=""),
+      sig = paste(prefix, "sig.mgh",sep=""),
+      z = paste(prefix, "z.mgh",sep=""),
+      gamma = paste(prefix, "gamma.mgh",sep="")
+    )
+  )
+}
+processSummaryFile <- function(summary) {
+  fileConn <- file(summary, "r")
+  lines <- readLines(fileConn)
+  passedHeader = F
+  summaryRaw <- c()
+  for (line in lines) {
+    if (passedHeader) {
+      summaryRaw <- append(summaryRaw, line)
+    }
+    if (startsWith(line, "# ClusterNo")){
+      summaryRaw <- c(substr(line, start = 3, stop = 1000))
+      passedHeader = T
+    }
+  }
+  close(fileConn)
+  summaryCleaned <- c()
+  for (line in summaryRaw) {
+    summaryCleaned <- append(summaryCleaned, str_replace_all(str_squish(line)," ", ";"))
+  }
+  summaryDF <- read.table(text = paste(summaryCleaned, collapse = "\n"), sep = ";", header = T, stringsAsFactors = F)
+  return(summaryDF)
+}
+```
+
+```{r}
+GLMProjects <- c(params$GLMProjectNameClusteredASD, params$GLMProjectNameClusteredASDvHC, params$GLMProjectNameASDvHC)
+analysisNames <- c()
+glmResultFiles <- list()
+glmResultData <- data.frame()
+for (project in GLMProjects) {
+  for (hemi in params$Hemis){
+    for (feature in params$Features){
+      dir <- getResultsDirPath(baseDir = params$GLMFolder, hemisphere = hemi, 
+                               projectname = params$GLMProjectNameASD, feature =  feature,
+                               kernelsize = params$GLMCacheKernel, contrastsName = str_sub(params$GLMContrasts, 1, -5))
+      resFiles <- getGLMResultFiles(dir, params$GLMCacheValue, params$GLMDirections$absolute)
+      summary <- processSummaryFile(resFiles$cluster.summary)
+      
+      name <- paste(project, hemi,feature, sep =".")
+      
+      summary$analysis <- name
+      summary <- summary[, c(ncol(summary), 2:(ncol(summary)-1))]
+      analysisNames <- append(analysisNames, name)
+      glmResultData <- rbind(glmResultData, summary)
+      glmResultFiles[[project]][[paste(hemi,feature, sep =".")]]<- list (
+        files = resFiles
+      )
+    }
+  }
+}
+
+```
+Significant Clusters
+```{r}
+glmResultData[order(glmResultData$VtxMax,decreasing = T),]
+```
+
+```{r}
+fsaverage = "E:/Linux/Exchange/fsaverage"
+
+subj_dir = "E:/Linux/Exchange/Site-SI_Derivatives_UZH"
+lh_clust = read.fs.morph (glmResultFiles$rawASDvHCComparison$lh.thickness$files$cluster, "mgh")
+rh_clust = read.fs.morph (glmResultFiles$rawASDvHCComparison$rh.thickness$files$cluster, "mgh")
+
+vis.data.on.fsaverage(subj_dir, surface = "pial", morph_data_lh = lh_clust, morph_data_rh = rh_clust,bg="aparc", style ="default", views=c('si'))
+```
