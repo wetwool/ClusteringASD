@@ -10,6 +10,13 @@ generatePreprocCMD <- function(analysis, fsgdFile, hemi, cacheKernel, cacheFeatu
       )
     )
 }
+writeContrasts <- function(path, analysis, contrasts) {
+  fileConn<-file(paste(path, analysis, ".mtx" ,sep = ""), "wb")
+  writeLines(paste(contrasts, sep = " ", collapse = " "), fileConn, sep = "\n")
+  close(fileConn)
+  return(paste(analysis, ".mtx" ,sep = ""))
+}
+
 generateGLMCMD <- function(analysis, fsgdFile, mtx, gd2mtx, target, hemi,cacheFeature,cacheKernel) {
   return(
     paste(

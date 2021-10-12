@@ -362,19 +362,28 @@ variables <- list()#"ASSQ_Total", "SRS_Total")
 # generateGLMPerSite(sites = params$Sites, features= params$Features, title = params$GLMProjectNameASDvHC, directory = params$GLMFolder)
 
 
-generateFSGDASD(asdZScored, variables, params$GLMProjectNameClusteredASD, directory = params$GLMFolder)
-generateGLMASD(features= params$Features,title = params$GLMProjectNameClusteredASD, directory = params$GLMFolder)
+generateFSGDASD(asdZScored, variables, params$GLMProjects$ClusteredASD$Title,  directory = params$GLMFolder)
+generateGLMASD(features= params$Features,
+               title = params$GLMProjects$ClusteredASD$Title, 
+               contrasts = params$GLMProjects$ClusteredASD$Contrasts, 
+               directory = params$GLMFolder)
 
 hcNoMissings <- hcZScored
 hcNoMissings$clust <- 3
 allSubs <- rbind(asdZScored, hcNoMissings[hcNoMissings$Subject == 0,])
-generateFSGDALL(allSubs, variables, params$GLMProjectNameClusteredASDvHC, directory = params$GLMFolder)
-generateGLMALL(features= params$Features,title = params$GLMProjectNameClusteredASDvHC, directory = params$GLMFolder)
+generateFSGDALL(allSubs, variables, params$GLMProjects$ClusteredASDvHC$Title, directory = params$GLMFolder)
+generateGLMALL(features= params$Features, 
+               title = params$GLMProjects$ClusteredASDvHC$Title, 
+               contrasts = params$GLMProjects$ClusteredASDvHC$Contrasts, 
+               directory = params$GLMFolder)
 
 hcNoClusters <- allSubs
 hcNoClusters$clust <- hcNoClusters$Subject +1
-generateFSGDASD(hcNoClusters, variables, params$GLMProjectNameASDvHC, directory = params$GLMFolder)
-generateGLMASD(features= params$Features,title = params$GLMProjectNameASDvHC, directory = params$GLMFolder)
+generateFSGDASD(hcNoClusters, variables, params$GLMProjects$ASDvHC$Title, directory = params$GLMFolder)
+generateGLMASD(features= params$Features,
+               title = params$GLMProjects$ASDvHC$Title, 
+               contrasts = params$GLMProjects$ASDvHC$Contrasts,
+               directory = params$GLMFolder)
 
 generateSimLinkCMD(asdZScored, hcNoMissings[hcNoMissings$Subject == 0,], params$Sites)
 

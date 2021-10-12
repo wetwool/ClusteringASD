@@ -32,6 +32,7 @@ generateFSGDPerSite <- function(asd, all, sites, variables, title, directory) {
     generateFSGD(title, list(class1,class2,class3), variables, fsGLMdata, fsgdFile)
   }
 }
+
 generateFSGDASD <- function(asd, variables, title, directory) {
   source("FSGD_helper.R")
   cmds <- list()
@@ -82,8 +83,9 @@ generateFSGDALL <- function(allSubs, variables, title, directory) {
 }
 
 
-generateGLMPerSite <- function(sites, features, title, directory) {
+generateGLMPerSite <- function(sites, features, title, contrasts, directory) {
   source("GLM_helper.R")
+  mtx <- writeContrasts(directory, title, contrasts)
   cmds <- list()
   for (site in sites) {
     for (hemi in params$Hemis) {
@@ -94,7 +96,7 @@ generateGLMPerSite <- function(sites, features, title, directory) {
         analysis = title,
         hemi = hemi,
         fsgdFile = paste(site,"_",title,".fsgd",sep = ""),
-        mtx = params$GLMContrasts,
+        mtx = mtx,
         gd2mtx ="dods", comparisonTarget = params$ComparisonSubject,
         cacheFeature = feature,
         cacheKernel = params$GLMCacheKernel,
@@ -108,8 +110,9 @@ generateGLMPerSite <- function(sites, features, title, directory) {
   return(cmds)
 }
 
-generateGLMASD <- function(features, title, directory) {
+generateGLMASD <- function(features, title, contrasts, directory) {
   source("GLM_helper.R")
+  mtx <- writeContrasts(directory, title, contrasts)
   cmds <- list()
     for (hemi in params$Hemis) {
       for (feature in features) {
@@ -119,7 +122,7 @@ generateGLMASD <- function(features, title, directory) {
           analysis = title,
           hemi = hemi,
           fsgdFile = paste(title,".fsgd",sep = ""),
-          mtx = params$GLMContrasts,
+          mtx = mtx,
           gd2mtx ="dods", comparisonTarget = params$ComparisonSubject,
           cacheFeature = feature,
           cacheKernel = params$GLMCacheKernel,
@@ -135,8 +138,9 @@ generateGLMASD <- function(features, title, directory) {
   return(cmds)
 }
 
-generateGLMALL <- function(features, title, directory) {
+generateGLMALL <- function(features, title, contrasts, directory) {
   source("GLM_helper.R")
+  mtx <- writeContrasts(directory, title, contrasts)
   cmds <- list()
   for (hemi in params$Hemis) {
     for (feature in features) {
@@ -146,7 +150,7 @@ generateGLMALL <- function(features, title, directory) {
         analysis = title,
         hemi = hemi,
         fsgdFile = paste(title,".fsgd",sep = ""),
-        mtx = params$GLMContrasts,
+        mtx = mtx,
         gd2mtx ="dods", comparisonTarget = params$ComparisonSubject,
         cacheFeature = feature,
         cacheKernel = params$GLMCacheKernel,
