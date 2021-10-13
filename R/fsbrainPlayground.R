@@ -18,8 +18,8 @@ rh_clust = read.fs.morph ("E:/Box Sync/Arbeit/UZH/MasterArbeit/ScienceCloud/GLM/
 
 vis.data.on.fsaverage(subj_dir,morph_data_lh = lh_clust, morph_data_rh = rh_clust,bg="curv_light",views=c('si'))
 
-lh_clust = read.fs.morph ("E:/Box Sync/Arbeit/UZH/MasterArbeit/ScienceCloud/GLM/lh.ASD_anatomy_GLM.thickness.10.glmdir/clustComparison/cache.th30.abs.sig.cluster.mgh", "mgh")
-rh_clust = read.fs.morph ("E:/Box Sync/Arbeit/UZH/MasterArbeit/ScienceCloud/GLM/rh.ASD_anatomy_GLM.thickness.10.glmdir/clustComparison/cache.th30.abs.sig.cluster.mgh", "mgh")
+lh_clust = read.fs.morph ("E:/Box Sync/Arbeit/UZH/MasterArbeit/ScienceCloud/GLM/lh.ClusterASDComparison.thickness.10.glmdir/ClusterASDComparison/cache.th30.abs.sig.masked.mgh", "mgh")
+rh_clust = read.fs.morph ("E:/Box Sync/Arbeit/UZH/MasterArbeit/ScienceCloud/GLM/lh.ClusterASDComparison.thickness.10.glmdir/ClusterASDComparison/cache.th30.abs.sig.masked.mgh", "mgh")
 
-vis.data.on.fsaverage(subj_dir, surface = "pial", morph_data_lh = lh_clust, morph_data_rh = rh_clust,bg="aparc", style ="default", views=c('t4'))
+vis.data.on.fsaverage(subj_dir, surface = "pial", morph_data_lh = lh_clust, morph_data_rh = rh_clust,bg="aparc", style ="default", views=c('si'))
 

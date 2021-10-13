@@ -14,7 +14,7 @@ library(dplyr)
 library(plotly)
 library(ggpubr)
 library(factoextra)
-source("ASDClusteringParams.R")
+source("ASDClusteringParams.R", local= knitr::knit_global())
 
 setwd(params$WorkingDirectory)
 load(file = params$FilteredDataFile)
@@ -65,7 +65,6 @@ zScore_SBJ_loop <- function(sbj, ftrs, hc) {
 }
 
 zScore_leaveOut <- function(s, ftrs, df) {
-  browser()
   for (f in ftrs) {
     # value <- s[f]
     # controlDistribution <- df[which(round(as.numeric(df$Age)) == round(as.numeric(s["Age"])) &  
@@ -89,7 +88,6 @@ zScore_leaveOut <- function(s, ftrs, df) {
 }
 zScore_leaveOut_loop <- function(sbj, ftrs, df) {
   res = list()
-  # sbj$countZDistribution <-99999
   for (i in 1:nrow(sbj)) {
     # nControlDistribution = length(df[which(round(as.numeric(df$Age)) == round(as.numeric(sbj[i,"Age"])) &  
     #                                   df[,"site"] == sbj[i,"site"] &  
@@ -105,7 +103,6 @@ zScore_leaveOut_loop <- function(sbj, ftrs, df) {
                                                df[,"Subject"] == sbj[i,"Subject"] & 
                                                df[,params$VID] != sbj[i,params$VID]),"Age"]) }
     for (f in ftrs) {
-      # browser()
       value <- sbj[i, f]
       # controlDistribution <- df[which(round(as.numeric(df$Age)) == round(as.numeric(sbj[i,"Age"])) &  
       #                               df[,"site"] == sbj[i,"site"] &  
@@ -121,7 +118,6 @@ zScore_leaveOut_loop <- function(sbj, ftrs, df) {
                                           df[,"Subject"] == sbj[i,"Subject"] & 
                                           df[,params$VID] != sbj[i,params$VID]),f]
       }
-      # print(length(controlDistribution))
       sbj[i,f] <- zScore(value, controlDistribution)
     }
     
@@ -143,9 +139,15 @@ data$Age <- as.numeric(data$Age)
 
 rhm <- data[which(data$Sex == params$Sex & data$EHQ_Total > params$EHQCutoff & data$Protocol == params$Protocols$HCP),]
 rhm$site <- factor(rhm$site)
+
 # GLM to extract residuals of [features] ~ Age, Site
+formPredictors <- "~ Age * site"
+if (params$EHQInResidualCalc) {
+  formPredictors <- "~ Age * site * EHQ_Total"
+}
+
 for (feature in features) {
-  form <- formula(paste(feature,"~ Age * site")) # change to interaction
+  form <- formula(paste(feature,formPredictors)) # change to interaction
   model <- glm(form, data=rhm)
   rhm[,feature] <- model$residuals
 }
@@ -162,20 +164,39 @@ asdZScored <- asdZScored[complete.cases(asdZScored[,features]),]
 hcZScored <- zScore_leaveOut_loop(hC,features,hC)
 hcZScored <- hcZScored[complete.cases(hcZScored[,features]),]
 
+```
 
-# zScored <- data.frame(t(lapply(rhm, zScore_leaveOut, ftrs = features, df = rhm)),stringsAsFactors = F)
-# zScored[,features] <- lapply(zScored[,features], as.numeric)
-# 
-# asdZScored <- data.frame(t(apply(sbj, 1, zScore_SBJ, ftrs = features, hc = hC)),stringsAsFactors = F)
-# asdZScored$Site <- asdZScored[data$Subject == 1,]$Site #& !is.na(rhm[features])
-# 
-# asdZScored[,features] <- lapply(asdZScored[,features], as.numeric)
-# asdZScored <- asdZScored[complete.cases(asdZScored[,features]),]
-# asdZScored$Age <- as.numeric(asdZScored$Age)
-# asdZScored$EHQ_Total <- as.numeric(asdZScored$EHQ_Total)
-# asdZScored$ASSQ_Total <- as.numeric(asdZScored$ASSQ_Total)
-# asdZScored$SRS_Total <- as.numeric(asdZScored$SRS_Total)
-# asdZScored[,c("SRS_AWR", "SRS_COG","SRS_COM","SRS_DSMRRB","SRS_MOT","SRS_RRB","SRS_SCI")]<- lapply(asdZScored[,c("SRS_AWR", "SRS_COG","SRS_COM","SRS_DSMRRB","SRS_MOT","SRS_RRB","SRS_SCI")], as.numeric)
+
+Clustering
+```{r}
+featureMatrix <-asdZScored[,features]
+asd_distance = dist(featureMatrix, method= params$Distance)
+nbResultDB <- NbClust(asdZScored[,features], min.nc = 2, max.nc = 20, method = params$ClusterMethod, index="db")
+nbResultDB$Best.nc[1]
+params$kList$db = nbResultDB$Best.nc[1]
+nbResultSi <- NbClust(asdZScored[,features], min.nc = 2, max.nc = 20, method = params$ClusterMethod, index="silhouette")
+nbResultSi$Best.nc[1]
+params$kList$silhouette = nbResultSi$Best.nc[1]
+# silhouetteResult <- silhouette(2:20, dist = distance)
+
+hcRes = hclust(asd_distance, params$ClusterMethod)
+groups = cutree(hcRes, k = params$k())# nbResultDB$Best.nc[1]) #
+table(groups)
+asdZScored$clust <- groups
+```
+
+```{r}
+hc_featureMatrix <-hcZScored[,features]
+hc_distance = dist(hc_featureMatrix, method=params$Distance)
+hc_nbResultDB <- NbClust(hcZScored[,features], min.nc = 2, max.nc = 20, method = params$ClusterMethod, index="db")
+hc_nbResultDB$Best.nc[1]
+hc_nbResultSi <- NbClust(hcZScored[,features], min.nc = 2, max.nc = 20, method = params$ClusterMethod, index="silhouette")
+hc_nbResultSi$Best.nc[1]
+# silhouetteResult <- silhouette(2:20, dist = distance)
+clusterRes = hclust(hc_distance, params$ClusterMethod)
+hc_groups = cutree(clusterRes, k = params$k())# nbResultDB$Best.nc[1]) #
+table(hc_groups)
+hcZScored$clust <- hc_groups
 ```
 
 ```{r}
@@ -198,35 +219,7 @@ colnames(descriptives) <- c("mean", "standard deviation", "feature")
   descriptives
   # )
 ```
-Clustering
-```{r}
-featureMatrix <-asdZScored[,features]
-asd_distance = dist(featureMatrix, method= params$Distance)
-nbResultDB <- NbClust(asdZScored[,features], min.nc = 2, max.nc = 20, method = params$ClusterMethod, index="db")
-nbResultDB$Best.nc[1]
-params$kList$db = nbResultDB$Best.nc[1]
-nbResultSi <- NbClust(asdZScored[,features], min.nc = 2, max.nc = 20, method = params$ClusterMethod, index="silhouette")
-nbResultSi$Best.nc[1]
-params$kList$silhouette = nbResultSi$Best.nc[1]
-# silhouetteResult <- silhouette(2:20, dist = distance)
-hcRes = hclust(asd_distance, params$ClusterMethod)
-groups = cutree(hcRes, k = params$k())# nbResultDB$Best.nc[1]) #
-table(groups)
-asdZScored$clust <- groups
-```
-```{r}
-hc_featureMatrix <-hcZScored[,features]
-hc_distance = dist(hc_featureMatrix, method=params$Distance)
-hc_nbResultDB <- NbClust(hcZScored[,features], min.nc = 2, max.nc = 20, method = params$ClusterMethod, index="db")
-hc_nbResultDB$Best.nc[1]
-hc_nbResultSi <- NbClust(hcZScored[,features], min.nc = 2, max.nc = 20, method = params$ClusterMethod, index="silhouette")
-hc_nbResultSi$Best.nc[1]
-# silhouetteResult <- silhouette(2:20, dist = distance)
-clusterRes = hclust(hc_distance, params$ClusterMethod)
-hc_groups = cutree(clusterRes, k = params$k())# nbResultDB$Best.nc[1]) #
-table(hc_groups)
-hcZScored$clust <- hc_groups
-```
+
 
 ```{r}
 
@@ -346,13 +339,13 @@ SRS_RRB <- ggplot(asdZScored, aes(y= SRS_RRB , group = clust, fill=clust)) + geo
 #ggarrange(SRS, ggarrange(SRS_AWR,SRS_COG,SRS_COM,SRS_DSMRRB,SRS_MOT,SRS_SCI,SRS_RRB, ncol=3), nrow=2)
 ggarrange(SRS,SRS_AWR,SRS_COG,SRS_COM,SRS_DSMRRB,SRS_MOT,SRS_SCI,SRS_RRB)
 
+for (scale in params$PosthocTestScales) {
+  print(
+    ggplot(asdZScored, aes(y= asdZScored[,scale], group = clust, fill=clust)) + geom_boxplot() + ylab(scale) + xlab("Cluster"))
+  print(
+    pairwise.t.test(asdZScored[,scale], asdZScored$clust, p.adjust.method = "bonferroni"))
+}
 
-ggplot(asdZScored, aes(y= as.numeric(CIS_P_Score) , group = clust, fill=clust)) + geom_boxplot()
-pairwise.t.test(as.numeric(asdZScored$CIS_P_Score), asdZScored$clust, p.adjust.method = "bonferroni") #Columbia Impairment Scale
-ggplot(asdZScored, aes(y= as.numeric(DTS_Total) , group = clust, fill=clust)) + geom_boxplot()
-pairwise.t.test(as.numeric(asdZScored$DTS_Total), asdZScored$clust, p.adjust.method = "bonferroni") #Distress Tolerance Scale
-ggplot(asdZScored, aes(y= as.numeric(PSI_Total) , group = clust, fill=clust)) + geom_boxplot()
-pairwise.t.test(as.numeric(asdZScored$PSI_Total), asdZScored$clust, p.adjust.method = "bonferroni") #Parenting Stress index
 ```
 
 ```{r}
@@ -433,11 +426,55 @@ kable(JaccardData)
 hcZScored$clust <- 0
 allZScored <- rbind.fill(hcZScored, asdZScored)
 print(count(allZScored, clust))
-ptt <- pairwise.t.test(allZScored$lh_supramarginal_area, allZScored$clust, p.adjust.method = "bonferroni") 
+ptt <- pairwise.t.test(allZScored[,features], allZScored$clust, p.adjust.method = "bonferroni") 
+t.test(allZScored[allZScored$clust == 0,features],allZScored[allZScored$clust == 1,features])
 library(rsample)
+library(purrr)
 
-resamples <- bootstraps(allZScored, times = params$BootCout)
+resamples <- bootstraps(allZScored, times = 1000)
 
-map()
+
+
+autoHCClust <- function(dat, features, distanceMethod, clusterMethod, k) {
+  featureMatrix <-dat[,features]
+  distance = dist(featureMatrix, method = distanceMethod)
+  clustRes = hclust(distance, clusterMethod)
+  groups = cutree(clustRes, k = k)
+  dat$clust <- groups
+  return(dat)
+}
+
+bootClust <- function(x){
+  dat <- as.data.frame(x)
+  clustDat <- autoHCClust(dat, features, params$Distance, params$ClusterMethod, params$k())
+  formulas <- paste(features, "~ clust")
+  output <- t(sapply(formulas, function(form) {
+    res <- t.test(as.formula(form), data = clustDat)
+    c(res$estimate, statistic = res$statistic, p.value =res$p.value)
+  }))
+  return(output)
+}
+
+bootStrapComp <- map(resamples$splits, bootClust)
+
+
+tStats <- list()
+
+for (i in 1:length(features)){
+  featureTList <- c()
+  # tStats[tStats$feature == features[j]]$t <- cbind(tStats[tStats$feature == features[j]]$t, bootStrapComp[[i]][j,3])
+  for (j in 1:length(bootStrapComp)) {
+    featureTList <- append(featureTList, bootStrapComp[[j]][i,3])
+  }
+  featureEntry <- list(list(min = min(featureTList),
+                       max = max(featureTList),
+                       mean = mean(featureTList),
+                       sd = sd(featureTList)
+                       ))
+  names(featureEntry) <- c(features[i])
+  tStats <- append(tStats, featureEntry)
+}
+
+
 ```
 

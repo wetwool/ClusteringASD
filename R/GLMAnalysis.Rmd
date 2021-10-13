@@ -8,7 +8,7 @@ Setup:
 library("fsbrain")
 library("freesurferformats")
 library("stringr")
-source("ASDClusteringParams.R")
+source("ASDClusteringParams.R", local= knitr::knit_global())
 setwd(params$WorkingDirectory)
 
 ```

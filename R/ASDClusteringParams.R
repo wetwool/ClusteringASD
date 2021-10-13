@@ -19,64 +19,77 @@ kToUse <- function() {
     }
   }
 }
-# 
-# params <- list(
-#   ## Params for preprocessing & import
-#   # Files and paths
-#   WorkingDirectory = "E:/Box Sync/Arbeit/UZH/MasterArbeit/ClusteringASD/R",
-#   AllDataCSV = "U:/HBN/BehavioralData/Data_Download_22_02_2021_LORIS/BD.csv",
-#   StatsTablesFolder = "E:/Box Sync/Arbeit/UZH/MasterArbeit/ScienceCloud/",
-#   FinishiedStatesFile = "../Python/fsFinishedTable.csv",
-#   CompleteSubjectsFile = "../Python/filesFound.csv",
-#   FilteredDataFile = "filteredASD.Rda",
-#   ParcellationReferenceFile = "ParcellationReference.csv",
-#   GLMFolder = "E:/Box Sync/Arbeit/UZH/MasterArbeit/ScienceCloud/GLM/",
-#   
-#   # MRI specific params
-#   Sites = list(RU = "RU", SI = "SI", CBIC =  "CBIC", CUNY = "CUNY"),
-#   Protocols = list(HCP = "HCP", VNav = "VNav", Other = "Not Specified"),
-#   Hemis = c("lh", "rh"),
-#   Features = c("area", "thickness"),
-#   
-#   # Subject filtering
-#   Sex = 0, # male is 0, female 1
-#   EHQCutoff = 40,
-#   MaxDiagnosisCount = 10,
-#   VID = "lh.aparc.thickness",
-#   
-#   ## Params clustering and analysis
-#   # z-Scoring
-#   zScoringAgeRange = 1,
-#   zScoringMinGroupSize = 10,
-#   zScoringBySite = F,
-#   
-#   # Clustering
-#   kList = list(default = 3, silhouette = 2, db = 2),
-#   kCriterionToUse = list(default = F, silhouette = F, DB = T),
-#   #k = kToUse,
-#   Distance = "euclidean",
-#   ClusterMethod = "ward.D",
-#   
-#   
-#   #GLM parameters
-#   GLMCacheValue = 3, #significance as 10^(-x)
-#   GLMCacheKernel = 10,
-#   GLMSigLevel = "0.05",
-#   GLMDirections = list(absolute = "abs", positive = "pos", negative = "neg"),
-#   ComparisonSubject = "fsaverage",
-#   GLMFolder = "E:/Box Sync/Arbeit/UZH/MasterArbeit/ScienceCloud/GLM/",
-#   GLMProjects = list(
-#     ClusteredASD = list(Title = "ClusterASDComparison", Contrasts = c("-1", "+1")), 
-#     ClusteredASDvHC = list(Title = "ClusterASDvHCComparison", Contrasts = c("-1", "+1", "0")),
-#     ASDvHC = list(Title = "rawASDvHCComparison", Contrasts = c("-1", "+1"))
-#     ),
-#   fsaverageFolder = "/home/ubuntu/freesurfer/subjects/fsaverage",
-#   MRIFoldersPrefix = "/mnt/methlab-drive/methlab_data/HBN/MRI/Site-",
-#   MRIFolderSuffix = "_Derivatives_UZH/",
-#   
-#   #bootstrapping values
-#   BootCount = 100
-# )
+
+params <- list(
+  ## Params for preprocessing & import
+  # Files and paths
+  WorkingDirectory = "E:/Box Sync/Arbeit/UZH/MasterArbeit/ClusteringASD/R",
+  AllDataCSV = "U:/HBN/BehavioralData/Data_Download_22_02_2021_LORIS/BD.csv",
+  StatsTablesFolder = "E:/Box Sync/Arbeit/UZH/MasterArbeit/ScienceCloud/",
+  FinishiedStatesFile = "../Python/fsFinishedTable.csv",
+  CompleteSubjectsFile = "../Python/filesFound.csv",
+  FilteredDataFile = "filteredASD.Rda",
+  ParcellationReferenceFile = "ParcellationReference.csv",
+  GLMFolder = "E:/Box Sync/Arbeit/UZH/MasterArbeit/ScienceCloud/GLM/",
+
+  # MRI specific params
+  Sites = list(RU = "RU", SI = "SI", CBIC =  "CBIC", CUNY = "CUNY"),
+  Protocols = list(HCP = "HCP", VNav = "VNav", Other = "Not Specified"),
+  Hemis = c("lh", "rh"),
+  Features = c("area", "thickness"),
+
+  # Subject filtering
+  Sex = 0, # male is 0, female 1
+  EHQCutoff = -100,
+  MaxDiagnosisCount = 10,
+  VID = "lh.aparc.thickness",
+  EHQInResidualCalc = T,
+
+  ## Params clustering and analysis
+  # z-Scoring
+  zScoringAgeRange = 1,
+  zScoringMinGroupSize = 10,
+  zScoringBySite = F,
+
+  # Clustering
+  kList = list(default = 3, silhouette = 2, db = 2),
+  kCriterionToUse = list(default = F, silhouette = T, DB = F),
+  k = kToUse,
+  Distance = "euclidean",
+  ClusterMethod = "ward.D",
+
+  #Post-Hoc test parameters
+  PosthocTestScales = list(# Behavioral Measures
+                            CIS_P = "CIS_P_Score",         # The Columbia Impairment Scale (Parental Report)
+                            CIS_SR = "CIS_SR_Total",       # The Columbia Impairment Scale (Self Report)
+                            DTS = "DTS_Total",             # Distress Tolerance Index (Parental Self Report)
+                            RBS = "RBS_Total",             # Repetitive Behavior Scale
+                            SCQ = "SCQ_Total",             # Social Communication Questionnaire 
+                            SCARED_P = "SCARED_P_Total",   # Screen for Child Anxiety Related Disorders (Parental Report)
+                            SCARED_SR = "SCARED_SR_Total", # Screen for Child Anxiety Related Disorders (Self Report)
+                            # Family Structure
+                            PSI = "PSI_Total"              # Parental Stress Index IV
+                            ),
+
+  #GLM parameters
+  GLMCacheValue = 3, #significance as 10^(-x)
+  GLMCacheKernel = 10,
+  GLMSigLevel = "0.05",
+  GLMDirections = list(absolute = "abs", positive = "pos", negative = "neg"),
+  ComparisonSubject = "fsaverage",
+  GLMFolder = "E:/Box Sync/Arbeit/UZH/MasterArbeit/ScienceCloud/GLM/",
+  GLMProjects = list(
+    ClusteredASD = list(Title = "ClusterASDComparison", Contrasts = c("-1", "+1")),
+    ClusteredASDvHC = list(Title = "ClusterASDvHCComparison", Contrasts = c("-1", "+1", "0")),
+    ASDvHC = list(Title = "rawASDvHCComparison", Contrasts = c("-1", "+1"))
+    ),
+  fsaverageFolder = "/home/ubuntu/freesurfer/subjects/fsaverage",
+  MRIFoldersPrefix = "/mnt/methlab-drive/methlab_data/HBN/MRI/Site-",
+  MRIFolderSuffix = "_Derivatives_UZH/",
+
+  #bootstrapping values
+  BootCount = 100
+)
 
 loadParams <- function(json = "params.json") {
   fileConn <- file(json, "r")
@@ -94,4 +107,4 @@ saveParams<- function(params, json = "params.json") {
   close(fileConn)
 }
 
-params <- loadParams()
+# params <- loadParams()

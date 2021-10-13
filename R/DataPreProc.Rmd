@@ -12,7 +12,7 @@ library(plyr)
 library(dplyr)
 library(stringr)
 library(knitr)
-source("ASDClusteringParams.R")
+source("ASDClusteringParams.R", local= knitr::knit_global())
 setwd(params$WorkingDirectory)
 
 #Variables
@@ -140,7 +140,7 @@ nAutismDiagnosed <- nrow(bdAutism)
 bdAutism <- bdAutism %>% filter(Sex == params$Sex)
 nMaleASD <- nrow(bdAutism)
 
-bdAutism <- bdAutism %>% filter(EHQ_Total > params$EHQCutoff)
+bdAutism <- bdAutism %>% filter(EHQ_Total >= params$EHQCutoff)
 nRhMaleASD <- nrow(bdAutism)
 filterCountsBD <- data.frame(Filter = c("Total Behavioral", "Diagnosed with ASD", "Males with ASD", "Right-handed males with ASD"), countBD = c(nTotalBehavioral, nAutismDiagnosed, nMaleASD, nRhMaleASD))
 ```
