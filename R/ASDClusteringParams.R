@@ -40,10 +40,10 @@ params <- list(
 
   # Subject filtering
   Sex = 0, # male is 0, female 1
-  EHQCutoff = -100,
+  EHQCutoff = 50,
   MaxDiagnosisCount = 10,
   VID = "lh.aparc.thickness",
-  EHQInResidualCalc = T,
+  EHQInResidualCalc = F,
 
   ## Params clustering and analysis
   # z-Scoring
@@ -80,7 +80,7 @@ params <- list(
   GLMFolder = "E:/Box Sync/Arbeit/UZH/MasterArbeit/ScienceCloud/GLM/",
   GLMProjects = list(
     ClusteredASD = list(Title = "ClusterASDComparison", Contrasts = c("-1", "+1")),
-    ClusteredASDvHC = list(Title = "ClusterASDvHCComparison", Contrasts = c("-1", "+1", "0")),
+    ClusteredASDvHC = list(Title = "ClusterASDvHCComparison", Contrasts = c("-1", "+1", "0"), ContrastPerms = c("1-10", "01-1", "10-1")),
     ASDvHC = list(Title = "rawASDvHCComparison", Contrasts = c("-1", "+1"))
     ),
   fsaverageFolder = "/home/ubuntu/freesurfer/subjects/fsaverage",

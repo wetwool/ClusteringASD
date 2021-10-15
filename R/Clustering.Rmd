@@ -137,7 +137,7 @@ features <- append(areas,thicknesses)
 data[,features] <- lapply(data[,features], as.numeric)
 data$Age <- as.numeric(data$Age)
 
-rhm <- data[which(data$Sex == params$Sex & data$EHQ_Total > params$EHQCutoff & data$Protocol == params$Protocols$HCP),]
+rhm <- data[which(data$Sex == params$Sex & data$EHQ_Total > params$EHQCutoff),]# & data$Protocol == params$Protocols$HCP),]
 rhm$site <- factor(rhm$site)
 
 # GLM to extract residuals of [features] ~ Age, Site
@@ -355,11 +355,11 @@ variables <- list()#"ASSQ_Total", "SRS_Total")
 # generateGLMPerSite(sites = params$Sites, features= params$Features, title = params$GLMProjectNameASDvHC, directory = params$GLMFolder)
 
 
-generateFSGDASD(asdZScored, variables, params$GLMProjects$ClusteredASD$Title,  directory = params$GLMFolder)
-generateGLMASD(features= params$Features,
-               title = params$GLMProjects$ClusteredASD$Title, 
-               contrasts = params$GLMProjects$ClusteredASD$Contrasts, 
-               directory = params$GLMFolder)
+# generateFSGDASD(asdZScored, variables, params$GLMProjects$ClusteredASD$Title,  directory = params$GLMFolder)
+# generateGLMASD(features= params$Features,
+#                title = params$GLMProjects$ClusteredASD$Title, 
+#                contrasts = params$GLMProjects$ClusteredASD$Contrasts, 
+#                directory = params$GLMFolder)
 
 hcNoMissings <- hcZScored
 hcNoMissings$clust <- 3
@@ -370,13 +370,13 @@ generateGLMALL(features= params$Features,
                contrasts = params$GLMProjects$ClusteredASDvHC$Contrasts, 
                directory = params$GLMFolder)
 
-hcNoClusters <- allSubs
-hcNoClusters$clust <- hcNoClusters$Subject +1
-generateFSGDASD(hcNoClusters, variables, params$GLMProjects$ASDvHC$Title, directory = params$GLMFolder)
-generateGLMASD(features= params$Features,
-               title = params$GLMProjects$ASDvHC$Title, 
-               contrasts = params$GLMProjects$ASDvHC$Contrasts,
-               directory = params$GLMFolder)
+# hcNoClusters <- allSubs
+# hcNoClusters$clust <- hcNoClusters$Subject +1
+# generateFSGDASD(hcNoClusters, variables, params$GLMProjects$ASDvHC$Title, directory = params$GLMFolder)
+# generateGLMASD(features= params$Features,
+#                title = params$GLMProjects$ASDvHC$Title, 
+#                contrasts = params$GLMProjects$ASDvHC$Contrasts,
+#                directory = params$GLMFolder)
 
 generateSimLinkCMD(asdZScored, hcNoMissings[hcNoMissings$Subject == 0,], params$Sites)
 
@@ -473,6 +473,41 @@ for (i in 1:length(features)){
                        ))
   names(featureEntry) <- c(features[i])
   tStats <- append(tStats, featureEntry)
+}
+
+```
+
+```{r}
+demVars <- c("Age", "ASSQ_Total", "SRS_Total")#, "SRS_AWR", "SRS_COG", "SRS_COM", "SRS_DSMRRB", "SRS_MOT", "SRS_SCI", "SRS_RRB")
+asd <- asdZScored
+asd$group <- 1
+hc <- hcZScored[hcZScored$Subject == 0,]
+hc$group <- 0
+demData <- rbind(asd, hc)
+genDemCol <- function(demData, demVars, group, site) {
+  print(paste("n =", nrow(demData[demData$group  == group & grepl(site, demData$site),])))
+  for (var in demVars) {
+    vals <- demData[demData$group  == group & grepl(site, demData$site),var]
+    print(paste(var, round(mean(vals, na.rm = T), 2), "+-", round(sd(vals, na.rm = T), 2)))
+  }
+
+  return(col)
+}
+for (i in  c(0,1)) {
+    print(paste("site: all","group:",i))
+    genDemCol(demData,demVars, i,"*")
+}
+
+for (site in unique(demData$site)) {
+  for (i in  c(0,1)) {
+    print(paste("site: ", site,"group:",i))
+    genDemCol(demData, demVars,i,site)
+  }
+}
+
+for (i in 1:max(asdZScored$clust)){
+  print(paste("clust: ", i))
+  genDemCol(demData[demData$clust == i,], demVars, 1, "*")
 }
 
 

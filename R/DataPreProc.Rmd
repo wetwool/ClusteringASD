@@ -158,6 +158,36 @@ for (i in 1:nrow(allData)){
 
 ```
 
+
+### Import Quatity Data
+```{r}
+qualityDataFiles = c(
+  "E:/Box Sync/Arbeit/UZH/MasterArbeit/HBN/QAP/release1_QAP/MRI_qap_anat_RU.csv",
+  "E:/Box Sync/Arbeit/UZH/MasterArbeit/HBN/QAP/release1_QAP/MRI_qap_anat_SI.csv",
+  "E:/Box Sync/Arbeit/UZH/MasterArbeit/HBN/QAP/release2_QAP/MRI_qap_anat_RU.csv",
+  "E:/Box Sync/Arbeit/UZH/MasterArbeit/HBN/QAP/release3_QAP/MRI_qap_anat_CBIC.csv",
+  "E:/Box Sync/Arbeit/UZH/MasterArbeit/HBN/QAP/release3_QAP/MRI_qap_anat_RU.csv",
+  "E:/Box Sync/Arbeit/UZH/MasterArbeit/HBN/QAP/release4_QAP/MRI_qap_anat_RU.csv",
+  "E:/Box Sync/Arbeit/UZH/MasterArbeit/HBN/QAP/release4_QAP/MRI_qap_anat_CBIC.csv",
+  "E:/Box Sync/Arbeit/UZH/MasterArbeit/HBN/QAP/release5_QAP/MRI_qap_anat_CBIC.csv",
+  "E:/Box Sync/Arbeit/UZH/MasterArbeit/HBN/QAP/release5_QAP/MRI_qap_anat_RU.csv",
+  "E:/Box Sync/Arbeit/UZH/MasterArbeit/HBN/QAP/release6_QAP/MRI_qap_anat_CBIC.csv",
+  "E:/Box Sync/Arbeit/UZH/MasterArbeit/HBN/QAP/release6_QAP/MRI_qap_anat_RU.csv",
+  "E:/Box Sync/Arbeit/UZH/MasterArbeit/HBN/QAP/release7_QAP/MRI_qap_anat_CBIC.csv",
+  "E:/Box Sync/Arbeit/UZH/MasterArbeit/HBN/QAP/release7_QAP/MRI_qap_anat_RU.csv"
+  )
+qualityData <- data.frame()
+for (qualityDataFile in qualityDataFiles) {
+  qd <- read.csv(qualityDataFile)
+  qd <- na.omit(qd)
+  qd$external_ID
+  qualityData <- rbind(qualityData, qd)
+}
+qualityData$EID <- qualityData$external_ID
+qualityData <- subset(qualityData, select = -c(external_ID, Series))
+qualityData <- qualityData[unique(qualityData$EID),]
+mri2 <- mri %>% left_join(qualityData, by = "EID", keep =F)
+```
 ### Joining Behavioral and MRI
 ```{r}
 subjects <- mri %>% inner_join(bdAutism, by = "EID")

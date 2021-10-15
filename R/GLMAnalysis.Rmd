@@ -92,9 +92,44 @@ for (project in GLMProjects) {
 }
 
 ```
+
+```{r}
+project <- params$GLMProjects$ClusteredASDvHC$Title
+analysisNames <- c()
+glmResultFiles <- list()
+glmResultData <- data.frame()
+for (hemi in params$Hemis){
+  for (feature in params$Features){
+    for (contrast in params$GLMProjects$ClusteredASDvHC$ContrastPerms) {
+      dir <- getResultsDirPath(baseDir = params$GLMFolder, hemisphere = hemi, 
+                               projectname = project, feature =  feature,
+                               kernelsize = params$GLMCacheKernel, contrastsName = paste(project, contrast, sep=""))
+      resFiles <- getGLMResultFiles(dir, params$GLMCacheValue, params$GLMDirections$absolute)
+      summary <- processSummaryFile(resFiles$cluster.summary)
+      
+      name <- paste(project, hemi ,feature, sep =".")
+      if (nrow(summary) >= 1){
+        summary$analysis <- name
+        summary$contrast <- contrast
+        summary <- summary[, c(ncol(summary), 2:(ncol(summary)-1))]
+        analysisNames <- append(analysisNames, name)
+        glmResultData <- rbind(glmResultData, summary)
+      }
+      glmResultFiles[[project]][[contrast]][[paste(hemi,feature, sep =".")]]<- list (
+        files = resFiles
+      )
+    }
+  }
+}
+
+
+```
 Significant Clusters
 ```{r}
-glmResultData[order(glmResultData$VtxMax,decreasing = T),c("analysis", "CWP","Annot")]
+glmResultData[order(glmResultData$VtxMax,decreasing = T),c("analysis","contrast", "Size.mm.2." , "CWP","Annot")]
+```
+```{r}
+glmResultData[glmResultData$contrast == "10-1" | glmResultData$contrast == "01-1",c("analysis","contrast", "WghtVtx" , "CWP","Annot")]
 ```
 
 ```{r}
@@ -103,13 +138,20 @@ fsaverage = "E:/Linux/Exchange/fsaverage"
 subj_dir = "E:/Linux/Exchange/Site-SI_Derivatives_UZH"
 
 displayMGH <- function(fileCollection,feature, type){
+  # browser
+  
+colFn_diverging  = grDevices::colorRampPalette(RColorBrewer::brewer.pal(11, name="RdBu"));
   lh_clust = read.fs.morph (unlist(fileCollection[[paste("lh.",feature, sep="")]]$files[type]), "mgh")
   rh_clust = read.fs.morph (unlist(fileCollection[[paste("rh.",feature,sep="")]]$files[type]), "mgh")
   
-  vis.data.on.fsaverage(subj_dir, surface = "pial", morph_data_lh = lh_clust, morph_data_rh = rh_clust,bg="aparc", style ="default", views=c('si'))
+  # rgla = list('trans_fun'=limit_fun(0.0000001,100));
+  vis.data.on.fsaverage(subj_dir, surface = "pial", morph_data_lh = lh_clust, morph_data_rh = rh_clust,bg="aparc", style ="default", views=c('si'), makecmap_options = list('colFn'=colFn_diverging, 'symm'=TRUE))#,rglactions=rgla)
 }
 
-displayMGH(glmResultFiles$ClusterASDComparison,"area", "gamma")
-displayMGH(glmResultFiles$ClusterASDvHCComparison,"area", "cluster")
+displayMGH(glmResultFiles$ClusterASDvHCComparison$`10-1`,"thickness", "cluster")
+displayMGH(glmResultFiles$ClusterASDvHCComparison$`10-1`,"area", "cluster")
+displayMGH(glmResultFiles$ClusterASDvHCComparison$`01-1`,"thickness", "cluster")
+displayMGH(glmResultFiles$ClusterASDvHCComparison$`01-1`,"area", "cluster")
+# displayMGH(glmResultFiles$ClusterASDvHCComparison$`1-10`,"area", "cluster")
 
 ```
