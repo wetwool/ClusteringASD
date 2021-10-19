@@ -29,6 +29,8 @@ params <- list(
   FinishiedStatesFile = "../Python/fsFinishedTable.csv",
   CompleteSubjectsFile = "../Python/filesFound.csv",
   FilteredDataFile = "filteredASD.Rda",
+  zScoredASDDataFile = "zScoredASD.Rda",
+  zScoredHCDataFile = "zScoredHC.Rda",
   ParcellationReferenceFile = "ParcellationReference.csv",
   GLMFolder = "E:/Box Sync/Arbeit/UZH/MasterArbeit/ScienceCloud/GLM/",
 
@@ -52,6 +54,7 @@ params <- list(
   zScoringBySite = F,
 
   # Clustering
+  UsePreclusteredData = T,
   kList = list(default = 3, silhouette = 2, db = 2),
   kCriterionToUse = list(default = F, silhouette = T, DB = F),
   k = kToUse,
@@ -65,10 +68,9 @@ params <- list(
                             DTS = "DTS_Total",             # Distress Tolerance Index (Parental Self Report)
                             RBS = "RBS_Total",             # Repetitive Behavior Scale
                             SCQ = "SCQ_Total",             # Social Communication Questionnaire 
+                            PSI = "PSI_Total",             # Parental Stress Index IV
                             SCARED_P = "SCARED_P_Total",   # Screen for Child Anxiety Related Disorders (Parental Report)
-                            SCARED_SR = "SCARED_SR_Total", # Screen for Child Anxiety Related Disorders (Self Report)
-                            # Family Structure
-                            PSI = "PSI_Total"              # Parental Stress Index IV
+                            SCARED_SR = "SCARED_SR_Total"  # Screen for Child Anxiety Related Disorders (Self Report)
                             ),
 
   #GLM parameters

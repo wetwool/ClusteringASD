@@ -1,0 +1,455 @@
+---
+title: "R Notebook"
+output: html_notebook
+---
+
+```{r}
+library(ggplot2)
+library(png)
+library(pheatmap)
+library(NbClust)
+library(cluster)
+library(plyr)
+library(dplyr)
+library(plotly)
+library(ggpubr)
+library(factoextra)
+library(jtools)
+source("ASDClusteringParams.R", local= knitr::knit_global())
+
+setwd(params$WorkingDirectory)
+if (params$UsePreclusteredData){
+  load(file = params$zScoredASDDataFile)
+  load(file = params$zScoredHCDataFile)
+} else {
+  print("Run Clustering separately (Clustering.RMD to continuey")
+}
+allZScored = rbind(asdZScored, hcZScored)
+```
+
+
+```{r}
+# descriptives <- list()
+# for (f in features){
+#   # zScored[zScored$Subject == 1,f] <- asdZScored[f]
+#   g <- ggplot(asdZScored, aes(x = asdZScored[,f])) +
+#   geom_histogram(position = "identity", bins = 8) +
+#   labs(title=f)
+#   print(g)
+#   descriptives <- rbind(descriptives,c(round(mean(asdZScored[,f], na.rm = T),digits = 5), round(sd(asdZScored[,f], na.rm = T),digits = 5), f))
+# }
+# for (f in features){
+#   print(plot(hcZScored[,f]))
+# }
+# # ggplot(hcZScored, aes(x= seq(1, length(lh.aparc.thickness)),y = rh_transversetemporal_thickness,  color = site)) + geom_point(alpha = 0.2, size = 3) 
+# # ggplot(asdZScored, aes(x= seq(1, length(lh.aparc.thickness)),y = rh_transversetemporal_thickness,  color = site)) + geom_point(alpha = 0.2, size = 3) 
+# colnames(descriptives) <- c("mean", "standard deviation", "feature")
+# # kable(
+#   descriptives
+#   # )
+```
+
+```{r}
+post_hoc_analysis <- function(data, measure, grouping = "clust") {
+  density_plot <- ggplot(data, aes(x= data[,measure],  color = as.factor(data[,grouping]), group = data[,grouping])) + geom_density() + theme_apa() + ylab("")+xlab(measure)
+  box_plot <- ggplot(data, aes(y= as.numeric(data[,measure]),  color = as.factor(data[,grouping]), group = data[,grouping])) + geom_boxplot() +theme_apa() +ylab(measure)
+  plot_list <- list(box_plot, density_plot)
+
+  completeCases <- list(
+    Total = length(na.omit(data[,measure])),
+    ASD1 = length(na.omit(data[data[grouping] == 1,measure])),
+    ASD2 = length(na.omit(data[data[grouping] == 2,measure]))
+  )
+
+  means <- list(
+    Total = mean(data[,measure], na.rm = T),
+    ASD1 = mean(data[data[grouping] == 1,measure], na.rm = T),
+    ASD2 = mean(data[data[grouping] == 2,measure], na.rm = T)
+  )
+  
+  SDs <- list(
+    Total = sd(data[,measure], na.rm = T),
+    ASD1 = sd(data[data[grouping] == 1,measure], na.rm = T),
+    ASD2 = sd(data[data[grouping] == 2,measure], na.rm = T)
+  )
+  ttest <- t.test(data[data[grouping] == 1, measure],data[data[grouping] == 2, measure])
+  
+  ttestData <- list(
+    t = as.numeric(ttest$statistic),
+    p = ttest$p.value
+  )
+  ttestData[["sig"]] <- ""
+  if (ttestData$p < 0.05) {ttestData[["sig"]] <- "*"}
+  if (ttestData$p < 0.01) {ttestData[["sig"]] <- "**"}
+  if (ttestData$p < 0.001) {ttestData[["sig"]] <- "***"}
+  results <- list(Measure = measure, 
+                        Count.Total = completeCases$Total, Count.ASD1 = completeCases$ASD1, Count.ASD2 = completeCases$ASD2,
+                        Mean.Total = means$Total, SD.Total = SDs$Total, 
+                        Mean.ASD1 = means$ASD1, SD.ASD1 = SDs$ASD1,
+                        Mean.ASD2 = means$ASD2, SD.ASD2 = SDs$ASD2,
+                        t.Value = ttestData$t, p = ttestData$p, Significance = ttestData$sig
+                        )
+  return(list(statistics = results, plots = plot_list))
+}
+
+```
+
+```{r}
+allMeasures <- c()
+qualityMeasures <- data.frame()
+qm <- c("SNR", "FWHM", "EFC", "FBER", "Qi1", "CNR")
+plot_list <- list()
+for (qc in qm) {
+  analysis <- post_hoc_analysis(asdZScored,qc)
+  qualityMeasures <- rbind(qualityMeasures, analysis$statistics)
+  plot_list <- append(plot_list, analysis$plots)
+}
+
+allMeasures <- append(allMeasures, qm)
+# qualityMeasures$p <- format(qualityMeasures$p, digits = 3)
+qualityMeasures 
+write.csv(qualityMeasures, file="qualityMeasures.csv", sep=";")
+ggarrange(plotlist = plot_list, ncol = 2, nrow = 2, common.legend = T, legend = "bottom")
+```
+
+```{r}
+behavioralMeasures <- data.frame()
+plot_list <- list()
+for (pht in params$PosthocTestScales) {
+  analysis <- post_hoc_analysis(asdZScored,pht)
+  behavioralMeasures <- rbind(behavioralMeasures, analysis$statistics)
+  plot_list <- append(plot_list, analysis$plots)
+}
+
+allMeasures <- append(allMeasures, params$PosthocTestScales)
+# qualityMeasures$p <- format(qualityMeasures$p, digits = 3)
+behavioralMeasures
+write.csv(behavioralMeasures, file="behavioralMeasures.csv", sep=";")
+ggarrange(plotlist = plot_list, ncol = 2, nrow = 2, common.legend = T, legend = "bottom")
+```
+
+```{r}
+ASDMeasures <- data.frame()
+asdSclaes <- c("ASSQ_Total", "SRS_Total", "SRS_AWR", "SRS_COG", "SRS_COM", "SRS_DSMRRB", "SRS_MOT", "SRS_SCI", "SRS_RRB")
+plot_list <- list()
+for (asdS in asdSclaes) {
+  analysis <- post_hoc_analysis(asdZScored,asdS)
+  ASDMeasures <- rbind(ASDMeasures, analysis$statistics)
+  plot_list <- append(plot_list, analysis$plots)
+}
+
+
+allMeasures <- append(allMeasures, asdSclaes)
+# qualityMeasures$p <- format(qualityMeasures$p, digits = 3)
+ASDMeasures
+write.csv(ASDMeasures, file="ASDMeasures.csv", sep=";")
+ggarrange(plotlist = plot_list, ncol = 2, nrow = 2, common.legend = T, legend = "bottom")
+```
+
+```{r}
+hcvASD <- data.frame()
+plot_list <- list()
+allZScored$SubjectIncr <- allZScored$Subject+1
+for (msr in allMeasures) {
+  analysis <- post_hoc_analysis(allZScored,msr, grouping = "SubjectIncr")
+  hcvASD <- rbind(hcvASD, analysis$statistics)
+  plot_list <- append(plot_list, analysis$plots)
+}
+
+# qualityMeasures$p <- format(qualityMeasures$p, digits = 3)
+hcvASD
+write.csv(hcvASD, file="hcvASD.csv", sep=";")
+ggarrange(plotlist = plot_list, ncol = 2, nrow = 2, common.legend = T, legend = "bottom")
+```
+
+```{r}
+for (f in features){
+g <- ggplot(asdZScored, aes(y=asdZScored[,f], fill =site)) + 
+  geom_boxplot()
+print(g)
+}
+```
+
+```{r}
+asdCorrList <- data.frame(parcel = c(), r = c(), p=c())
+for (f in features){
+  cRes <- cor.test(x = asdZScored[,f], y=asdZScored[,"clust"], method ="spearman", exact=F)
+  asdCorrList <- rbind(asdCorrList, data.frame(parcel = f, r = cRes$estimate, p = cRes$p.value))
+}
+asdCorrList[order(asdCorrList$r),]
+
+hcCorrList <- data.frame(parcel = c(), r = c(), p=c())
+for (f in features){
+  cRes <- cor.test(x = hcZScored[,f], y=hcZScored[,"clust"], method ="spearman", exact=F)
+  hcCorrList <- rbind(hcCorrList, data.frame(parcel = f, r = cRes$estimate, p = cRes$p.value))
+}
+hcCorrList[order(hcCorrList$r),]
+
+corrDiff <- abs(asdCorrList$r) - abs(hcCorrList$r)
+corrDiff[order(corrDiff)]
+```
+
+```{r}
+# pltl <- plot_ly()
+# factors <- factor(asdZScored$site)
+# for (i in 1:length(features)){ #
+#     pltl <- pltl %>% add_markers(x=features[i], y=asdZScored[,features[i]], z= (as.numeric(factors)+(asdZScored$clust-2)*0.1), color= asdZScored$clust,type = "scatter3d", mode="markers")#add_markers(x=features[i], y=asdZScored[,features[i]], z= asdZScored$Site, color= asdZScored$Site,type = "scatter3d", mode="markers")
+# }
+# pltl <- pltl %>%
+#   layout(showlegend = FALSE,
+#     scene = list(
+#       xaxis = list(title = "Features"),
+#       yaxis = list(title = "Values"),
+#       zaxis = list(title = "Site", 
+#                    ticktext = levels(factors),
+#                    tickvals = list(1, 2,3),
+#                    tickmode = "array")
+#     ))
+# pltl
+```
+
+
+```{r}
+ggplot(asdZScored, aes(x=site, y=clust))+
+  geom_count()
+```
+
+```{r}
+asdZScored.pca <- prcomp(asdZScored[,features])
+fviz_pca_ind(asdZScored.pca, fill.ind = factor(asdZScored$clust), pointshape = 21, pointsize = 2, addEllipses = T, label = "var", axes = c(1,2))
+fviz_pca_ind(asdZScored.pca, fill.ind = factor(asdZScored$clust), pointshape = 21, pointsize = 2, addEllipses = T, label = "var", axes = c(3,2))
+fviz_pca_ind(asdZScored.pca, fill.ind = factor(asdZScored$clust), pointshape = 21, pointsize = 2, addEllipses = T, label = "var", axes = c(3,4))
+fviz_pca_ind(asdZScored.pca, fill.ind = factor(asdZScored$clust), pointshape = 21, pointsize = 2, addEllipses = T, label = "var", axes = c(5,4))
+```
+
+
+```{r}
+clustXSite <- chisq.test(asdZScored$clust, asdZScored$site)
+clustXProtocol <- chisq.test(asdZScored$clust, asdZScored$Protocol)
+siteXProtocol <- chisq.test(asdZScored$site, asdZScored$Protocol)
+clustXSite$observed
+clustXSite
+ggplot(asdZScored, aes(x=clust, y=site))+
+  geom_count()
+clustXProtocol$observed
+clustXProtocol
+ggplot(asdZScored, aes(x=clust, y=Protocol))+
+  geom_count()
+siteXProtocol$observed
+siteXProtocol
+ggplot(asdZScored, aes(x=site, y=Protocol))+
+  geom_count()
+
+ggplot(asdZScored, aes(y= Age, group = clust, fill=clust)) + geom_boxplot()
+cor.test(asdZScored$clust, asdZScored$Age)
+t_age <- pairwise.t.test(asdZScored$Age, asdZScored$clust, p.adjust.method = "bonferroni")
+t_age
+```
+
+```{r}
+# asdZScored$ASSQ_Total <- as.numeric(asdZScored$ASSQ_Total)
+# 
+# cor.test(asdZScored$clust, asdZScored$EHQ_Total)
+# pairwise.t.test(asdZScored$EHQ_Total, asdZScored$clust, p.adjust.method = "bonferroni")
+# ggplot(asdZScored, aes(y= EHQ_Total, group = clust, fill=clust)) + geom_boxplot()
+# 
+# cor.test(asdZScored$clust, as.numeric(asdZScored$ASSQ_Total))
+# pairwise.t.test(asdZScored$ASSQ_Total, asdZScored$clust, p.adjust.method = "bonferroni")
+# ggplot(asdZScored, aes(y= ASSQ_Total, group = clust, fill=clust)) + geom_boxplot()
+# cor.test(asdZScored$clust, asdZScored$SRS_Total)
+```
+
+```{r}
+# pairwise.t.test(asdZScored$SRS_Total, asdZScored$clust, p.adjust.method = "bonferroni")
+# pairwise.t.test(asdZScored$SRS_AWR, asdZScored$clust, p.adjust.method = "bonferroni")
+# pairwise.t.test(asdZScored$SRS_COG, asdZScored$clust, p.adjust.method = "bonferroni")
+# pairwise.t.test(asdZScored$SRS_COM, asdZScored$clust, p.adjust.method = "bonferroni")
+# pairwise.t.test(asdZScored$SRS_DSMRRB, asdZScored$clust, p.adjust.method = "bonferroni")
+# pairwise.t.test(asdZScored$SRS_MOT, asdZScored$clust, p.adjust.method = "bonferroni")
+# pairwise.t.test(asdZScored$SRS_SCI, asdZScored$clust, p.adjust.method = "bonferroni")
+# pairwise.t.test(asdZScored$SRS_RRB, asdZScored$clust, p.adjust.method = "bonferroni")
+# 
+# SRS <- ggplot(asdZScored, aes(y= SRS_Total , group = clust, fill=clust)) + geom_boxplot()
+# SRS_AWR <- ggplot(asdZScored, aes(y= SRS_AWR , group = clust, fill=clust)) + geom_boxplot()
+# SRS_COG <- ggplot(asdZScored, aes(y= SRS_COG , group = clust, fill=clust)) + geom_boxplot()
+# SRS_COM <- ggplot(asdZScored, aes(y= SRS_COM , group = clust, fill=clust)) + geom_boxplot()
+# SRS_DSMRRB <- ggplot(asdZScored, aes(y= SRS_DSMRRB , group = clust, fill=clust)) + geom_boxplot()
+# SRS_MOT <- ggplot(asdZScored, aes(y= SRS_MOT , group = clust, fill=clust)) + geom_boxplot()
+# SRS_SCI <- ggplot(asdZScored, aes(y= SRS_SCI , group = clust, fill=clust)) + geom_boxplot()
+# SRS_RRB <- ggplot(asdZScored, aes(y= SRS_RRB , group = clust, fill=clust)) + geom_boxplot()
+# #ggarrange(SRS, ggarrange(SRS_AWR,SRS_COG,SRS_COM,SRS_DSMRRB,SRS_MOT,SRS_SCI,SRS_RRB, ncol=3), nrow=2)
+# ggarrange(SRS,SRS_AWR,SRS_COG,SRS_COM,SRS_DSMRRB,SRS_MOT,SRS_SCI,SRS_RRB)
+# 
+# for (scale in params$PosthocTestScales) {
+#   print(
+#     ggplot(asdZScored, aes(y= asdZScored[,scale], group = clust, fill=clust)) + geom_boxplot() + ylab(scale) + xlab("Cluster"))
+#   print(
+#     pairwise.t.test(asdZScored[,scale], asdZScored$clust, p.adjust.method = "bonferroni"))
+# }
+
+```
+
+```{r}
+source("freesurfer_helper.R")
+variables <- list()#"ASSQ_Total", "SRS_Total")
+# generateFSGDPerSite(asdZScored, data, params$Sites, variables, params$GLMProjectNameASDvHC, directory = params$GLMFolder)
+# generateGLMPerSite(sites = params$Sites, features= params$Features, title = params$GLMProjectNameASDvHC, directory = params$GLMFolder)
+
+
+# generateFSGDASD(asdZScored, variables, params$GLMProjects$ClusteredASD$Title,  directory = params$GLMFolder)
+# generateGLMASD(features= params$Features,
+#                title = params$GLMProjects$ClusteredASD$Title, 
+#                contrasts = params$GLMProjects$ClusteredASD$Contrasts, 
+#                directory = params$GLMFolder)
+
+hcNoMissings <- hcZScored
+hcNoMissings$clust <- 3
+allSubs <- rbind(asdZScored, hcNoMissings[hcNoMissings$Subject == 0,])
+generateFSGDALL(allSubs, variables, params$GLMProjects$ClusteredASDvHC$Title, directory = params$GLMFolder)
+generateGLMALL(features= params$Features, 
+               title = params$GLMProjects$ClusteredASDvHC$Title, 
+               contrasts = params$GLMProjects$ClusteredASDvHC$Contrasts, 
+               directory = params$GLMFolder)
+
+# hcNoClusters <- allSubs
+# hcNoClusters$clust <- hcNoClusters$Subject +1
+# generateFSGDASD(hcNoClusters, variables, params$GLMProjects$ASDvHC$Title, directory = params$GLMFolder)
+# generateGLMASD(features= params$Features,
+#                title = params$GLMProjects$ASDvHC$Title, 
+#                contrasts = params$GLMProjects$ASDvHC$Contrasts,
+#                directory = params$GLMFolder)
+
+generateSimLinkCMD(asdZScored, hcNoMissings[hcNoMissings$Subject == 0,], params$Sites)
+
+```
+
+```{r}
+print_clusters <- function(labels, k) {             
+  for(i in 1:k) {
+    print(paste("cluster", i))
+    print(asdZScored[labels==i,params$VID])
+  }
+}
+
+```
+
+```{r}
+
+library(fpc)
+
+bootstrapJaccardMeans <- function(sampleDescriptor, featureMatrix, boots){
+  distanceMatrix <- dist(featureMatrix, method = params$Distance)
+  clusterRes = hclust(distanceMatrix, params$ClusterMethod)
+  groups = cutree(clusterRes, k = params$k())
+  clustSize <- c(sum(groups == 1), sum(groups==2))
+  clustBoot <- clusterboot(distanceMatrix, clustermethod=hclustCBI, method=params$ClusterMethod, k=params$k(), B=boots, multipleboot = T)
+  clusterBootJaccardMeans <- data.frame(sample = sampleDescriptor,
+                                        c1_Count = clustSize[1], c1_JaccardMean = clustBoot$bootmean[1],
+                                        c2_Count = clustSize[2], c2_JaccardMean = clustBoot$bootmean[2])
+  return(list(bootResult = clustBoot, jaccardMeans = clusterBootJaccardMeans))
+}
+
+JaccardData <- bootstrapJaccardMeans("ASD", asdZScored[,features], boots = params$BootCount)$jaccardMeans
+JaccardData <- rbind(JaccardData, bootstrapJaccardMeans("HC", hcZScored[,features], boots = params$BootCount)$jaccardMeans)
+JaccardData <- rbind(JaccardData, bootstrapJaccardMeans("HC_ASD", rbind(hcZScored[,features], 
+                                                                        asdZScored[,features]), boots=params$BootCount)$jaccardMeans)
+JaccardData <- rbind(JaccardData, bootstrapJaccardMeans("HC_ASD1", rbind(hcZScored[,features], 
+                                                                        asdZScored[asdZScored$clust==1,features]), boots=params$BootCount)$jaccardMeans)
+JaccardData <- rbind(JaccardData, bootstrapJaccardMeans("HC_ASD2", rbind(hcZScored[,features], 
+                                                                        asdZScored[asdZScored$clust==2,features]), boots=params$BootCount)$jaccardMeans)
+kable(JaccardData)
+
+#diff all, comp asd distr, asd1 hc, asd2 hc
+```
+
+
+```{r}
+hcZScored$clust <- 0
+allZScored <- rbind.fill(hcZScored, asdZScored)
+print(count(allZScored, clust))
+ptt <- pairwise.t.test(allZScored[,features], allZScored$clust, p.adjust.method = "bonferroni") 
+t.test(allZScored[allZScored$clust == 0,features],allZScored[allZScored$clust == 1,features])
+library(rsample)
+library(purrr)
+
+resamples <- bootstraps(allZScored, times = 1000)
+
+
+
+autoHCClust <- function(dat, features, distanceMethod, clusterMethod, k) {
+  featureMatrix <-dat[,features]
+  distance = dist(featureMatrix, method = distanceMethod)
+  clustRes = hclust(distance, clusterMethod)
+  groups = cutree(clustRes, k = k)
+  dat$clust <- groups
+  return(dat)
+}
+
+bootClust <- function(x){
+  dat <- as.data.frame(x)
+  clustDat <- autoHCClust(dat, features, params$Distance, params$ClusterMethod, params$k())
+  formulas <- paste(features, "~ clust")
+  output <- t(sapply(formulas, function(form) {
+    res <- t.test(as.formula(form), data = clustDat)
+    c(res$estimate, statistic = res$statistic, p.value =res$p.value)
+  }))
+  return(output)
+}
+
+bootStrapComp <- map(resamples$splits, bootClust)
+
+
+tStats <- list()
+
+for (i in 1:length(features)){
+  featureTList <- c()
+  # tStats[tStats$feature == features[j]]$t <- cbind(tStats[tStats$feature == features[j]]$t, bootStrapComp[[i]][j,3])
+  for (j in 1:length(bootStrapComp)) {
+    featureTList <- append(featureTList, bootStrapComp[[j]][i,3])
+  }
+  featureEntry <- list(list(min = min(featureTList),
+                       max = max(featureTList),
+                       mean = mean(featureTList),
+                       sd = sd(featureTList)
+                       ))
+  names(featureEntry) <- c(features[i])
+  tStats <- append(tStats, featureEntry)
+}
+
+```
+
+```{r}
+demVars <- c("Age", "ASSQ_Total", "SRS_Total")#, "SRS_AWR", "SRS_COG", "SRS_COM", "SRS_DSMRRB", "SRS_MOT", "SRS_SCI", "SRS_RRB")
+asd <- asdZScored
+asd$group <- 1
+hc <- hcZScored[hcZScored$Subject == 0,]
+hc$group <- 0
+demData <- rbind(asd, hc)
+genDemCol <- function(demData, demVars, group, site) {
+  print(paste("n =", nrow(demData[demData$group  == group & grepl(site, demData$site),])))
+  for (var in demVars) {
+    vals <- demData[demData$group  == group & grepl(site, demData$site),var]
+    print(paste(var, round(mean(vals, na.rm = T), 2), "+-", round(sd(vals, na.rm = T), 2)))
+  }
+
+  return(col)
+}
+for (i in  c(0,1)) {
+    print(paste("site: all","group:",i))
+    genDemCol(demData,demVars, i,"*")
+}
+
+for (site in unique(demData$site)) {
+  for (i in  c(0,1)) {
+    print(paste("site: ", site,"group:",i))
+    genDemCol(demData, demVars,i,site)
+  }
+}
+
+for (i in 1:max(asdZScored$clust)){
+  print(paste("clust: ", i))
+  genDemCol(demData[demData$clust == i,], demVars, 1, "*")
+}
+
+
+```

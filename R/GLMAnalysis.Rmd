@@ -28,7 +28,7 @@ getResultsDirPath <- function(baseDir, hemisphere, projectname, feature, kernels
   )
 }
 getGLMResultFiles <- function(dir, threshold, direction) {
-  prefix <- paste(dir, "cache.th", as.numeric(threshold)*10,".", direction,".sig.", sep ="")
+  prefix <- paste(dir, "perm.th", as.numeric(threshold)*10,".", direction,".sig.", sep ="")
   return(
     list(
       cluster.summary = paste(prefix, "cluster.summary",sep=""),
@@ -138,19 +138,17 @@ fsaverage = "E:/Linux/Exchange/fsaverage"
 subj_dir = "E:/Linux/Exchange/Site-SI_Derivatives_UZH"
 
 displayMGH <- function(fileCollection,feature, type){
-  # browser
-  
-colFn_diverging  = grDevices::colorRampPalette(RColorBrewer::brewer.pal(11, name="RdBu"));
+ colFn_diverging  = grDevices::colorRampPalette(RColorBrewer::brewer.pal(11, name="RdBu"));
   lh_clust = read.fs.morph (unlist(fileCollection[[paste("lh.",feature, sep="")]]$files[type]), "mgh")
   rh_clust = read.fs.morph (unlist(fileCollection[[paste("rh.",feature,sep="")]]$files[type]), "mgh")
   
   # rgla = list('trans_fun'=limit_fun(0.0000001,100));
-  vis.data.on.fsaverage(subj_dir, surface = "pial", morph_data_lh = lh_clust, morph_data_rh = rh_clust,bg="aparc", style ="default", views=c('si'), makecmap_options = list('colFn'=colFn_diverging, 'symm'=TRUE))#,rglactions=rgla)
+  vis.data.on.fsaverage(subj_dir, surface = "pial", morph_data_lh = lh_clust, morph_data_rh = rh_clust,bg="aparc", style ="default",  views=c('t4'),draw_colorbar =T, makecmap_options = list('colFn'=colFn_diverging, 'symm'=TRUE))#,rglactions=rgla)
 }
 
 displayMGH(glmResultFiles$ClusterASDvHCComparison$`10-1`,"thickness", "cluster")
-displayMGH(glmResultFiles$ClusterASDvHCComparison$`10-1`,"area", "cluster")
 displayMGH(glmResultFiles$ClusterASDvHCComparison$`01-1`,"thickness", "cluster")
+displayMGH(glmResultFiles$ClusterASDvHCComparison$`10-1`,"area", "cluster")
 displayMGH(glmResultFiles$ClusterASDvHCComparison$`01-1`,"area", "cluster")
 # displayMGH(glmResultFiles$ClusterASDvHCComparison$`1-10`,"area", "cluster")
 

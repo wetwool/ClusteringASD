@@ -185,8 +185,9 @@ for (qualityDataFile in qualityDataFiles) {
 }
 qualityData$EID <- qualityData$external_ID
 qualityData <- subset(qualityData, select = -c(external_ID, Series))
-qualityData <- qualityData[unique(qualityData$EID),]
-mri2 <- mri %>% left_join(qualityData, by = "EID", keep =F)
+qualityData <- na.omit(qualityData)
+qualityData <- qualityData[!duplicated(qualityData[, "EID"]),]
+mri <- mri %>% left_join(qualityData, by = "EID")
 ```
 ### Joining Behavioral and MRI
 ```{r}
