@@ -163,7 +163,8 @@ asdZScored <-zScore_SBJ_loop(sbj, features, hC)
 asdZScored <- asdZScored[complete.cases(asdZScored[,features]),]
 hcZScored <- zScore_leaveOut_loop(hC,features,hC)
 hcZScored <- hcZScored[complete.cases(hcZScored[,features]),]
-
+nrow(asdZScored)
+nrow(hcZScored)
 ```
 
 
@@ -199,6 +200,6 @@ table(hc_groups)
 hcZScored$clust <- hc_groups
 ```
 ```{r}
-  save(asdZScored, file = params$zScoredASDDataFile, ascii = T)
-  save(hcZScored, file = params$zScoredHCDataFile, ascii = T)
+  save(asdZScored, file = params$zScoredASDDataFile2, ascii = T)
+  save(hcZScored, file = params$zScoredHCDataFile2, ascii = T)
 ```

@@ -31,6 +31,8 @@ params <- list(
   FilteredDataFile = "filteredASD.Rda",
   zScoredASDDataFile = "zScoredASD.Rda",
   zScoredHCDataFile = "zScoredHC.Rda",
+  zScoredASDDataFile2 = "zScoredASD2.Rda",
+  zScoredHCDataFile2 = "zScoredHC2.Rda",
   ParcellationReferenceFile = "ParcellationReference.csv",
   GLMFolder = "E:/Box Sync/Arbeit/UZH/MasterArbeit/ScienceCloud/GLM/",
 
@@ -43,13 +45,13 @@ params <- list(
   # Subject filtering
   Sex = 0, # male is 0, female 1
   EHQCutoff = 50,
-  MaxDiagnosisCount = 10,
+  MaxDiagnosisCount = 0,
   VID = "lh.aparc.thickness",
   EHQInResidualCalc = F,
 
   ## Params clustering and analysis
   # z-Scoring
-  zScoringAgeRange = 1,
+  zScoringAgeRange = 1.5,
   zScoringMinGroupSize = 10,
   zScoringBySite = F,
 
@@ -74,7 +76,7 @@ params <- list(
                             ),
 
   #GLM parameters
-  GLMCacheValue = 3, #significance as 10^(-x)
+  GLMCacheValue = 4, #significance as 10^(-x)
   GLMCacheKernel = 10,
   GLMSigLevel = "0.05",
   GLMDirections = list(absolute = "abs", positive = "pos", negative = "neg"),
@@ -83,6 +85,7 @@ params <- list(
   GLMProjects = list(
     ClusteredASD = list(Title = "ClusterASDComparison", Contrasts = c("-1", "+1")),
     ClusteredASDvHC = list(Title = "ClusterASDvHCComparison", Contrasts = c("-1", "+1", "0"), ContrastPerms = c("1-10", "01-1", "10-1")),
+    ClusteredASDvHC2 = list(Title = "ClusterASDvHCComparison", Contrasts = c("Vars"), ContrastPerms = c("Vars")),
     ASDvHC = list(Title = "rawASDvHCComparison", Contrasts = c("-1", "+1"))
     ),
   fsaverageFolder = "/home/ubuntu/freesurfer/subjects/fsaverage",
