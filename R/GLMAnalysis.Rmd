@@ -94,13 +94,13 @@ for (project in GLMProjects) {
 ```
 
 ```{r}
-project <- params$GLMProjects$ClusteredASDvHC2$Title
+project <- params$GLMProjects$ClusteredASDvHC$Title
 analysisNames <- c()
 glmResultFiles <- list()
 glmResultData <- data.frame()
 for (hemi in params$Hemis){
   for (feature in params$Features){
-    for (contrast in params$GLMProjects$ClusteredASDvHC2$ContrastPerms) {
+    for (contrast in params$GLMProjects$ClusteredASDvHC$ContrastPerms) {
       dir <- getResultsDirPath(baseDir = params$GLMFolder, hemisphere = hemi, 
                                projectname = project, feature =  feature,
                                kernelsize = params$GLMCacheKernel, contrastsName = paste(project, contrast, sep=""))
@@ -128,7 +128,7 @@ Significant Clusters
 ```{r}
 glmOverview <- glmResultData[order(glmResultData$VtxMax,decreasing = T),c("analysis","contrast", "Size.mm.2." , "CWP","Annot")]
 glmOverview
-write.csv(glmOverview, file="glmOverview.csv", sep=";")
+write.csv(glmResultData, file="glmResultDataContrasts.csv", sep=";")
 ```
 ```{r}
 glmResultData[glmResultData$contrast == "10-1" | glmResultData$contrast == "01-1",c("analysis","contrast", "WghtVtx" , "CWP","Annot")]
@@ -149,13 +149,15 @@ displayMGH <- function(fileCollection,feature, type){
   vis.data.on.fsaverage(subj_dir, surface = "pial", morph_data_lh = lh_clust, morph_data_rh = rh_clust,bg="aparc", style ="default",  views=c('t4'),draw_colorbar =T, makecmap_options = list('colFn'=colFn_diverging, 'symm'=TRUE))#,rglactions=rgla)
 }
 
-displayMGH(glmResultFiles$ClusterASDvHCComparison$noVars,"thickness", "cluster")
+displayMGH(glmResultFiles$ClusteredASDvtHC$noVars,"thickness", "cluster")
 
-displayMGH(glmResultFiles$ClusterASDvHCComparison$noVars,"area", "cluster")
-displayMGH(glmResultFiles$ClusterASDvHCComparison$Vars,"thickness", "cluster")
-displayMGH(glmResultFiles$ClusterASDvHCComparison$Vars,"area", "cluster")
+displayMGH(glmResultFiles$ClusteredASDvtHC$noVars,"area", "cluster")
+displayMGH(glmResultFiles$ClusteredASDvtHC$Vars,"thickness", "cluster")
+displayMGH(glmResultFiles$ClusteredASDvtHC$Vars,"area", "cluster")
 
-displayMGH(glmResultFiles$ClusterASDvHCComparison$`1-10`,"area", "cluster")
-displayMGH(glmResultFiles$ClusterASDvHCComparison$`1-10`,"thickness", "cluster")
+displayMGH(glmResultFiles$ClusterASDvHCComparison$`10-1`,"area", "cluster")
+displayMGH(glmResultFiles$ClusterASDvHCComparison$`10-1`,"thickness", "cluster")
+displayMGH(glmResultFiles$ClusterASDvHCComparison$`01-1`,"area", "cluster")
+displayMGH(glmResultFiles$ClusterASDvHCComparison$`01-1`,"thickness", "cluster")
 
 ```

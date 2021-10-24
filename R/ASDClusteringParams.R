@@ -84,8 +84,9 @@ params <- list(
   GLMFolder = "E:/Box Sync/Arbeit/UZH/MasterArbeit/ScienceCloud/GLM/",
   GLMProjects = list(
     ClusteredASD = list(Title = "ClusterASDComparison", Contrasts = c("-1", "+1")),
-    ClusteredASDvHC = list(Title = "ClusterASDvHCComparison", Contrasts = c("-1", "+1", "0"), ContrastPerms = c("1-10", "01-1", "10-1")),
-    ClusteredASDvHC2 = list(Title = "ClusterASDvHCComparison", Contrasts = c("Vars"), ContrastPerms = c("Vars")),
+    ClusteredASDvHC = list(Title = "ClusterASDvHCComparison", Contrasts = c("-1", "+1", "0"), ContrastPerms = c("01-1", "10-1")),
+    ClusteredASDvtHC = list(Title = "ClusteredASDvtHC", Contrasts = c("noVars","Vars"), ContrastPerms = c("noVars","Vars")),
+    ClusteredASDvtHCControlled = list(Title = "ClusteredASDvtHCControlled", Contrasts = c("Vars"), ContrastPerms = c("Vars")),
     ASDvHC = list(Title = "rawASDvHCComparison", Contrasts = c("-1", "+1"))
     ),
   fsaverageFolder = "/home/ubuntu/freesurfer/subjects/fsaverage",

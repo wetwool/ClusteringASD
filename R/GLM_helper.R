@@ -56,7 +56,7 @@ generateSubDirCMD <- function(dir) {
 #' @param analysis name for the analysis, used to generate output directories and files
 #' @param hemi hemisphere to analyze, either "lh" or "rh".
 #' @param fsgdFile Group descriptor file containing group- and variable definitions as well as subjects, see \url{https://surfer.nmr.mgh.harvard.edu/fswiki/FsgdFormat} 
-#' @param mtx contrasts file(s) see \url{https://surfer.nmr.mgh.harvard.edu/fswiki/FsTutorial/GroupAnalysis#Contrasts}.
+#' @param mtx contrasts file(s) see \url{https://surfer.nmr.mgh.harvard.edu/fswiki/FsTutorial/GroupAnalysis#Contrasts} and \url{https://surfer.nmr.mgh.harvard.edu/fswiki/FsgdExamples}.
 #' @param gd2mtx DODS or DOSS, see \url{https://surfer.nmr.mgh.harvard.edu/fswiki/DodsDoss}
 #' @param comparisonTarget subject to compare groups to, usually fsaverage.
 #' @param cacheFeature feature to use for analysis, e.g. thickness, area, etc.

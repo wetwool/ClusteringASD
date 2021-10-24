@@ -73,7 +73,7 @@ generateFSGDALL <- function(allSubs, variables, title, directory) {
   fsGLMdata$class[fsGLMdata$clust == 2] <- "Cluster2"
   fsGLMdata$class[fsGLMdata$clust == 3] <- "Cluster3"
   if (length(variables)>0) {
-    fsGLMdata <- na.omit(fsGLMdata[, c(1,ncol(fsGLMdata),2:(ncol(fsGLMdata)-1))])#[1:5,]
+    fsGLMdata <- na.omit(fsGLMdata[, c(1,ncol(fsGLMdata),2:(ncol(fsGLMdata)-2))])#[1:5,]
   } else {
     fsGLMdata <- na.omit(fsGLMdata[, c(1,ncol(fsGLMdata))])#[1:5,]
   }

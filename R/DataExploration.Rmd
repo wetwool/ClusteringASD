@@ -46,23 +46,23 @@ pheatmap(cor(lh_Areas, y = rh_Areas), cluster_rows = F, cluster_cols = F, displa
 pheatmap(cor(lh_Thickness, y = rh_Thickness), cluster_rows = F, cluster_cols = F, display_numbers = T, fontsize = 10, 
          cellwidth = 25, cellheight = 25, width = 15, height = 15, filename = "heat_Thickness.png")
 
-ggplot(data, aes(x = Age, group = Sex, fill = factor(Sex))) +
+ggplot(data[data$Subject < 2,], aes(x = Age, group = Sex, fill = factor(Sex))) +
   geom_histogram(position = "identity", bins = 30, alpha = 0.7)+ theme_apa() +  
   theme(axis.text=element_text(size=12), axis.title=element_text(size=12,face="bold"), 
         legend.position = c(0.9,0.89)) + scale_discrete_manual("fill", values = c("0" = "#67BAE6", "1" = "#7EE696"), 
             name = paste("n = ", ... = length(na.omit(data$Sex)), "\n\nSex", sep=""), labels = c("Male", "Female"))
 
-srs_ByASD <- ggplot(data, aes(x = SRS_Total,group = Subject, fill = factor(Subject))) +
+srs_ByASD <- ggplot(data[data$Subject < 2,], aes(x = SRS_Total,group = Subject, fill = factor(Subject))) +
   geom_histogram( position = "identity", bins = 15, alpha = 0.70) + 
-  labs(fill = "SRS" ) + theme_apa() +
+  labs(fill = "SRS" ) + theme_apa() + expand_limits(x=0, y=0)  + ylab("count")+
   theme(axis.text=element_text(size=12), axis.title=element_text(size=12,face="bold"), legend.position = c(0.9,0.87)) +
-  scale_discrete_manual("fill", values = c("0" = "#67BAE6", "1" = "#7EE696"), name = paste("n = ", length(na.omit(data$SRS_Total)), "\n\n\nDiagnosis",sep=""), labels = c("no ASD", "ASD"))
+  scale_discrete_manual("fill", values = c("0" = "#67BAE6", "1" = "#7EE696"), name = paste("n = ", length(na.omit(data$SRS_Total)), "\n\n\nDiagnosis",sep=""), labels = c("HC", "ASD"))
 
-assq_ByASD <- ggplot(data, aes(x = ASSQ_Total,group = Subject, fill = factor(Subject))) +
-  geom_histogram( position = "identity", bins = 15, alpha = 0.70) + 
-  labs(fill = "SRS" ) + theme_apa() + 
+assq_ByASD <- ggplot(data[data$Subject < 2,], aes(x = ASSQ_Total,group = Subject, fill = factor(Subject))) +
+  geom_histogram( position = "identity", bins = 15, alpha = 0.70,) + 
+  labs(fill = "SRS" ) + theme_apa() + expand_limits(x=0, y=0) + ylab("count")+
   theme(axis.text=element_text(size=12), axis.title=element_text(size=12,face="bold"), legend.position = c(0.9,0.87)) +
-  scale_discrete_manual("fill", values = c("0" = "#67BAE6", "1" = "#7EE696"), name = paste("n = ", length(na.omit(data$ASSQ_Total)), "\n\n\nDiagnosis", sep=""), labels = c("no ASD", "ASD"))
+  scale_discrete_manual("fill", values = c("0" = "#67BAE6", "1" = "#7EE696"), name = paste("n = ", length(na.omit(data$ASSQ_Total)), "\n\n\nDiagnosis", sep=""), labels = c("HC", "ASD"))
 
 ggarrange(assq_ByASD, srs_ByASD, common.legend = T, legend="top")
 ```
@@ -70,7 +70,7 @@ ggarrange(assq_ByASD, srs_ByASD, common.legend = T, legend="top")
 ![Heatmap Thickness](heat_thickness.png)
 Distribution of Age and Site
 ```{r}
-ggplot(data[data$Sex == 0,], aes(x = Age,group = Subject, fill = factor(Subject))) +
+ggplot(data[data$Sex == 0 & data$Subject < 2,], aes(x = Age,group = Subject, fill = factor(Subject))) +
   geom_histogram( position = "identity", bins = 15, alpha = 0.70) + 
   facet_grid(rows = vars(site)) +labs(fill = "Age" ) + theme_apa()+
   theme(axis.text=element_text(size=12), axis.title=element_text(size=12,face="bold"), legend.position = c(0.9,0.87)) +
@@ -115,4 +115,6 @@ print(paste("Left Hemisphere Cross Correlation: ", round(mean(cc_LH), digits = 2
 print(paste("Right Hemisphere Cross Correlation: ", round(mean(cc_RH), digits = 2), " +-", 
             round(max(abs(cc_RH - mean(cc_RH))), digits = 2), sep=""))
 ```
+
+
 

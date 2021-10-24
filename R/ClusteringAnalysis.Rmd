@@ -27,20 +27,19 @@ if (params$UsePreclusteredData){
 allZScored = rbind(asdZScored, hcZScored)
 ```
 
-
+Plotting z-Scores by feature and cluster 
 ```{r}
 descriptives <- list()
 plotlist <- list()
 for (f in features) {
-  # zScored[zScored$Subject == 1,f] <- asdZScored[f]
   g <- ggplot(asdZScored, aes(x = asdZScored[,f], group = clust, color = clust)) +
   geom_density( aes(group = clust, color = clust)) +
   labs(title=f)
   print(g)
 }
-
 ```
 
+Defining function to calculate and plot group differences by measure 
 ```{r}
 post_hoc_analysis <- function(data, measure, grouping = "clust") {
   density_plot <- ggplot(data, aes(x= data[,measure],  color = as.factor(data[,grouping]), group = data[,grouping])) + geom_density() + theme_apa() + ylab("")+xlab(measure)
@@ -99,7 +98,6 @@ for (qc in qm) {
 
 
 allMeasures <- append(allMeasures, qm)
-# qualityMeasures$p <- format(qualityMeasures$p, digits = 3)
 qualityMeasures 
 write.csv(qualityMeasures, file="qualityMeasures.csv", sep=";")
 ggarrange(plotlist = plot_list, ncol = 2, nrow = 2, common.legend = T, legend = "bottom")
@@ -115,7 +113,6 @@ for (pht in params$PosthocTestScales) {
 }
 
 allMeasures <- append(allMeasures, params$PosthocTestScales)
-# qualityMeasures$p <- format(qualityMeasures$p, digits = 3)
 behavioralMeasures
 write.csv(behavioralMeasures, file="behavioralMeasures.csv", sep=";")
 ggarrange(plotlist = plot_list, ncol = 2, nrow = 2, common.legend = T, legend = "bottom")
@@ -133,7 +130,6 @@ for (asdS in asdSclaes) {
 
 
 allMeasures <- append(allMeasures, asdSclaes)
-# qualityMeasures$p <- format(qualityMeasures$p, digits = 3)
 ASDMeasures
 write.csv(ASDMeasures, file="ASDMeasures.csv", sep=";")
 ggarrange(plotlist = plot_list, ncol = 2, nrow = 2, common.legend = T, legend = "bottom")
@@ -149,23 +145,30 @@ for (msr in allMeasures) {
   plot_list <- append(plot_list, analysis$plots)
 }
 
+hcvASD
+write.csv(hcvASD, file="hcvASD.csv", sep=";")
+ggarrange(plotlist = plot_list, ncol = 2, nrow = 2, common.legend = T, legend = "bottom")
+```
+Generate additional line plots comparing SRS-Subscales between ASD and HC as well as between ASD1 and ASD2
+```{r}
+SRS_Subscales <- c("SRS_AWR", "SRS_COG", "SRS_COM", "SRS_DSMRRB", "SRS_MOT", "SRS_SCI", "SRS_RRB")
 
 srsData <- data.frame(
   Mean =  
-    apply(asdZScored[c("SRS_AWR", "SRS_COG", "SRS_COM", "SRS_DSMRRB", "SRS_MOT", "SRS_SCI", "SRS_RRB")],MARGIN= 2, FUN= mean, na.rm = T),
+    apply(asdZScored[SRS_Subscales],MARGIN= 2, FUN= mean, na.rm = T),
   SD = 
-    apply(asdZScored[c("SRS_AWR", "SRS_COG", "SRS_COM", "SRS_DSMRRB", "SRS_MOT", "SRS_SCI", "SRS_RRB")],MARGIN= 2, FUN= sd, na.rm = T), 
+    apply(asdZScored[SRS_Subscales],MARGIN= 2, FUN= sd, na.rm = T), 
   Scale = 
-    c("SRS_AWR", "SRS_COG", "SRS_COM", "SRS_DSMRRB", "SRS_MOT", "SRS_SCI", "SRS_RRB"))
+    SRS_Subscales)
 
 srsData$Subject <- 1
 srsHcData <- data.frame(
   Mean =  
-    apply(hcZScored[c("SRS_AWR", "SRS_COG", "SRS_COM", "SRS_DSMRRB", "SRS_MOT", "SRS_SCI", "SRS_RRB")],MARGIN= 2, FUN= mean, na.rm = T),
+    apply(hcZScored[SRS_Subscales],MARGIN= 2, FUN= mean, na.rm = T),
   SD = 
-    apply(hcZScored[c("SRS_AWR", "SRS_COG", "SRS_COM", "SRS_DSMRRB", "SRS_MOT", "SRS_SCI", "SRS_RRB")],MARGIN= 2, FUN= sd, na.rm = T), 
+    apply(hcZScored[SRS_Subscales],MARGIN= 2, FUN= sd, na.rm = T), 
   Scale = 
-    c("SRS_AWR", "SRS_COG", "SRS_COM", "SRS_DSMRRB", "SRS_MOT", "SRS_SCI", "SRS_RRB"))
+    SRS_Subscales)
 srsHcData$Subject <- 0
 srsData <- rbind(srsData,srsHcData)
 
@@ -176,20 +179,20 @@ ggplot(srsData[order(srsData$Scale),], aes(x=Scale, y=Mean, fill=as.factor(Subje
 
 srsData <- data.frame(
   Mean =  
-    apply(asdZScored[asdZScored$clust == 1,c("SRS_AWR", "SRS_COG", "SRS_COM", "SRS_DSMRRB", "SRS_MOT", "SRS_SCI", "SRS_RRB")],MARGIN= 2, FUN= mean, na.rm = T),
+    apply(asdZScored[asdZScored$clust == 1,SRS_Subscales],MARGIN= 2, FUN= mean, na.rm = T),
   SD = 
-    apply(asdZScored[asdZScored$clust == 1,c("SRS_AWR", "SRS_COG", "SRS_COM", "SRS_DSMRRB", "SRS_MOT", "SRS_SCI", "SRS_RRB")],MARGIN= 2, FUN= sd, na.rm = T), 
+    apply(asdZScored[asdZScored$clust == 1,SRS_Subscales],MARGIN= 2, FUN= sd, na.rm = T), 
   Scale = 
-    c("SRS_AWR", "SRS_COG", "SRS_COM", "SRS_DSMRRB", "SRS_MOT", "SRS_SCI", "SRS_RRB"))
+    SRS_Subscales)
 
 srsData$Cluster = 1
 srsClust2Data <- data.frame(
   Mean =  
-    apply(asdZScored[asdZScored$clust == 2,c("SRS_AWR", "SRS_COG", "SRS_COM", "SRS_DSMRRB", "SRS_MOT", "SRS_SCI", "SRS_RRB")],MARGIN= 2, FUN= mean, na.rm = T),
+    apply(asdZScored[asdZScored$clust == 2,SRS_Subscales],MARGIN= 2, FUN= mean, na.rm = T),
   SD = 
-    apply(asdZScored[asdZScored$clust == 2,c("SRS_AWR", "SRS_COG", "SRS_COM", "SRS_DSMRRB", "SRS_MOT", "SRS_SCI", "SRS_RRB")],MARGIN= 2, FUN= sd, na.rm = T), 
+    apply(asdZScored[asdZScored$clust == 2,SRS_Subscales],MARGIN= 2, FUN= sd, na.rm = T), 
   Scale = 
-    c("SRS_AWR", "SRS_COG", "SRS_COM", "SRS_DSMRRB", "SRS_MOT", "SRS_SCI", "SRS_RRB"))
+    SRS_Subscales)
 
 srsClust2Data$Cluster <- 2
 srsData <- rbind(srsData,srsClust2Data)
@@ -198,12 +201,7 @@ ggplot(srsData[order(srsData$Scale),], aes(x=Scale, y=Mean, fill=as.factor(Clust
   geom_point(position=position_dodge(0.1))+ 
    geom_errorbar(aes(ymin=Mean-SD, ymax=Mean+SD, color = as.factor(Cluster)), width=.1,
                 position=position_dodge(0.1))+theme_apa()+ theme(axis.text.x = element_text(angle=90))
-# qualityMeasures$p <- format(qualityMeasures$p, digits = 3)
-# hcvASD
-write.csv(hcvASD, file="hcvASD.csv", sep=";")
-ggarrange(plotlist = plot_list, ncol = 2, nrow = 2, common.legend = T, legend = "bottom")
 ```
-
 
 ```{r}
 # asdCorrList <- data.frame(parcel = c(), r = c(), p=c())
@@ -249,6 +247,7 @@ ggarrange(plotlist = plot_list, ncol = 2, nrow = 2, common.legend = T, legend = 
 #   geom_count()
 ```
 
+component analysis to show connection between clustering and main factors
 ```{r}
 asdZScored.pca <- prcomp(asdZScored[,features])
 fviz_pca_ind(asdZScored.pca, fill.ind = factor(asdZScored$clust), pointshape = 21, pointsize = 2, addEllipses = T, label = "var", axes = c(1,2))
@@ -328,35 +327,27 @@ t_age
 
 ```{r}
 source("freesurfer_helper.R")
-variables <- qm #list()#"ASSQ_Total", "SRS_Total")
-# generateFSGDPerSite(asdZScored, data, params$Sites, variables, params$GLMProjectNameASDvHC, directory = params$GLMFolder)
-# generateGLMPerSite(sites = params$Sites, features= params$Features, title = params$GLMProjectNameASDvHC, directory = params$GLMFolder)
-
-
-# generateFSGDASD(asdZScored, variables, params$GLMProjects$ClusteredASD$Title,  directory = params$GLMFolder)
-# generateGLMASD(features= params$Features,
-#                title = params$GLMProjects$ClusteredASD$Title, 
-#                contrasts = params$GLMProjects$ClusteredASD$Contrasts, 
-#                directory = params$GLMFolder)
+variables <- c("SNR")#"ASSQ_Total", "SRS_Total")
 
 hcNoMissings <- hcZScored
 hcNoMissings$clust <- 3
 allSubs <- rbind(asdZScored, hcNoMissings[hcNoMissings$Subject == 0,])
-generateFSGDALL(allSubs, variables, params$GLMProjects$ClusteredASDvHC$Title, directory = params$GLMFolder)
-generateGLMALL(features= params$Features, 
-               title = params$GLMProjects$ClusteredASDvHC$Title, 
-               contrasts = params$GLMProjects$ClusteredASDvHC$Contrasts, 
-               directory = params$GLMFolder)
+generateFSGDALL(allSubs, variables, params$GLMProjects$ClusteredASDvtHCControlled$Title, directory = params$GLMFolder)
 
-# hcNoClusters <- allSubs
-# hcNoClusters$clust <- hcNoClusters$Subject +1
-# generateFSGDASD(hcNoClusters, variables, params$GLMProjects$ASDvHC$Title, directory = params$GLMFolder)
-# generateGLMASD(features= params$Features,
-#                title = params$GLMProjects$ASDvHC$Title, 
-#                contrasts = params$GLMProjects$ASDvHC$Contrasts,
+## generatingGLMAll generates a bash script for the analysis, it contains both the glm as well as glm-sim commands
+## when testing or iterating through different GLM setups this can be usefull
+## otherwise it might be more appropriate generate a file for all analysis manually
+
+# generateGLMALL(features= params$Features, 
+#                title = params$GLMProjects$ClusteredASDvtHCControlled$Title, 
+#                contrasts = params$GLMProjects$ClusteredASDvtHCControlled$Contrasts, 
 #                directory = params$GLMFolder)
 
-generateSimLinkCMD(asdZScored, hcNoMissings[hcNoMissings$Subject == 0,], params$Sites)
+## generateSimLinkCMD generates a bash script to sim-link all given subjects in one folder
+## this is usefull, because subjects might be located in different source folders
+## symbolic links are independent files and can be deleted without affecting the soruce
+## running different iterations of this file does not change existing links 
+# generateSimLinkCMD(asdZScored, hcNoMissings[hcNoMissings$Subject == 0,], params$Sites)
 
 ```
 
@@ -368,6 +359,26 @@ print_clusters <- function(labels, k) {
   }
 }
 
+```
+
+```{r}
+pheatmap(cor(allZScored[,qm], use="pairwise.complete.obs"), cluster_rows = F, cluster_cols = F, display_numbers = T, fontsize = 15)
+pcaQMData <- na.omit(allZScored[,qm])
+tmpZ <- allZScored
+pcQM <- princomp(pcaQMData)
+pcQM$loadings
+qmComp1 <- as.matrix(pcaQMData) %*% pcQM$loadings[,1]
+qmComp2 <- as.matrix(pcaQMData) %*% pcQM$loadings[,2]
+allZScored$qmComp1 <- NA
+allZScored$qmComp2 <- NA
+allZScored[!is.na(allZScored[,"SNR"]),]$qmComp1 <- as.vector( qmComp1)
+allZScored[!is.na(allZScored[,"SNR"]),]$qmComp2 <- as.vector( qmComp2)
+t.test(allZScored[allZScored$Subject == 1 & allZScored$clust == 1, "qmComp1"], allZScored[allZScored$Subject == 1& allZScored$clust == 2, "qmComp1"])
+t.test(allZScored[allZScored$Subject == 1 & allZScored$clust == 1, "qmComp2"], allZScored[allZScored$Subject == 1& allZScored$clust == 2, "qmComp2"])
+
+t.test(allZScored[allZScored$Subject == 1, "qmComp1"], allZScored[allZScored$Subject == 0, "qmComp1"])
+t.test(allZScored[allZScored$Subject == 1, "qmComp2"], allZScored[allZScored$Subject == 0, "qmComp2"])
+cor.test(allZScored$qmComp2, allZScored$SRS_Total)
 ```
 
 ```{r}
@@ -462,31 +473,38 @@ asd$group <- 1
 hc <- hcZScored[hcZScored$Subject == 0,]
 hc$group <- 0
 demData <- rbind(asd, hc)
-genDemCol <- function(demData, demVars, group, site) {
-  print(paste("n =", nrow(demData[demData$group  == group & grepl(site, demData$site),])))
+demOverview <- data.frame()
+genDemCol <- function(demData, demVars, group, site, description) {
+   # print(paste("n =", nrow(demData[demData$group  == group & grepl(site, demData$site),])))
+  n <-nrow(demData[demData$group  == group & grepl(site, demData$site),])
+  overview <- data.frame()
   for (var in demVars) {
     vals <- demData[demData$group  == group & grepl(site, demData$site),var]
-    print(paste(var, round(mean(vals, na.rm = T), 2), "+-", round(sd(vals, na.rm = T), 2)))
+    row <- data.frame(Description = description, Group = group, Site = site, count = n, Variable = var, Mean =mean(vals, na.rm = T), SD =  sd(vals, na.rm = T))
+    # print(paste(var, round(mean(vals, na.rm = T), 2), "+-", round(sd(vals, na.rm = T), 2)))
+    overview <- rbind(overview, row)
   }
 
-  return(col)
+  return(overview)
 }
 for (i in  c(0,1)) {
-    print(paste("site: all","group:",i))
-    genDemCol(demData,demVars, i,"*")
+    # print(paste("site: all","group:",i))
+    demOverview <- rbind(demOverview, genDemCol(demData,demVars, i,"*", "Overall"))
 }
 
 for (site in unique(demData$site)) {
   for (i in  c(0,1)) {
-    print(paste("site: ", site,"group:",i))
-    genDemCol(demData, demVars,i,site)
+    demOverview <- rbind(demOverview, genDemCol(demData, demVars,i,site, "By Site"))
+    # print(paste("site: ", site,"group:",i))
+    # genDemCol(demData, demVars,i,site)
   }
 }
 
 for (i in 1:max(asdZScored$clust)){
-  print(paste("clust: ", i))
-  genDemCol(demData[demData$clust == i,], demVars, 1, "*")
+  # print(paste("clust: ", i))
+  # genDemCol(demData[demData$clust == i,], demVars, 1, "*")
+  demOverview <- rbind(demOverview, genDemCol(demData[demData$clust == i,], demVars, 1, "*", paste("ASD", i)))
 }
-
+write.csv(demOverview, file="demOverview.csv", sep=";")
 
 ```

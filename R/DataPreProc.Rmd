@@ -199,6 +199,7 @@ nOneASDScale <- nrow(subjects)
 data <- mri %>% inner_join(allData, by = "EID")
 data["Subject"] <- 0
 data[data[,"EID"] %in% subjects[,"EID"],]["Subject"] <- 1
+data[data$Subject == 0 & data$dxCount > params$MaxDiagnosisCount,]$Subject <- 2
 
 filterCountsTotal <- data.frame(Filter = c("Total MRI and BD available", "ASD MRI and BD available", " ASD At least one ASD scale"), 
                                 countTotal = c(nrow(data),nBDandMRI, nOneASDScale))
