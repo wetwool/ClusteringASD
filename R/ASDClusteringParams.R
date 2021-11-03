@@ -38,7 +38,7 @@ params <- list(
 
   # MRI specific params
   Sites = list(RU = "RU", SI = "SI", CBIC =  "CBIC", CUNY = "CUNY"),
-  Protocols = list(HCP = "HCP", VNav = "VNav", Other = "Not Specified"),
+  Protocols = list(HCP = "HCP", VNav = "VNav", VNavN = "VNavNorm", Other = "Not Specified"),
   Hemis = c("lh", "rh"),
   Features = c("area", "thickness"),
 
@@ -61,7 +61,7 @@ params <- list(
   kCriterionToUse = list(default = F, silhouette = T, DB = F),
   k = kToUse,
   Distance = "euclidean",
-  ClusterMethod = "ward.D",
+  ClusterMethod = "ward.D",                                # See hclust docs
 
   #Post-Hoc test parameters
   PosthocTestScales = list(# Behavioral Measures
@@ -83,11 +83,15 @@ params <- list(
   ComparisonSubject = "fsaverage",
   GLMFolder = "E:/Box Sync/Arbeit/UZH/MasterArbeit/ScienceCloud/GLM/",
   GLMProjects = list(
-    ClusteredASD = list(Title = "ClusterASDComparison", Contrasts = c("-1", "+1")),
-    ClusteredASDvHC = list(Title = "ClusterASDvHCComparison", Contrasts = c("-1", "+1", "0"), ContrastPerms = c("01-1", "10-1")),
-    ClusteredASDvtHC = list(Title = "ClusteredASDvtHC", Contrasts = c("noVars","Vars"), ContrastPerms = c("noVars","Vars")),
-    ClusteredASDvtHCControlled = list(Title = "ClusteredASDvtHCControlled", Contrasts = c("Vars"), ContrastPerms = c("Vars")),
-    ASDvHC = list(Title = "rawASDvHCComparison", Contrasts = c("-1", "+1"))
+    # ClusteredASD = list(Title = "ClusterASDComparison", Contrasts = c("-1", "+1")),
+    # ClusteredASDvHC = list(Title = "ClusterASDvHCComparison", Contrasts = c("-1", "+1", "0"), ContrastPerms = c("01-1", "10-1")),
+    # ClusteredASDvtHC = list(Title = "ClusteredASDvtHC", Contrasts = c("noVars","Vars"), ContrastPerms = c("noVars","Vars")),
+    # ClusteredASDvtHCControlled = list(Title = "ClusteredASDvtHCControlled", Contrasts = c("Vars"), ContrastPerms = c("Vars")),
+    # ClusteredASDvtHCSRS = list(Title = "ClusteredASDvtHCtoHCSRS", Contrasts = c("ClusterASDvHCComparisonVars"), ContrastPerms = c("ClusterASDvHCComparisonVars")),
+    # ASDvHC = list(Title = "rawASDvHCComparison", Contrasts = c("-1", "+1"))
+    ClusteredASD = list(Title = "ASDComparison", Contrasts = c("ASD1vsASD2.mtx", "ASD1vsHC.mtx", "ASD2vsHC.mtx"), Variables = c()),
+    ClusteredASDSNR = list(Title = "ASDComparisonSNR", Contrasts = c("ASD1vsASD2COV.mtx", "ASD1vsHCCOV.mtx", "ASD2vsHCCOV.mtx"), Variables = c("SNR")),
+    DiagASD = list(Title = "DiagComparison", Contrasts = c("DiagDifferences.mtx"), Variables = c())
     ),
   fsaverageFolder = "/home/ubuntu/freesurfer/subjects/fsaverage",
   MRIFoldersPrefix = "/mnt/methlab-drive/methlab_data/HBN/MRI/Site-",

@@ -239,7 +239,7 @@ def checkFilesExist(filenames, folders = [], outputFile = "filesFound.csv"):
         
 if __name__ == '__main__':
     # gatherFSSuccess(match, successString, folders = FSfolders, resume = False)
-    # gatherFSCompleted(match, ["exited", "finished"], folders =FSfolders)
+    gatherFSCompleted(match, ["exited", "finished"], folders =FSfolders)
     checkFilesExist(["surf/lh.area.fwhm10.fsaverage.mgh"],folders = FSfolders)
 
 # t = timeit.timeit("gatherFSSuccess(\"scripts/recon-all.log\", \'^recon-all.*sub-.*finished without error\', \'([f]([a-zA-Z]+\s)+at)\', folder = \"T:/HBN/MRI/Site-CUNY_Derivatives_UZH/\", resume = False)", setup= "from __main__ import gatherFSSuccess", number = 1)

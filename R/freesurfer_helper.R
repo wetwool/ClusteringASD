@@ -112,7 +112,7 @@ generateGLMPerSite <- function(sites, features, title, contrasts, directory) {
 
 generateGLMASD <- function(features, title, contrasts, directory) {
   source("GLM_helper.R")
-  mtx <- writeContrasts(directory, title, contrasts)
+  # mtx <- writeContrasts(directory, title, contrasts)
   cmds <- list()
     for (hemi in params$Hemis) {
       for (feature in features) {
@@ -122,7 +122,7 @@ generateGLMASD <- function(features, title, contrasts, directory) {
           analysis = title,
           hemi = hemi,
           fsgdFile = paste(title,".fsgd",sep = ""),
-          mtx = mtx,
+          mtx = contrasts,
           gd2mtx ="dods", comparisonTarget = params$ComparisonSubject,
           cacheFeature = feature,
           cacheKernel = params$GLMCacheKernel,
@@ -140,7 +140,7 @@ generateGLMASD <- function(features, title, contrasts, directory) {
 
 generateGLMALL <- function(features, title, contrasts, directory) {
   source("GLM_helper.R")
-  mtx <- writeContrasts(directory, title, contrasts)
+  # mtx <- writeContrasts(directory, title, contrasts)
   cmds <- list()
   for (hemi in params$Hemis) {
     for (feature in features) {
@@ -150,7 +150,7 @@ generateGLMALL <- function(features, title, contrasts, directory) {
         analysis = title,
         hemi = hemi,
         fsgdFile = paste(title,".fsgd",sep = ""),
-        mtx = mtx,
+        mtx = contrasts,
         gd2mtx ="dods", comparisonTarget = params$ComparisonSubject,
         cacheFeature = feature,
         cacheKernel = params$GLMCacheKernel,
@@ -166,7 +166,7 @@ generateGLMALL <- function(features, title, contrasts, directory) {
   return(cmds)
 }
 
-generateSimLinkCMD <- function(asd, all, sites) {
+generateSimLinkCMD <- function(asd, all, sites, directory) {
   cmds <- c("#!/bin/bash",
             paste("ln -s ", params$fsaverageFolder," fsaverage", sep = ""))
  # browser()
@@ -185,7 +185,7 @@ generateSimLinkCMD <- function(asd, all, sites) {
       cmds <- append(cmds, paste("ln -s ", params$MRIFoldersPrefix ,site, params$MRIFolderSuffix,sub," ", sub, sep=""))
     }
   }
-  fileConn <- file("simLinkSubj.sh", "wb")
+  fileConn <- file(paste(directory, "simLinkSubj.sh", sep=""), "wb")
   writeLines(cmds, fileConn, sep = "\n")
   close(fileConn)
 }

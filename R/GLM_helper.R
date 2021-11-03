@@ -25,7 +25,7 @@ generateGLMCMD <- function(analysis, fsgdFile, mtx, gd2mtx, target, hemi,cacheFe
       " ", gd2mtx,
       " --surf ", target,
       " ", hemi,
-      " --C ", mtx, 
+      paste(" --C ", mtx, sep=" ", collapse =""),
       " --cortex",
       " --glmdir ", paste(hemi,analysis,cacheFeature,cacheKernel,"glmdir",sep="."),
       sep = ""
@@ -71,9 +71,9 @@ generateGroupComparisonCommands <- function(subjectDir, analysis, hemi, fsgdFile
   GLM <- generateGLMCMD(analysis, fsgdFile, mtx, gd2mtx, target = comparisonTarget, hemi,cacheFeature,cacheKernel)
   sim <- generateGLMSimCMD(analysis, cacheValue, cacheDirection, cwp, hemi,cacheFeature,cacheKernel)
   cmds <- paste(subDir, preproc, GLM, sim, sep="\n")
-  fileConn<-file(path, "wb")
-  writeLines(cmds, fileConn, sep = "\n")
-  close(fileConn)
+  # fileConn<-file(path, "wb")
+  # writeLines(cmds, fileConn, sep = "\n")
+  # close(fileConn)
   return(cmds)
 }
 

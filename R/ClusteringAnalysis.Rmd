@@ -73,11 +73,17 @@ post_hoc_analysis <- function(data, measure, grouping = "clust") {
   if (ttestData$p < 0.05) {ttestData[["sig"]] <- "*"}
   if (ttestData$p < 0.01) {ttestData[["sig"]] <- "**"}
   if (ttestData$p < 0.001) {ttestData[["sig"]] <- "***"}
-  results <- list(Measure = measure, 
-                        Count.Total = completeCases$Total, Count.ASD1 = completeCases$ASD1, Count.ASD2 = completeCases$ASD2,
-                        Mean.Total = means$Total, SD.Total = SDs$Total, 
-                        Mean.ASD1 = means$ASD1, SD.ASD1 = SDs$ASD1,
-                        Mean.ASD2 = means$ASD2, SD.ASD2 = SDs$ASD2,
+  # results <- list(Measure = measure, 
+  #                       Count.Total = completeCases$Total, Count.ASD1 = completeCases$ASD1, Count.ASD2 = completeCases$ASD2,
+  #                       Mean.Total = means$Total, SD.Total = SDs$Total, 
+  #                       Mean.ASD1 = means$ASD1, SD.ASD1 = SDs$ASD1,
+  #                       Mean.ASD2 = means$ASD2, SD.ASD2 = SDs$ASD2,
+  #                       t.Value = ttestData$t, p = ttestData$p, Significance = ttestData$sig
+  #                       )
+    results <- list(Measure = measure, 
+                        Count.Total = completeCases$Total, Mean.Total = means$Total, SD.Total = SDs$Total, 
+                        Count.ASD1 = completeCases$ASD1, Mean.ASD1 = means$ASD1, SD.ASD1 = SDs$ASD1,
+                        Count.ASD2 = completeCases$ASD2, Mean.ASD2 = means$ASD2, SD.ASD2 = SDs$ASD2,
                         t.Value = ttestData$t, p = ttestData$p, Significance = ttestData$sig
                         )
   return(list(statistics = results, plots = plot_list))
@@ -100,6 +106,8 @@ for (qc in qm) {
 allMeasures <- append(allMeasures, qm)
 qualityMeasures 
 write.csv(qualityMeasures, file="qualityMeasures.csv", sep=";")
+qualityMeasures[qualityMeasures$p < 0.001,]$p <- "<0.001" 
+write.table(qualityMeasures, "clipboard",sep="\t",col.names=NA)
 ggarrange(plotlist = plot_list, ncol = 2, nrow = 2, common.legend = T, legend = "bottom")
 ```
 
@@ -115,6 +123,8 @@ for (pht in params$PosthocTestScales) {
 allMeasures <- append(allMeasures, params$PosthocTestScales)
 behavioralMeasures
 write.csv(behavioralMeasures, file="behavioralMeasures.csv", sep=";")
+if (nrow(behavioralMeasures[behavioralMeasures$p < 0.001,]) > 0) {behavioralMeasures[behavioralMeasures$p < 0.001,]$p <- "<0.001" }
+write.table(behavioralMeasures, "clipboard",sep="\t",col.names=NA)
 ggarrange(plotlist = plot_list, ncol = 2, nrow = 2, common.legend = T, legend = "bottom")
 ```
 
@@ -132,6 +142,8 @@ for (asdS in asdSclaes) {
 allMeasures <- append(allMeasures, asdSclaes)
 ASDMeasures
 write.csv(ASDMeasures, file="ASDMeasures.csv", sep=";")
+if (nrow(ASDMeasures[ASDMeasures$p < 0.001,]) > 0) {ASDMeasures[ASDMeasures$p < 0.001,]$p <- "<0.001" }
+write.table(ASDMeasures, "clipboard",sep="\t",col.names=NA)
 ggarrange(plotlist = plot_list, ncol = 2, nrow = 2, common.legend = T, legend = "bottom")
 ```
 
@@ -147,6 +159,8 @@ for (msr in allMeasures) {
 
 hcvASD
 write.csv(hcvASD, file="hcvASD.csv", sep=";")
+if (nrow(hcvASD[hcvASD$p < 0.001,]) > 0) {hcvASD[hcvASD$p < 0.001,]$p <- "<0.001" }
+write.table(hcvASD, "clipboard",sep="\t",col.names=NA)
 ggarrange(plotlist = plot_list, ncol = 2, nrow = 2, common.legend = T, legend = "bottom")
 ```
 Generate additional line plots comparing SRS-Subscales between ASD and HC as well as between ASD1 and ASD2
@@ -256,7 +270,6 @@ fviz_pca_ind(asdZScored.pca, fill.ind = factor(asdZScored$clust), pointshape = 2
 fviz_pca_ind(asdZScored.pca, fill.ind = factor(asdZScored$clust), pointshape = 21, pointsize = 2, addEllipses = T, label = "var", axes = c(5,4))
 ```
 
-
 ```{r}
 clustXSite <- chisq.test(asdZScored$clust, asdZScored$site)
 clustXProtocol <- chisq.test(asdZScored$clust, asdZScored$Protocol)
@@ -280,6 +293,26 @@ ggplot(asdZScored, aes(y= Age, group = clust, fill=clust)) + geom_boxplot()
 cor.test(asdZScored$clust, asdZScored$Age)
 t_age <- pairwise.t.test(asdZScored$Age, asdZScored$clust, p.adjust.method = "bonferroni")
 t_age
+```
+
+```{r}
+t.test(asdZScored[asdZScored$clust == 1,]$dxCount, asdZScored[asdZScored$clust == 2,]$dxCount)
+
+dx_fields <- c("DX_01", "DX_02", "DX_03", "DX_04", "DX_05", "DX_06", "DX_07", "DX_08", "DX_09", "DX_10")
+comorbidities_ASD1 <- table(unlist(asdZScored[asdZScored$clust == 1,dx_fields]))
+comorbidities_ASD2 <- table(unlist(asdZScored[asdZScored$clust == 2,dx_fields]))
+
+comData <- data.frame(comorbidities_ASD1)
+names(comData)[names(comData) == "Freq"] <- "ASD1 "
+
+comData_t <- data.frame(comorbidities_ASD2)
+names(comData_t)[names(comData_t) == "Freq"] <- "ASD2 "
+
+comData <- join(comData, comData_t, by= "Var1")
+nrow(asdZScored[asdZScored$clust==1,])
+comData <- comData[order(comData$`ASD1 `,decreasing = T),]
+write.table(comData, "clipboard",sep="\t",col.names=NA)
+write.csv(comData, file = "asdComorbs.csv")
 ```
 
 ```{r}
@@ -327,27 +360,53 @@ t_age
 
 ```{r}
 source("freesurfer_helper.R")
-variables <- c("SNR")#"ASSQ_Total", "SRS_Total")
 
+variables <- c()
 hcNoMissings <- hcZScored
 hcNoMissings$clust <- 3
 allSubs <- rbind(asdZScored, hcNoMissings[hcNoMissings$Subject == 0,])
-generateFSGDALL(allSubs, variables, params$GLMProjects$ClusteredASDvtHCControlled$Title, directory = params$GLMFolder)
+generateFSGDALL(allSubs, variables, params$GLMProjects$ClusteredASD$Title, directory = params$GLMFolder)
+
 
 ## generatingGLMAll generates a bash script for the analysis, it contains both the glm as well as glm-sim commands
 ## when testing or iterating through different GLM setups this can be usefull
 ## otherwise it might be more appropriate generate a file for all analysis manually
 
-# generateGLMALL(features= params$Features, 
-#                title = params$GLMProjects$ClusteredASDvtHCControlled$Title, 
-#                contrasts = params$GLMProjects$ClusteredASDvtHCControlled$Contrasts, 
-#                directory = params$GLMFolder)
+generateGLMALL(features= params$Features,
+               title = params$GLMProjects$ClusteredASD$Title,
+               contrasts = params$GLMProjects$ClusteredASD$Contrasts,
+               directory = params$GLMFolder)
+
+
+variables <- c("SNR")
+hcNoMissings <- hcZScored
+hcNoMissings$clust <- 3
+allSubs <- rbind(asdZScored, hcNoMissings[hcNoMissings$Subject == 0,])
+generateFSGDALL(allSubs, variables, params$GLMProjects$ClusteredASDSNR$Title, directory = params$GLMFolder)
+
+generateGLMALL(features= params$Features,
+               title = params$GLMProjects$ClusteredASDSNR$Title,
+               contrasts = params$GLMProjects$ClusteredASDSNR$Contrasts,
+               directory = params$GLMFolder)
+
+variables <- c()
+hcTemp <- hcZScored
+hcTemp$clust <- 1
+asdTemp <- asdZScored
+asdTemp$clust <- 2
+allSubs <- rbind(asdTemp, hcTemp[hcTemp$Subject == 0,])
+generateFSGDALL(allSubs, variables, params$GLMProjects$DiagASD$Title, directory = params$GLMFolder)
+
+generateGLMALL(features= params$Features,
+               title = params$GLMProjects$DiagASD$Title,
+               contrasts = params$GLMProjects$DiagASD$Contrasts,
+               directory = params$GLMFolder)
 
 ## generateSimLinkCMD generates a bash script to sim-link all given subjects in one folder
 ## this is usefull, because subjects might be located in different source folders
 ## symbolic links are independent files and can be deleted without affecting the soruce
 ## running different iterations of this file does not change existing links 
-# generateSimLinkCMD(asdZScored, hcNoMissings[hcNoMissings$Subject == 0,], params$Sites)
+generateSimLinkCMD(asdZScored, hcNoMissings[hcNoMissings$Subject == 0,], params$Sites, directory = params$GLMFolder)
 
 ```
 
@@ -406,8 +465,7 @@ JaccardData <- rbind(JaccardData, bootstrapJaccardMeans("HC_ASD1", rbind(hcZScor
 JaccardData <- rbind(JaccardData, bootstrapJaccardMeans("HC_ASD2", rbind(hcZScored[,features], 
                                                                         asdZScored[asdZScored$clust==2,features]), boots=params$BootCount)$jaccardMeans)
 kable(JaccardData)
-
-#diff all, comp asd distr, asd1 hc, asd2 hc
+write.table(JaccardData, "clipboard",sep="\t",col.names=NA)
 ```
 
 
@@ -487,6 +545,7 @@ genDemCol <- function(demData, demVars, group, site, description) {
 
   return(overview)
 }
+
 for (i in  c(0,1)) {
     # print(paste("site: all","group:",i))
     demOverview <- rbind(demOverview, genDemCol(demData,demVars, i,"*", "Overall"))
@@ -506,5 +565,6 @@ for (i in 1:max(asdZScored$clust)){
   demOverview <- rbind(demOverview, genDemCol(demData[demData$clust == i,], demVars, 1, "*", paste("ASD", i)))
 }
 write.csv(demOverview, file="demOverview.csv", sep=";")
+write.table(demOverview, "clipboard",sep="\t",col.names=NA)
 
 ```
