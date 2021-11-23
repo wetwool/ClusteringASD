@@ -33,7 +33,7 @@ params <- list(
   zScoredHCDataFile = "zScoredHC.Rda",
   zScoredASDDataFile2 = "zScoredASD2.Rda",
   zScoredHCDataFile2 = "zScoredHC2.Rda",
-  ParcellationReferenceFile = "ParcellationReference.csv",
+  ParcellationReferenceFile = "../misc/ParcellationReference.csv",
   GLMFolder = "E:/Box Sync/Arbeit/UZH/MasterArbeit/ScienceCloud/GLM/",
 
   # MRI specific params
@@ -109,7 +109,6 @@ loadParams <- function(json = "params.json") {
   return(params)
 }
 
-
 saveParams<- function(params, json = "params.json") {
   fileConn <- file(json, "wb")
   json <- toJSON(params[names(params) != "k"])
@@ -117,4 +116,24 @@ saveParams<- function(params, json = "params.json") {
   close(fileConn)
 }
 
-# params <- loadParams()
+getMeff <- function(D){
+  DT <- na.omit(D)
+  
+  DT <- as.matrix(DT)
+  
+  eig <- eigen(cor(DT))
+  v.eig <- var(eig$values)
+  
+  M <- ncol(D)
+  M.eff <- 1 + (M - 1) * (1 - (v.eig/M))
+  
+  return(M.eff)
+}
+
+Nyholt.Bonferroni.p <- function(data, p) {
+  M.eff <- getMeff(data)
+  return(p*M.eff)
+}
+sink(paste(params$WorkingDirectory, "/R_VersionInfo.txt", sep =""))
+sessionInfo()
+sink()

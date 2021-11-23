@@ -97,33 +97,33 @@ for (project in params$GLMProjects) {
 ```
 
 ```{r}
-project <- params$GLMProjects$ClusteredASDvtHCSRS$Title
-analysisNames <- c()
-glmResultFiles <- list()
-glmResultData <- data.frame()
-for (hemi in params$Hemis){
-  for (feature in params$Features){
-    for (contrast in params$GLMProjects$ClusteredASDvtHCSRS$ContrastPerms) {
-      dir <- getResultsDirPath(baseDir = params$GLMFolder, hemisphere = hemi, 
-                               projectname = project, feature =  feature,
-                               kernelsize = params$GLMCacheKernel, contrastsName = contrast )#paste(project, contrast, sep=""))
-      resFiles <- getGLMResultFiles(dir, params$GLMCacheValue, params$GLMDirections$absolute)
-      summary <- processSummaryFile(resFiles$cluster.summary)
-      
-      name <- paste(project, hemi ,feature, sep =".")
-      if (nrow(summary) >= 1){
-        summary$analysis <- name
-        summary$contrast <- contrast
-        summary <- summary[, c(ncol(summary), 2:(ncol(summary)-1))]
-        analysisNames <- append(analysisNames, name)
-        glmResultData <- rbind(glmResultData, summary)
-      }
-      glmResultFiles[[project]][[contrast]][[paste(hemi,feature, sep =".")]]<- list (
-        files = resFiles
-      )
-    }
-  }
-}
+# project <- params$GLMProjects$ClusteredASDvtHCSRS$Title
+# analysisNames <- c()
+# glmResultFiles <- list()
+# glmResultData <- data.frame()
+# for (hemi in params$Hemis){
+#   for (feature in params$Features){
+#     for (contrast in params$GLMProjects$ClusteredASDvtHCSRS$ContrastPerms) {
+#       dir <- getResultsDirPath(baseDir = params$GLMFolder, hemisphere = hemi, 
+#                                projectname = project, feature =  feature,
+#                                kernelsize = params$GLMCacheKernel, contrastsName = contrast )#paste(project, contrast, sep=""))
+#       resFiles <- getGLMResultFiles(dir, params$GLMCacheValue, params$GLMDirections$absolute)
+#       summary <- processSummaryFile(resFiles$cluster.summary)
+#       
+#       name <- paste(project, hemi ,feature, sep =".")
+#       if (nrow(summary) >= 1){
+#         summary$analysis <- name
+#         summary$contrast <- contrast
+#         summary <- summary[, c(ncol(summary), 2:(ncol(summary)-1))]
+#         analysisNames <- append(analysisNames, name)
+#         glmResultData <- rbind(glmResultData, summary)
+#       }
+#       glmResultFiles[[project]][[contrast]][[paste(hemi,feature, sep =".")]]<- list (
+#         files = resFiles
+#       )
+#     }
+#   }
+# }
 
 
 ```
@@ -131,40 +131,54 @@ Significant Clusters
 ```{r}
 glmOverview <- glmResultData[order(glmResultData$VtxMax,decreasing = T),c("analysis","contrast", "Size.mm.2." , "CWP","Annot")]
 glmOverview
-write.csv(glmResultData[glmResultData$contrast != "GroupDifferences",], file="glmResultData.csv", sep=";")
-
+write.table(glmResultData, "clipboard",sep="\t",col.names=NA)
+write.csv(glmResultData[glmResultData$contrast != "GroupDifferences",], file="../misc/glmResultData.csv", sep=";")
+```
 
 ```{r}
 fsaverage = "E:/Linux/Exchange/fsaverage"
 
 subj_dir = "E:/Linux/Exchange/Site-SI_Derivatives_UZH"
 
-displayMGH <- function(fileCollection,feature, type){
+displayMGH <- function(fileCollection,feature, type, analysisName = "_"){
   # browser()
  colFn_diverging  = grDevices::colorRampPalette(RColorBrewer::brewer.pal(11, name="RdBu"));
   lh_clust = read.fs.morph (unlist(fileCollection[[paste("lh.",feature, sep="")]]$files[type]), "mgh")
   rh_clust = read.fs.morph (unlist(fileCollection[[paste("rh.",feature, sep="")]]$files[type]), "mgh")
-  
+  # rgla = list('snapshot_png'=paste(analysisName,feature, "png", sep = "."))
   # rgla = list('trans_fun'=limit_fun(0.0000001,100));
-  vis.data.on.fsaverage(subj_dir, surface = "pial", morph_data_lh = lh_clust, morph_data_rh = rh_clust,bg="aparc", style ="default",  views=c('t4'),draw_colorbar =T, makecmap_options = list('colFn'=colFn_diverging, 'symm'=TRUE))#,rglactions=rgla)
+  cm <- vis.data.on.fsaverage(subj_dir, surface = "pial", morph_data_lh = lh_clust, morph_data_rh = rh_clust,bg="aparc", style ="default",  views=c('t4'),draw_colorbar =T, makecmap_options = list('colFn'=colFn_diverging, 'symm'=TRUE))#,rglactions=rgla)
+  # cm
+  output_brain_img <- paste("../misc/", analysisName,feature, "brain", "png", sep = ".")
+  output_cbar_img <- "fsbrain_cbar.png"
+  output_final_img <- paste("../misc/", analysisName,feature, "png", sep = ".")
+
+  vislayout.from.coloredmeshes(cm, output_img =output_brain_img)
+  coloredmesh.plot.colorbar.separate(cm, image.plot_extra_options = list('horizontal' = TRUE), png_options = list('filename'=output_cbar_img, 'width'=1800))
+  # combine.colorbar.with.brainview.image(output_brain_img, output_cbar_img, paste(analysisName,feature, "png", sep = "."))
 }
 
 ## Differences ASD1 vs ASD2 vs HC
-displayMGH(glmResultFiles$ASDComparison$ASD1vsASD2,"thickness", "cluster")
-displayMGH(glmResultFiles$ASDComparison$ASD1vsASD2,"area", "cluster")
+displayMGH(glmResultFiles$ASDComparison$ASD1vsASD2,"thickness", "cluster", analysisName = "ASDComparison_ASD1vASD2")
+displayMGH(glmResultFiles$ASDComparison$ASD1vsASD2,"area", "cluster", analysisName = "ASDComparison_ASD1vASD2")
 
-displayMGH(glmResultFiles$ASDComparison$ASD1vsHC,"thickness", "cluster")
-displayMGH(glmResultFiles$ASDComparison$ASD1vsHC,"area", "cluster")
+displayMGH(glmResultFiles$ASDComparison$ASD1vsHC,"thickness", "cluster", analysisName = "ASDComparison_ASD1vsHC")
+displayMGH(glmResultFiles$ASDComparison$ASD1vsHC,"area", "cluster", analysisName = "ASDComparison_ASD1vsHC")
 
-displayMGH(glmResultFiles$ASDComparison$ASD2vsHC,"thickness", "cluster")
-displayMGH(glmResultFiles$ASDComparison$ASD2vsHC,"area", "cluster")
+displayMGH(glmResultFiles$ASDComparison$ASD2vsHC,"thickness", "cluster", analysisName = "ASDComparison_ASD2vsHC")
+displayMGH(glmResultFiles$ASDComparison$ASD2vsHC,"area", "cluster", analysisName = "ASDComparison_ASD2vsHC")
 
 ## Differences ASD1 vs ASD2 vs HC while including SNR
-displayMGH(glmResultFiles$ASDComparisonSNR$ASD1vsASD2COV, "thickness", "cluster")
-displayMGH(glmResultFiles$ASDComparisonSNR$ASD1vsASD2COV, "area", "cluster")
+displayMGH(glmResultFiles$ASDComparisonSNR$ASD1vsASD2COV, "thickness", "cluster", analysisName = "ASDComparisonSNR_ASD1vsHC")
+displayMGH(glmResultFiles$ASDComparisonSNR$ASD1vsASD2COV, "area", "cluster", analysisName = "ASDComparisonSNR_ASD1vsHC")
 
+displayMGH(glmResultFiles$ASDComparisonSNR$ASD2vsHCCOV, "thickness", "cluster", analysisName = "ASDComparisonSNR_ASD2vsHCCOV")
+displayMGH(glmResultFiles$ASDComparisonSNR$ASD2vsHCCOV, "area", "cluster", analysisName = "ASDComparisonSNR_ASD2vsHCCOV")
+
+displayMGH(glmResultFiles$ASDComparisonSNR$ASD1vsHCCOV, "thickness", "cluster", analysisName = "ASDComparisonSNR_ASD1vsHCCOV")
+displayMGH(glmResultFiles$ASDComparisonSNR$ASD1vsHCCOV, "area", "cluster", analysisName = "ASDComparisonSNR_ASD1vsHCCOV")
 ## Differences ASD vs HC
-displayMGH(glmResultFiles$DiagComparison$DiagDifferences, "thickness", "cluster")
-displayMGH(glmResultFiles$DiagComparison$DiagDifferences, "area", "cluster")
+displayMGH(glmResultFiles$DiagComparison$DiagDifferences, "thickness", "cluster", analysisName = "DiagComparison_DiagDifferences")
+displayMGH(glmResultFiles$DiagComparison$DiagDifferences, "area", "cluster", analysisName = "DiagComparison_DiagDifferences")
 
 ```

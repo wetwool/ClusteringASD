@@ -82,6 +82,15 @@ zScore_leaveOut_loop <- function(sbj, ftrs, df) {
   }
   return(sbj)
 }
+cor_pairs <- function(data, x,y) {
+  corrRes <- list()
+  for (i in 1:length(x)) {
+    ctest <- cor.test(data[,x[i]], data[,y[i]])
+    sig <- ifelse(ctest$p.value < .001, "***", ifelse(ctest$p.value < .01, "** ", ifelse(ctest$p.value < .05, "*  ", "   ")))
+    corrRes[[strsplit(x[i], "_")[[1]][2]]] <- paste(round(ctest$estimate,2), sig, sep = "")
+  }
+  return(corrRes)
+}
 
 ```
 
@@ -97,13 +106,13 @@ data$Age <- as.numeric(data$Age)
 rhm <- data[which(data$Sex == params$Sex & data$EHQ_Total >= params$EHQCutoff),]
 rhm$site <- factor(rhm$site)
 
-# data_old[,features] <- lapply(data_old[,features], as.numeric)
-# data_old$Age <- as.numeric(data_old$Age)
-# 
-# rhm_old <- data_old[which(data_old$Sex == params$Sex & data_old$EHQ_Total >= params$EHQCutoff),]
-# rhm_old$site <- factor(rhm_old$site)
-# setdiff(rhm$EID, rhm_old$EID)
-# setdiff(rhm_old$EID, rhm$EID)
+l_cor <- cor_pairs(rhm, PR$Area_Left[PR$Area_Left != "" & PR$isParcell == 1],PR$Thickness_Left[PR$Thickness_Left != "" & PR$isParcell == 1])
+r_cor <- cor_pairs(rhm, PR$Area_Right[PR$Area_Right != "" & PR$isParcell == 1],PR$Thickness_Right[PR$Thickness_Right != "" & PR$isParcell == 1])
+
+corrVolThick <- data.frame(left = unlist(l_cor), right = unlist(r_cor))
+
+write.csv(corrVolThick, file="../misc/volThickCor.csv", sep=";")
+write.table(corrVolThick, "clipboard",sep="\t",col.names=NA)
 
 # GLM to extract residuals of [features] ~ Age, Site
 formPredictors <- "~ Age * site"
@@ -146,6 +155,8 @@ nbResultSi$Best.nc[1]
 params$kList$silhouette = nbResultSi$Best.nc[1]
 
 hcRes = hclust(asd_distance, params$ClusterMethod)
+dend <- as.dendrogram(hcRes)
+plot(dend, nodePar = list(lab.cex = 0.6, pch = c(NA, 19), cex = 0.7), eaflab = "none")
 groups = cutree(hcRes, params$k())
 table(groups)
 asdZScored$clust <- groups
