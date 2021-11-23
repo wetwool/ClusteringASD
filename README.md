@@ -8,3 +8,5 @@ R-Scripts for processing and analyzing data
 Bash scripts with the commands to interface with freesurfer, generate data tables, run GLM etc.
 ## Python 
 Helper scripts for data management.
+## FSGroupComparisons 
+Resources to run FreeSurfer Group Comparisons: Differences between ASD (Clusters) and HC  
