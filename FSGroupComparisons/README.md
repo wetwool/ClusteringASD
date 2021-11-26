@@ -11,3 +11,9 @@ Contrasts define the glm model for example, when testing two groups against each
 +1 -1
 ```
 For more information visit the corresponding [Freesurfer Examples](https://surfer.nmr.mgh.harvard.edu/fswiki/FsgdExamples)
+
+# Running GLM Analysis
+1. Check paths in all .sh files
+2. Copy .sh files into the folder that they should run in
+2. To link all subjects into one directory, run ./simLinkSubj.sh 
+3. Run ./__Comparison.sh to start GLM

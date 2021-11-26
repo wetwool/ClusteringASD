@@ -2,8 +2,8 @@
 title: "GLMAnalysis"
 output: html_document
 ---
-Setup:
 
+### Setup:
 ```{r}
 library("fsbrain")
 library("freesurferformats")
@@ -13,6 +13,7 @@ setwd(params$WorkingDirectory)
 
 ```
 
+### Functions to load correct files, based on FreeSurfer GLM output:
 ```{r}
 getResultsDirPath <- function(baseDir, hemisphere, projectname, feature, kernelsize, contrastsName) {
   return(
@@ -63,6 +64,7 @@ processSummaryFile <- function(summary) {
 }
 ```
 
+### Get files for all specified analyses and generate a table with all significant clusters
 ```{r}
 analysisNames <- c()
 glmResultFiles <- list()
@@ -96,38 +98,7 @@ for (project in params$GLMProjects) {
 
 ```
 
-```{r}
-# project <- params$GLMProjects$ClusteredASDvtHCSRS$Title
-# analysisNames <- c()
-# glmResultFiles <- list()
-# glmResultData <- data.frame()
-# for (hemi in params$Hemis){
-#   for (feature in params$Features){
-#     for (contrast in params$GLMProjects$ClusteredASDvtHCSRS$ContrastPerms) {
-#       dir <- getResultsDirPath(baseDir = params$GLMFolder, hemisphere = hemi, 
-#                                projectname = project, feature =  feature,
-#                                kernelsize = params$GLMCacheKernel, contrastsName = contrast )#paste(project, contrast, sep=""))
-#       resFiles <- getGLMResultFiles(dir, params$GLMCacheValue, params$GLMDirections$absolute)
-#       summary <- processSummaryFile(resFiles$cluster.summary)
-#       
-#       name <- paste(project, hemi ,feature, sep =".")
-#       if (nrow(summary) >= 1){
-#         summary$analysis <- name
-#         summary$contrast <- contrast
-#         summary <- summary[, c(ncol(summary), 2:(ncol(summary)-1))]
-#         analysisNames <- append(analysisNames, name)
-#         glmResultData <- rbind(glmResultData, summary)
-#       }
-#       glmResultFiles[[project]][[contrast]][[paste(hemi,feature, sep =".")]]<- list (
-#         files = resFiles
-#       )
-#     }
-#   }
-# }
-
-
-```
-Significant Clusters
+## Output significant Cluster overview and write the whole table to a file
 ```{r}
 glmOverview <- glmResultData[order(glmResultData$VtxMax,decreasing = T),c("analysis","contrast", "Size.mm.2." , "CWP","Annot")]
 glmOverview
@@ -140,22 +111,22 @@ fsaverage = "E:/Linux/Exchange/fsaverage"
 
 subj_dir = "E:/Linux/Exchange/Site-SI_Derivatives_UZH"
 
+## visualize cluster surfaces
 displayMGH <- function(fileCollection,feature, type, analysisName = "_"){
-  # browser()
- colFn_diverging  = grDevices::colorRampPalette(RColorBrewer::brewer.pal(11, name="RdBu"));
+  colFn_diverging  = grDevices::colorRampPalette(RColorBrewer::brewer.pal(11, name="RdBu"));
+ 
   lh_clust = read.fs.morph (unlist(fileCollection[[paste("lh.",feature, sep="")]]$files[type]), "mgh")
   rh_clust = read.fs.morph (unlist(fileCollection[[paste("rh.",feature, sep="")]]$files[type]), "mgh")
-  # rgla = list('snapshot_png'=paste(analysisName,feature, "png", sep = "."))
-  # rgla = list('trans_fun'=limit_fun(0.0000001,100));
-  cm <- vis.data.on.fsaverage(subj_dir, surface = "pial", morph_data_lh = lh_clust, morph_data_rh = rh_clust,bg="aparc", style ="default",  views=c('t4'),draw_colorbar =T, makecmap_options = list('colFn'=colFn_diverging, 'symm'=TRUE))#,rglactions=rgla)
-  # cm
+  
+  ## If an interactive window is needed, set views=c('si') and don't run lines after
+  cm <- vis.data.on.fsaverage(subj_dir, surface = "pial", morph_data_lh = lh_clust, morph_data_rh = rh_clust,bg="aparc", style ="default",  views=c('t4'),draw_colorbar =T, makecmap_options = 
+                                list('colFn'=colFn_diverging, 'symm'=TRUE))
   output_brain_img <- paste("../misc/", analysisName,feature, "brain", "png", sep = ".")
   output_cbar_img <- "fsbrain_cbar.png"
   output_final_img <- paste("../misc/", analysisName,feature, "png", sep = ".")
 
   vislayout.from.coloredmeshes(cm, output_img =output_brain_img)
   coloredmesh.plot.colorbar.separate(cm, image.plot_extra_options = list('horizontal' = TRUE), png_options = list('filename'=output_cbar_img, 'width'=1800))
-  # combine.colorbar.with.brainview.image(output_brain_img, output_cbar_img, paste(analysisName,feature, "png", sep = "."))
 }
 
 ## Differences ASD1 vs ASD2 vs HC

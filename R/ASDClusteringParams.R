@@ -49,13 +49,13 @@ params <- list(
   VID = "lh.aparc.thickness",
   EHQInResidualCalc = F,
 
-  ## Params clustering and analysis
+  ### Params clustering and analysis
   # z-Scoring
   zScoringAgeRange = 1.5,
   zScoringMinGroupSize = 10,
   zScoringBySite = F,
 
-  # Clustering
+  ## Clustering
   UsePreclusteredData = T,
   kList = list(default = 3, silhouette = 2, db = 2),
   kCriterionToUse = list(default = F, silhouette = T, DB = F),
@@ -63,7 +63,7 @@ params <- list(
   Distance = "euclidean",
   ClusterMethod = "ward.D",                                # See hclust docs
 
-  #Post-Hoc test parameters
+  ## Post-Hoc test parameters
   PosthocTestScales = list(# Behavioral Measures
                             CIS_P = "CIS_P_Score",         # The Columbia Impairment Scale (Parental Report)
                             CIS_SR = "CIS_SR_Total",       # The Columbia Impairment Scale (Self Report)
@@ -75,20 +75,15 @@ params <- list(
                             SCARED_SR = "SCARED_SR_Total"  # Screen for Child Anxiety Related Disorders (Self Report)
                             ),
 
-  #GLM parameters
+  ## GLM parameters
   GLMCacheValue = 4, #significance as 10^(-x)
   GLMCacheKernel = 10,
   GLMSigLevel = "0.05",
   GLMDirections = list(absolute = "abs", positive = "pos", negative = "neg"),
   ComparisonSubject = "fsaverage",
   GLMFolder = "E:/Box Sync/Arbeit/UZH/MasterArbeit/ScienceCloud/GLM/",
+  ## Define comparisons here after creating corresponding .mtx files
   GLMProjects = list(
-    # ClusteredASD = list(Title = "ClusterASDComparison", Contrasts = c("-1", "+1")),
-    # ClusteredASDvHC = list(Title = "ClusterASDvHCComparison", Contrasts = c("-1", "+1", "0"), ContrastPerms = c("01-1", "10-1")),
-    # ClusteredASDvtHC = list(Title = "ClusteredASDvtHC", Contrasts = c("noVars","Vars"), ContrastPerms = c("noVars","Vars")),
-    # ClusteredASDvtHCControlled = list(Title = "ClusteredASDvtHCControlled", Contrasts = c("Vars"), ContrastPerms = c("Vars")),
-    # ClusteredASDvtHCSRS = list(Title = "ClusteredASDvtHCtoHCSRS", Contrasts = c("ClusterASDvHCComparisonVars"), ContrastPerms = c("ClusterASDvHCComparisonVars")),
-    # ASDvHC = list(Title = "rawASDvHCComparison", Contrasts = c("-1", "+1"))
     ClusteredASD = list(Title = "ASDComparison", Contrasts = c("ASD1vsASD2.mtx", "ASD1vsHC.mtx", "ASD2vsHC.mtx"), Variables = c()),
     ClusteredASDSNR = list(Title = "ASDComparisonSNR", Contrasts = c("ASD1vsASD2COV.mtx", "ASD1vsHCCOV.mtx", "ASD2vsHCCOV.mtx"), Variables = c("SNR")),
     DiagASD = list(Title = "DiagComparison", Contrasts = c("DiagDifferences.mtx"), Variables = c())
@@ -97,10 +92,11 @@ params <- list(
   MRIFoldersPrefix = "/mnt/methlab-drive/methlab_data/HBN/MRI/Site-",
   MRIFolderSuffix = "_Derivatives_UZH/",
 
-  #bootstrapping values
+  ## Bootstrapping values
   BootCount = 100
 )
 
+## Functions to save and load params if needed
 loadParams <- function(json = "params.json") {
   fileConn <- file(json, "r")
   params <- fromJSON(readLines(fileConn))
@@ -116,6 +112,8 @@ saveParams<- function(params, json = "params.json") {
   close(fileConn)
 }
 
+## function to generate Nyholt Measure of effective comparisons
+# supplied by Sabine Dziemian
 getMeff <- function(D){
   DT <- na.omit(D)
   
@@ -130,10 +128,13 @@ getMeff <- function(D){
   return(M.eff)
 }
 
+## Function to compute Nyholt measure and Bonferroni correct accordingly
 Nyholt.Bonferroni.p <- function(data, p) {
   M.eff <- getMeff(data)
   return(p*M.eff)
 }
+
+## Automatically create list of packages loaded in Workspace for reproducibilty
 sink(paste(params$WorkingDirectory, "/R_VersionInfo.txt", sep =""))
 sessionInfo()
 sink()

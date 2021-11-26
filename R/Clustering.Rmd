@@ -1,5 +1,5 @@
 ---
-title: "DataExploration"
+title: "Clustering"
 output: html_document
 ---
 ### Setup:
@@ -17,8 +17,6 @@ library(factoextra)
 source("ASDClusteringParams.R", local= knitr::knit_global())
 
 setwd(params$WorkingDirectory)
-# load(file = "filteredASD_old.RDA")
-# data_old <- data
 load(file = params$FilteredDataFile)
 PR <- read.csv(params$ParcellationReferenceFile, sep = ";",stringsAsFactors = F)
 ```
@@ -26,7 +24,7 @@ PR <- read.csv(params$ParcellationReferenceFile, sep = ";",stringsAsFactors = F)
 ### Define z-scoring functions. 
 Age range min group size and whether scoring should be restricted by site can be set with global parameters
 ```{r}
-# Base function to generate z-score based on supplyed reference distribution
+# Base function to generate z-score based on supplied reference distribution
 zScore <- function(value, distribution) {
   z <- NA
   if(length(distribution) > params$zScoringMinGroupSize){
@@ -82,6 +80,9 @@ zScore_leaveOut_loop <- function(sbj, ftrs, df) {
   }
   return(sbj)
 }
+
+## correlate x and y at the same index
+## returns correlations, p values and significance stars as a list 
 cor_pairs <- function(data, x,y) {
   corrRes <- list()
   for (i in 1:length(x)) {
@@ -94,8 +95,9 @@ cor_pairs <- function(data, x,y) {
 
 ```
 
-### Subject selection and extraction of residuals
+### Subject selection
 ```{r}
+## select features based on the parcellation reference 
 areas <- append(PR$Area_Left[PR$Area_Left != "" & PR$isParcell == 1], PR$Area_Right[PR$Area_Right != "" & PR$isParcell == 1])
 thicknesses <- append(PR$Thickness_Left[PR$Thickness_Left != "" & PR$isParcell == 1], PR$Thickness_Right[PR$Thickness_Right != "" & PR$isParcell == 1])
 features <- append(areas,thicknesses)
@@ -105,23 +107,31 @@ data$Age <- as.numeric(data$Age)
 
 rhm <- data[which(data$Sex == params$Sex & data$EHQ_Total >= params$EHQCutoff),]
 rhm$site <- factor(rhm$site)
+```
 
+### Use the prepared data to calcualate feature correlations
+```{r}
+## Create a list of correlations between area and thickness
 l_cor <- cor_pairs(rhm, PR$Area_Left[PR$Area_Left != "" & PR$isParcell == 1],PR$Thickness_Left[PR$Thickness_Left != "" & PR$isParcell == 1])
 r_cor <- cor_pairs(rhm, PR$Area_Right[PR$Area_Right != "" & PR$isParcell == 1],PR$Thickness_Right[PR$Thickness_Right != "" & PR$isParcell == 1])
 
 corrVolThick <- data.frame(left = unlist(l_cor), right = unlist(r_cor))
 
 write.csv(corrVolThick, file="../misc/volThickCor.csv", sep=";")
-write.table(corrVolThick, "clipboard",sep="\t",col.names=NA)
+write.table(corrVolThick, "clipboard",sep="\t",col.names=NA) ## this also copies the list into the clipboard (to paste in excel)
+```
 
-# GLM to extract residuals of [features] ~ Age, Site
+### GLM to extract residuals of [features] ~ Age, Site
+```{r}
+## Define the linear model
 formPredictors <- "~ Age * site"
 if (params$EHQInResidualCalc) {
   formPredictors <- "~ Age * site * EHQ_Total"
 }
 
+## Replace values with residuals
 for (feature in features) {
-  form <- formula(paste(feature,formPredictors)) # change to interaction
+  form <- formula(paste(feature,formPredictors))
   model <- glm(form, data=rhm)
   rhm[,feature] <- model$residuals
 }
@@ -132,16 +142,18 @@ for (feature in features) {
 sbj <- rhm[which(rhm$Subject == 1),]
 hC <- rhm[which(rhm$Subject == 0 & rhm$dxCount <= params$MaxDiagnosisCount),]
 
+## z-score the ASD residuals, keep only complete cases 
+## (the z-scoring function sets NA if criteria are not met)
 asdZScored <-zScore_SBJ_loop(sbj, features, hC)
 asdZScored <- asdZScored[complete.cases(asdZScored[,features]),]
+
+## Also z-score the HC residuals, keep only complete cases 
 hcZScored <- zScore_leaveOut_loop(hC,features,hC)
 hcZScored <- hcZScored[complete.cases(hcZScored[,features]),]
-nrow(asdZScored)
-nrow(hcZScored)
 ```
 
 
-### Clustering
+### Clustering ASD
 ```{r}
 featureMatrix <-asdZScored[,features]
 asd_distance = dist(featureMatrix, params$Distance)
@@ -162,6 +174,7 @@ table(groups)
 asdZScored$clust <- groups
 ```
 
+### Clustering Controls
 ```{r}
 hc_featureMatrix <-hcZScored[,features]
 hc_distance = dist(hc_featureMatrix, method=params$Distance)
@@ -180,6 +193,6 @@ hcZScored$clust <- hc_groups
 
 
 ```{r}
-  save(asdZScored, file = params$zScoredASDDataFile2, ascii = T)
-  save(hcZScored, file = params$zScoredHCDataFile2, ascii = T)
+save(asdZScored, file = params$zScoredASDDataFile2, ascii = T)
+save(hcZScored, file = params$zScoredHCDataFile2, ascii = T)
 ```

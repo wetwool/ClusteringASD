@@ -31,44 +31,41 @@ if (params$UsePreclusteredData){
 allZScored = rbind(asdZScored, hcZScored)
 ```
 
-
-Plotting z-Scores by feature and cluster 
+### Defining function to calculate and plot group differences by measure 
 ```{r}
-# descriptives <- list()
-# plotlist <- list()
-# for (f in features) {
-#   g <- ggplot(asdZScored, aes(x = asdZScored[,f], group = clust, color = clust)) +
-#   geom_density( aes(group = clust, color = clust)) +
-#   labs(title=f)
-#   print(g)
-# }
-```
-
-
-Defining function to calculate and plot group differences by measure 
-```{r}
+## Function to do all the group comparisons and plotting
 post_hoc_analysis <- function(data, measure, grouping = "clust", adjustP = T) {
-  density_plot <- ggplot(data, aes(x= data[,measure],  color = as.factor(data[,grouping]), group = data[,grouping])) + geom_density() + theme_apa() + ylab("")+xlab(measure) + theme(text=element_text(family="serif"))
-  box_plot <- ggplot(data, aes(y= as.numeric(data[,measure]),  color = as.factor(data[,grouping]), group = data[,grouping])) + geom_boxplot() +theme_apa() +ylab(measure) + theme(text=element_text(family="serif"))
+  ## Create plots
+  density_plot <- ggplot(data, aes(x= data[,measure],  color = as.factor(data[,grouping]), 
+      group = data[,grouping])) + geom_density() + theme_apa() + ylab("")+xlab(measure) + theme(text=element_text(family="serif"))
+  
+  box_plot <- ggplot(data, aes(y= as.numeric(data[,measure]),  color = as.factor(data[,grouping]), group = data[,grouping])) + 
+      geom_boxplot() +theme_apa() +ylab(measure) + theme(text=element_text(family="serif"))
+  
   plot_list <- list(box_plot, density_plot)
 
+  ## Ignrore incomplete cases
   completeCases <- list(
     Total = length(na.omit(data[,measure])),
     ASD1 = length(na.omit(data[data[grouping] == 1,measure])),
     ASD2 = length(na.omit(data[data[grouping] == 2,measure]))
   )
-
+  
+  ## Calcualte means
   means <- list(
     Total = mean(data[,measure], na.rm = T),
     ASD1 = mean(data[data[grouping] == 1,measure], na.rm = T),
     ASD2 = mean(data[data[grouping] == 2,measure], na.rm = T)
   )
   
+  ## Calcualte SDs
   SDs <- list(
     Total = sd(data[,measure], na.rm = T),
     ASD1 = sd(data[data[grouping] == 1,measure], na.rm = T),
     ASD2 = sd(data[data[grouping] == 2,measure], na.rm = T)
   )
+  
+  ## Calcualte difference statistics
   ttest <- t.test(data[data[grouping] == 1, measure],data[data[grouping] == 2, measure])
   Ftest <- var.test(data[data[grouping] == 1, measure],data[data[grouping] == 2, measure])
   CohensD <- cohen.d(data[data[grouping] == 1, measure],data[data[grouping] == 2, measure], na.rm =T)
@@ -101,7 +98,7 @@ post_hoc_analysis <- function(data, measure, grouping = "clust", adjustP = T) {
 ```
 
 
-Calculate and set the effective number of variables to correct for
+### Calculate and set the effective number of variables to correct for
 ```{r}
 asdScales <- c("ASSQ_Total", "SRS_Total", "SRS_AWR", "SRS_COG", "SRS_COM", "SRS_MOT", "SRS_RRB")
 ageVar <- "Age"
@@ -110,8 +107,8 @@ multipleComparisonScales <- unlist(append(asdScales, append(phts, ageVar)))
 adj.Scalecount <- getMeff(allZScored[, multipleComparisonScales])
 ```
 
-### Measure Correlations
-Import the corStars File to generate lower-half correlation tables with significance stars
+## Measure Correlations
+### Import the corStars File to generate lower-half correlation tables with significance stars
 ```{r}
 ## Correlation Table for ASD subjects
 asdCorr <- corstars(asdZScored[,multipleComparisonScales], result="html", correction = adj.Scalecount)
@@ -133,7 +130,7 @@ close(fileConn)
 ```
 
 
-### Group differences
+## Group differences
 Calculate subtype differences for ASSQ and SRS + subscales
 ```{r}
 ASDMeasures <- data.frame()
@@ -148,7 +145,6 @@ for (asdS in asdScales) {
 
 allMeasures <- append(allMeasures, asdScales)
 
-# ASDMeasures$p <- Nyholt.Bonferroni.p(asdZScored[,asdScales], ASDMeasures$p)
 ASDMeasures
 write.csv(ASDMeasures, file="../misc/ASDMeasures.csv", sep=";")
 if (nrow(ASDMeasures[ASDMeasures$p < 0.001,]) > 0) {ASDMeasures[ASDMeasures$p < 0.001,]$p <- "<0.001" }
@@ -156,7 +152,7 @@ write.table(ASDMeasures, "clipboard",sep="\t",col.names=NA)
 ggarrange(plotlist = plot_list, ncol = 2, nrow = 2, common.legend = T, legend = "bottom")
 ```
 
-Calculate subtype differences for all other behavioral scales
+### Calculate subtype differences for all other behavioral scales
 ```{r}
 behavioralMeasures <- data.frame()
 plot_list <- list()
@@ -175,7 +171,7 @@ ggarrange(plotlist = plot_list, ncol = 2, nrow = 2, common.legend = T, legend = 
 ```
 
 
-Calculate subtype differences for age
+### Calculate subtype differences for age
 ```{r}
 ageData <- data.frame()
 plot_list <- list()
@@ -190,7 +186,8 @@ if (nrow(ageData[ageData$p < 0.001,]) > 0) {ageData[ageData$p < 0.001,]$p <- "<0
 write.table(ageData, "clipboard",sep="\t",col.names=NA)
 ggarrange(plotlist = plot_list, ncol = 2, nrow = 2, common.legend = T, legend = "bottom")
 ```
-Calculate subtype differences for MRI Quality measures
+
+### Calculate subtype differences for MRI Quality measures
 ```{r}
 qualityMeasures <- data.frame()
 qm <- c("SNR", "FWHM", "EFC", "FBER", "Qi1", "CNR")
@@ -224,7 +221,7 @@ pairs(asdZScored[,qm], pch = 19,  cex = 0.5,
       upper.panel = NULL)
 ```
 
-Also calculate all group differences by diagnosis
+### Also calculate all group differences by diagnosis
 ```{r}
 hcvASD <- data.frame()
 plot_list <- list()
@@ -244,7 +241,7 @@ ggarrange(plotlist = plot_list, ncol = 2, nrow = 2, common.legend = T, legend = 
 ```
 
 
-Generate additional line plots comparing SRS-Subscales between ASD and HC as well as between ASD1 and ASD2
+### Generate additional line plots comparing SRS-Subscales between ASD and HC 
 ```{r}
 SRS_Subscales <- c("SRS_AWR", "SRS_COG", "SRS_COM", "SRS_DSMRRB", "SRS_MOT", "SRS_SCI", "SRS_RRB")
 
@@ -272,7 +269,10 @@ ggplot(srsData[order(srsData$Scale),], aes(x=Scale, y=Mean, fill=as.factor(Subje
    geom_errorbar(aes(ymin=Mean-SD, ymax=Mean+SD, color = as.factor(Subject)), width=.1,
                 position=position_dodge(0.1))+theme_apa() + ylim(c(0,75)) + theme(axis.text.x = element_text(angle=90), text=element_text(family="serif")) +# + guides()
   scale_color_manual(values=c("0" = "#67BAE6", "1" = "#7EE696"))
+```
 
+### ...as well as between ASD1 and ASD2
+```{r}
 srsData <- data.frame(
   Mean =  
     apply(asdZScored[asdZScored$clust == 1,SRS_Subscales],MARGIN= 2, FUN= mean, na.rm = T),
@@ -299,10 +299,8 @@ ggplot(srsData[order(srsData$Scale),], aes(x=Scale, y=Mean, fill=as.factor(Clust
                 position=position_dodge(0.1))+  ylim(c(0,75))  +theme_apa()+ theme(axis.text.x = element_text(angle=90), text=element_text(family="serif"))
 ```
 
-Generate Table with comorbidities
+### Generate Table with comorbidities
 ```{r}
-t.test(asdZScored[asdZScored$clust == 1,]$dxCount, asdZScored[asdZScored$clust == 2,]$dxCount)
-
 dx_fields <- c("DX_01", "DX_02", "DX_03", "DX_04", "DX_05", "DX_06", "DX_07", "DX_08", "DX_09", "DX_10")
 comorbidities_ASD1 <- table(unlist(apply(asdZScored[asdZScored$clust == 1,dx_fields], 1, unique)))
 comorbidities_ASD2 <- table(unlist(apply(asdZScored[asdZScored$clust == 2,dx_fields], 1, unique)))
@@ -322,8 +320,8 @@ write.table(comData, "clipboard",sep="\t",col.names=NA)
 write.csv(comData, file = "../misc/asdComorbs.csv")
 ```
 
-### Cluser Quality
-Principal component analysis to show connection between clustering and main factors
+## Cluser Quality
+### Principal component analysis to show connection between clustering and main factors
 ```{r}
 asdZScored.pca <- prcomp(asdZScored[,features])
 asdZScored.pca$sdev
@@ -334,7 +332,8 @@ fviz_pca_ind(asdZScored.pca, fill.ind = factor(asdZScored$clust), pointshape = 2
 fviz_pca_ind(asdZScored.pca, fill.ind = factor(asdZScored$clust), pointshape = 21, pointsize = 2, addEllipses = T, label = "var", axes = c(1,3))+theme_apa()+ theme( text=element_text(family="serif"))
 fviz_pca_ind(asdZScored.pca, fill.ind = factor(asdZScored$clust), pointshape = 21, pointsize = 2, addEllipses = T, label = "var", axes = c(1,4))+theme_apa()+ theme( text=element_text(family="serif"))
 ```
-Differences in counts by site and cluster
+
+### Differences in counts by site and cluster
 ```{r}
 clustXSite <- chisq.test(asdZScored$clust, asdZScored$site)
 clustXProtocol <- chisq.test(asdZScored$clust, asdZScored$Protocol)
@@ -359,8 +358,7 @@ cor.test(asdZScored$clust, asdZScored$Age)
 pairwise.t.test(asdZScored$Age, asdZScored$clust, p.adjust.method = "bonferroni")
 ```
 
-
-Calculate Jaccard means for different sample combinations
+### Calculate Jaccard means for different sample combinations
 ```{r}
 bootstrapJaccardMeans <- function(sampleDescriptor, featureMatrix, boots){
   distanceMatrix <- dist(featureMatrix, method = params$Distance)
@@ -392,7 +390,6 @@ write.table(JaccardData, "clipboard",sep="\t",col.names=NA)
 ```
 
 ### FreeSurfer GLM
-Principal component analysis to show connection between clustering and main factors
 ```{r}
 source("freesurfer_helper.R")
 
@@ -445,7 +442,7 @@ generateSimLinkCMD(asdZScored, hcNoMissings[hcNoMissings$Subject == 0,], params$
 
 ```
 
-Some MRI-QM exploration
+### Some MRI-QM exploration
 ```{r}
 ## Heatmap of Quality measures and export of correlation table
 pheatmap(cor(allZScored[,qm], use="pairwise.complete.obs"), cluster_rows = F, cluster_cols = F, display_numbers = T, fontsize = 15)
@@ -476,13 +473,13 @@ t.test(allZScored[allZScored$Subject == 1, "qmComp2"], allZScored[allZScored$Sub
 cor.test(allZScored$qmComp2, allZScored$SRS_Total)
 ```
 
-Post-Hoc correlation tests of hyperactivity and Signal-To-Noise Ratio
+### Post-Hoc correlation tests of hyperactivity and Signal-To-Noise Ratio
 ```{r}
 cor.test(allZScored$SWAN_HY, allZScored$SNR)
 cor.test(allZScored$C3SR_HY, allZScored$SNR)
 ```
 
-Generate overview Tables with Age ASSQ and SRS
+### Generate overview Tables with Age ASSQ and SRS
 ```{r}
 demVars <- c("Age", "ASSQ_Total", "SRS_Total")#, "SRS_AWR", "SRS_COG", "SRS_COM", "SRS_DSMRRB", "SRS_MOT", "SRS_SCI", "SRS_RRB")
 asd <- asdZScored

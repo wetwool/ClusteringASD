@@ -15,19 +15,14 @@ library(knitr)
 source("ASDClusteringParams.R", local= knitr::knit_global())
 setwd(params$WorkingDirectory)
 
-#Variables
-##Behavioral
+### Variables
+## Behavioral
 defaultAllDataCSVPath <- params$AllDataCSV
 
-##MRI
-#MRIDir <- "T:/HBN/MRI/"
+## MRI
 MRIDir <- params$StatsTablesFolder
-#mriDirPrefix = "Site-"
 mriDirPrefix = ""
-#mriDirSuffix = "_Derivatives_UZH"
 mriDirSuffix = "/"
-
-
 ```
 
 ### Import Behavioral Data:
@@ -40,7 +35,8 @@ allData <- read.csv(allDataCSV)
 ### Import MRI Data
 MRI Run ID disasassembler function:
 ```{r}
-#Example input: sub-NDARYZ637LK4_acq-HCP_run-01_T1w
+## Example input: sub-NDARYZ637LK4_acq-HCP_run-01_T1w
+## extracts the HBN subject ID, the scan protocol and the run number
 dissassembleRunID <- function(RunID) {
   splt1 <- strsplit(RunID, "_")
   EID <- strsplit(splt1[[1]][1],"-")[[1]][2]
@@ -61,6 +57,7 @@ Actual Import:
 ```{r warning=FALSE}
 mriData = data.frame()
 
+## Import Statsfiles 
 for (site in params$Sites) {
   lhThickness <- read.csv(paste(MRIDir,mriDirPrefix, site, mriDirSuffix,
                                 "aparc_stats_", site, "_thickness_LH.txt",sep=""),sep = "\t", header = TRUE)
@@ -80,11 +77,11 @@ for (site in params$Sites) {
   siteData["site"] <- site
   mriData <- rbind(mriData, siteData)
 }
+
+## Clean up resulting variables
 mriData <- mriData %>% 
   rename_at(vars(ends_with(".x")), ~str_replace(., "\\..$","")) %>% 
   select_at(vars(-ends_with(".y")))
-
-# mriData <- mriData %>% filter(!(lh.aparc.thickness == "sub-NDARAA948VFH")) #throwing out that one case
 
 mriMetaData <- apply(mriData["lh.aparc.thickness"], 1, FUN ="dissassembleRunID")
 mriMetaData <- t(mriMetaData)
@@ -97,31 +94,35 @@ mriData["Protocol"] <- mriMetaData["Protocol"]
 ### Filtering of MRI Data
 ```{r}
 nTotalMRI <- nrow(mriData)
-mri <- mriData %>% filter(Run == 1)
+## only include first runs
+mri <- mriData %>% filter(Run == 1) 
 
+## this assembles an table that shows counts at different filtering steps
 nRun1 <- nrow(mri)
-
 nHCP <- nrow(filter(mri, Protocol == params$Protocols$HCP))
 nVNav <- nrow(filter(mri, Protocol == params$Protocols$VNav))
 nVNavN <- nrow(filter(mri, Protocol == params$Protocols$VNavN))
 nNA <- nrow(filter(mri, Protocol == params$Protocols$Other))
 
+## Import lists of finished/complete subject states
 finishedStates <- read.csv(params$FinishiedStatesFile, col.names = c("Path", "Sub", "State"))
 filesComplete <- read.csv(params$CompleteSubjectsFile, col.names = c("Path", "Sub", "State"))
+## Exclude subjects with failed imports
 incompleteSubjects <- finishedStates[finishedStates$State == 0,]$Sub
 incompleteSubjects <- append(incompleteSubjects, filesComplete[filesComplete$State == 0,]$Sub)
 mri <- mri %>% filter(!lh.aparc.thickness %in% incompleteSubjects)
 
+## Filter by scan protocol
 mri1stChoice <- mri[mri$Protocol == params$Protocols$VNav,]
 mri2ndChoice <- mri[mri$Protocol == params$Protocols$VNavN,]
 mri3rdChoice <- mri[mri$Protocol == params$Protocols$HCP,]
 mri4thChoice <- mri[mri$Protocol == params$Protocols$Other,]
 
 nMultipleScans <- nrow(mri[duplicated(mri$EID),])
-# mri <- mri[order(mri$Protocol),]
 mri <- rbind(mri1stChoice, rbind(mri2ndChoice, rbind(mri3rdChoice, mri4thChoice)))
 mri$Protocol
 
+## The data is ordered by preference, removing duplicates therefore removes reoccurring IDs with less preferred protocols
 mri <- mri %>% filter(!duplicated(EID))
 
 filterCountsMRI <- data.frame(Filter = c("Total T1w", "T1w Run One", "T1w Run, HCP", "T1w Run, VNav",  "T1w Run, VNavNorm", "T1w Run, Not Specified", "Subjects with multiple scans"), countMRI = c(nTotalMRI, nRun1, nHCP, nVNav,nVNavN, nNA, nMultipleScans))
@@ -129,6 +130,7 @@ filterCountsMRI <- data.frame(Filter = c("Total T1w", "T1w Run One", "T1w Run, H
 
 ### Filtering of Behavioral Data
 ```{r}
+## Filter data to just include autism-diagnosed
 nTotalBehavioral <- nrow(allData)
 bdAutism <- allData %>% filter(DX_01 == "Autism Spectrum Disorder" | 
                                    DX_02 == "Autism Spectrum Disorder"| 
@@ -142,9 +144,11 @@ bdAutism <- allData %>% filter(DX_01 == "Autism Spectrum Disorder" |
                                    DX_10 == "Autism Spectrum Disorder")
 nAutismDiagnosed <- nrow(bdAutism)
 
+## Filter data based on selected sex (males)
 bdAutism <- bdAutism %>% filter(Sex == params$Sex)
 nMaleASD <- nrow(bdAutism)
 
+## Filter data based on selected handedness cutoff (>= 50)
 bdAutism <- bdAutism %>% filter(EHQ_Total >= params$EHQCutoff)
 nRhMaleASD <- nrow(bdAutism)
 filterCountsBD <- data.frame(Filter = c("Total Behavioral", "Diagnosed with ASD", "Males with ASD", "Right-handed males with ASD"), countBD = c(nTotalBehavioral, nAutismDiagnosed, nMaleASD, nRhMaleASD))
@@ -152,6 +156,7 @@ filterCountsBD <- data.frame(Filter = c("Total Behavioral", "Diagnosed with ASD"
 
 ### calculate number of diagnosis
 ```{r}
+## loop through all diagnsosis variables and count those that have a specified entry
 dx <- c("DX_01", "DX_02", "DX_03", "DX_04", "DX_05", "DX_06", "DX_07", "DX_08", "DX_09", "DX_10")
 allData$dxCount <- 0
 for (i in 1:nrow(allData)){
@@ -166,6 +171,7 @@ for (i in 1:nrow(allData)){
 
 ### Import Quatity Data
 ```{r}
+## Import HBN quality data files
 qualityDataFiles = c(
   "E:/Box Sync/Arbeit/UZH/MasterArbeit/HBN/QAP/release1_QAP/MRI_qap_anat_RU.csv",
   "E:/Box Sync/Arbeit/UZH/MasterArbeit/HBN/QAP/release1_QAP/MRI_qap_anat_SI.csv",
@@ -181,6 +187,7 @@ qualityDataFiles = c(
   "E:/Box Sync/Arbeit/UZH/MasterArbeit/HBN/QAP/release7_QAP/MRI_qap_anat_CBIC.csv",
   "E:/Box Sync/Arbeit/UZH/MasterArbeit/HBN/QAP/release7_QAP/MRI_qap_anat_RU.csv"
   )
+
 qualityData <- data.frame()
 for (qualityDataFile in qualityDataFiles) {
   qd <- read.csv(qualityDataFile)
@@ -188,19 +195,24 @@ for (qualityDataFile in qualityDataFiles) {
   qd$external_ID
   qualityData <- rbind(qualityData, qd)
 }
+## Merge Quality data into the working data set
 qualityData$EID <- qualityData$external_ID
 qualityData <- subset(qualityData, select = -c(external_ID, Series))
 qualityData <- na.omit(qualityData)
 qualityData <- qualityData[!duplicated(qualityData[, "EID"]),]
 mri <- mri %>% left_join(qualityData, by = "EID")
 ```
+
+
 ### Joining Behavioral and MRI
 ```{r}
+## First join ASD subjects
 subjects <- mri %>% inner_join(bdAutism, by = "EID")
 nBDandMRI <- nrow(subjects)
 subjects <- subjects %>% filter(ASSQ_Total >= 0 | SRS_Total >= 0)
 nOneASDScale <- nrow(subjects)
 
+## Then all other
 data <- mri %>% inner_join(allData, by = "EID")
 data["Subject"] <- 0
 data[data[,"EID"] %in% subjects[,"EID"],]["Subject"] <- 1
