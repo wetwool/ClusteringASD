@@ -219,7 +219,7 @@ pre code {
 <h3>Setup:</h3>
 <!-- rnb-text-end -->
 <!-- rnb-chunk-begin -->
-<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxubGlicmFyeShnZ3Bsb3QyKVxubGlicmFyeShwbmcpXG5saWJyYXJ5KHBoZWF0bWFwKVxubGlicmFyeShOYkNsdXN0KVxubGlicmFyeShjbHVzdGVyKVxubGlicmFyeShwbHlyKVxubGlicmFyeShkcGx5cilcblxuYGBgIn0= -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxubGlicmFyeShnZ3Bsb3QyKVxubGlicmFyeShwbmcpXG5saWJyYXJ5KHBoZWF0bWFwKVxubGlicmFyeShOYkNsdXN0KVxubGlicmFyeShjbHVzdGVyKVxubGlicmFyeShwbHlyKVxubGlicmFyeShkcGx5cilcbmxpYnJhcnkocGxvdGx5KVxubGlicmFyeShnZ3B1YnIpXG5saWJyYXJ5KGZhY3RvZXh0cmEpXG5saWJyYXJ5KGp0b29scylcbmxpYnJhcnkoZWZmc2l6ZSlcbmxpYnJhcnkoZnBjKVxuc291cmNlKFwiQVNEQ2x1c3RlcmluZ1BhcmFtcy5SXCIsIGxvY2FsPSBrbml0cjo6a25pdF9nbG9iYWwoKSlcbnNvdXJjZShcImNvclN0YXJzLlJcIiwgbG9jYWw9IGtuaXRyOjprbml0X2dsb2JhbCgpKVxuXG5zZXR3ZChwYXJhbXMkV29ya2luZ0RpcmVjdG9yeSlcbmlmIChwYXJhbXMkVXNlUHJlY2x1c3RlcmVkRGF0YSl7XG4gIGxvYWQoZmlsZSA9IHBhcmFtcyR6U2NvcmVkQVNERGF0YUZpbGUyKVxuICBsb2FkKGZpbGUgPSBwYXJhbXMkelNjb3JlZEhDRGF0YUZpbGUyKVxufSBlbHNlIHtcbiAgcHJpbnQoXCJSdW4gQ2x1c3RlcmluZyBzZXBhcmF0ZWx5IChDbHVzdGVyaW5nLlJNRCB0byBjb250aW51ZXlcIilcbn1cbmFsbFpTY29yZWQgPSByYmluZChhc2RaU2NvcmVkLCBoY1pTY29yZWQpXG5gYGAifQ== -->
 <pre class="r"><code>library(ggplot2)
 library(png)
 library(pheatmap)
@@ -227,77 +227,10 @@ library(NbClust)
 library(cluster)
 library(plyr)
 library(dplyr)
-</code></pre>
-<!-- rnb-source-end -->
-<!-- rnb-output-begin eyJkYXRhIjoiXG5BdHRhY2hlIFBha2V0OiDjpLzjuLFkcGx5cuOkvOO4slxuXG5UaGUgZm9sbG93aW5nIG9iamVjdHMgYXJlIG1hc2tlZCBmcm9tIOOkvOO4sXBhY2thZ2U6cGx5cuOkvOO4sjpcblxuICAgIGFycmFuZ2UsIGNvdW50LCBkZXNjLCBmYWlsd2l0aCwgaWQsIG11dGF0ZSwgcmVuYW1lLCBzdW1tYXJpc2UsIHN1bW1hcml6ZVxuXG5UaGUgZm9sbG93aW5nIG9iamVjdHMgYXJlIG1hc2tlZCBmcm9tIOOkvOO4sXBhY2thZ2U6c3RhdHPjpLzjuLI6XG5cbiAgICBmaWx0ZXIsIGxhZ1xuXG5UaGUgZm9sbG93aW5nIG9iamVjdHMgYXJlIG1hc2tlZCBmcm9tIOOkvOO4sXBhY2thZ2U6YmFzZeOkvOO4sjpcblxuICAgIGludGVyc2VjdCwgc2V0ZGlmZiwgc2V0ZXF1YWwsIHVuaW9uXG4ifQ== -->
-<pre><code>
-Attache Paket: 㤼㸱dplyr㤼㸲
-
-The following objects are masked from 㤼㸱package:plyr㤼㸲:
-
-    arrange, count, desc, failwith, id, mutate, rename, summarise, summarize
-
-The following objects are masked from 㤼㸱package:stats㤼㸲:
-
-    filter, lag
-
-The following objects are masked from 㤼㸱package:base㤼㸲:
-
-    intersect, setdiff, setequal, union</code></pre>
-<!-- rnb-output-end -->
-<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxubGlicmFyeShwbG90bHkpXG5gYGAifQ== -->
-<pre class="r"><code>library(plotly)</code></pre>
-<!-- rnb-source-end -->
-<!-- rnb-output-begin eyJkYXRhIjoiUmVnaXN0ZXJlZCBTMyBtZXRob2Qgb3ZlcndyaXR0ZW4gYnkgJ2RhdGEudGFibGUnOlxuICBtZXRob2QgICAgICAgICAgIGZyb21cbiAgcHJpbnQuZGF0YS50YWJsZSAgICAgXG5SZWdpc3RlcmVkIFMzIG1ldGhvZHMgb3ZlcndyaXR0ZW4gYnkgJ2h0bWx0b29scyc6XG4gIG1ldGhvZCAgICAgICAgICAgICAgIGZyb20gICAgICAgICBcbiAgcHJpbnQuaHRtbCAgICAgICAgICAgdG9vbHM6cnN0dWRpb1xuICBwcmludC5zaGlueS50YWcgICAgICB0b29sczpyc3R1ZGlvXG4gIHByaW50LnNoaW55LnRhZy5saXN0IHRvb2xzOnJzdHVkaW9cblJlZ2lzdGVyZWQgUzMgbWV0aG9kIG92ZXJ3cml0dGVuIGJ5ICdodG1sd2lkZ2V0cyc6XG4gIG1ldGhvZCAgICAgICAgICAgZnJvbSAgICAgICAgIFxuICBwcmludC5odG1sd2lkZ2V0IHRvb2xzOnJzdHVkaW9cblxuQXR0YWNoZSBQYWtldDog46S847ixcGxvdGx546S847iyXG5cblRoZSBmb2xsb3dpbmcgb2JqZWN0cyBhcmUgbWFza2VkIGZyb20g46S847ixcGFja2FnZTpwbHly46S847iyOlxuXG4gICAgYXJyYW5nZSwgbXV0YXRlLCByZW5hbWUsIHN1bW1hcmlzZVxuXG5UaGUgZm9sbG93aW5nIG9iamVjdCBpcyBtYXNrZWQgZnJvbSDjpLzjuLFwYWNrYWdlOmdncGxvdDLjpLzjuLI6XG5cbiAgICBsYXN0X3Bsb3RcblxuVGhlIGZvbGxvd2luZyBvYmplY3QgaXMgbWFza2VkIGZyb20g46S847ixcGFja2FnZTpzdGF0c+OkvOO4sjpcblxuICAgIGZpbHRlclxuXG5UaGUgZm9sbG93aW5nIG9iamVjdCBpcyBtYXNrZWQgZnJvbSDjpLzjuLFwYWNrYWdlOmdyYXBoaWNz46S847iyOlxuXG4gICAgbGF5b3V0XG4ifQ== -->
-<pre><code>Registered S3 method overwritten by &#39;data.table&#39;:
-  method           from
-  print.data.table     
-Registered S3 methods overwritten by &#39;htmltools&#39;:
-  method               from         
-  print.html           tools:rstudio
-  print.shiny.tag      tools:rstudio
-  print.shiny.tag.list tools:rstudio
-Registered S3 method overwritten by &#39;htmlwidgets&#39;:
-  method           from         
-  print.htmlwidget tools:rstudio
-
-Attache Paket: 㤼㸱plotly㤼㸲
-
-The following objects are masked from 㤼㸱package:plyr㤼㸲:
-
-    arrange, mutate, rename, summarise
-
-The following object is masked from 㤼㸱package:ggplot2㤼㸲:
-
-    last_plot
-
-The following object is masked from 㤼㸱package:stats㤼㸲:
-
-    filter
-
-The following object is masked from 㤼㸱package:graphics㤼㸲:
-
-    layout</code></pre>
-<!-- rnb-output-end -->
-<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxubGlicmFyeShnZ3B1YnIpXG5gYGAifQ== -->
-<pre class="r"><code>library(ggpubr)</code></pre>
-<!-- rnb-source-end -->
-<!-- rnb-output-begin eyJkYXRhIjoiXG5BdHRhY2hlIFBha2V0OiDjpLzjuLFnZ3B1YnLjpLzjuLJcblxuVGhlIGZvbGxvd2luZyBvYmplY3QgaXMgbWFza2VkIGZyb20g46S847ixcGFja2FnZTpwbHly46S847iyOlxuXG4gICAgbXV0YXRlXG4ifQ== -->
-<pre><code>
-Attache Paket: 㤼㸱ggpubr㤼㸲
-
-The following object is masked from 㤼㸱package:plyr㤼㸲:
-
-    mutate</code></pre>
-<!-- rnb-output-end -->
-<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxubGlicmFyeShmYWN0b2V4dHJhKVxuYGBgIn0= -->
-<pre class="r"><code>library(factoextra)</code></pre>
-<!-- rnb-source-end -->
-<!-- rnb-output-begin eyJkYXRhIjoiV2VsY29tZSEgV2FudCB0byBsZWFybiBtb3JlPyBTZWUgdHdvIGZhY3RvZXh0cmEtcmVsYXRlZCBib29rcyBhdCBodHRwczovL2dvby5nbC92ZTNXQmFcbiJ9 -->
-<pre><code>Welcome! Want to learn more? See two factoextra-related books at https://goo.gl/ve3WBa</code></pre>
-<!-- rnb-output-end -->
-<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxubGlicmFyeShqdG9vbHMpXG5saWJyYXJ5KGVmZnNpemUpXG5saWJyYXJ5KGZwYylcbnNvdXJjZShcIkFTRENsdXN0ZXJpbmdQYXJhbXMuUlwiLCBsb2NhbD0ga25pdHI6OmtuaXRfZ2xvYmFsKCkpXG5zb3VyY2UoXCJjb3JTdGFycy5SXCIsIGxvY2FsPSBrbml0cjo6a25pdF9nbG9iYWwoKSlcblxuc2V0d2QocGFyYW1zJFdvcmtpbmdEaXJlY3RvcnkpXG5pZiAocGFyYW1zJFVzZVByZWNsdXN0ZXJlZERhdGEpe1xuICBsb2FkKGZpbGUgPSBwYXJhbXMkelNjb3JlZEFTRERhdGFGaWxlMilcbiAgbG9hZChmaWxlID0gcGFyYW1zJHpTY29yZWRIQ0RhdGFGaWxlMilcbn0gZWxzZSB7XG4gIHByaW50KFwiUnVuIENsdXN0ZXJpbmcgc2VwYXJhdGVseSAoQ2x1c3RlcmluZy5STUQgdG8gY29udGludWV5XCIpXG59XG5hbGxaU2NvcmVkID0gcmJpbmQoYXNkWlNjb3JlZCwgaGNaU2NvcmVkKVxuYGBgIn0= -->
-<pre class="r"><code>library(jtools)
+library(plotly)
+library(ggpubr)
+library(factoextra)
+library(jtools)
 library(effsize)
 library(fpc)
 source(&quot;ASDClusteringParams.R&quot;, local= knitr::knit_global())
@@ -386,17 +319,13 @@ allZScored = rbind(asdZScored, hcZScored)</code></pre>
 <h3>Calculate and set the effective number of variables to correct for</h3>
 <!-- rnb-text-end -->
 <!-- rnb-chunk-begin -->
-<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuYXNkU2NhbGVzIDwtIGMoXCJBU1NRX1RvdGFsXCIsIFwiU1JTX1RvdGFsXCIsIFwiU1JTX0FXUlwiLCBcIlNSU19DT0dcIiwgXCJTUlNfQ09NXCIsIFwiU1JTX01PVFwiLCBcIlNSU19SUkJcIilcbmFnZVZhciA8LSBcIkFnZVwiXG5waHRzIDwtIHBhcmFtcyRQb3N0aG9jVGVzdFNjYWxlc1xubXVsdGlwbGVDb21wYXJpc29uU2NhbGVzIDwtIHVubGlzdChhcHBlbmQoYXNkU2NhbGVzLCBhcHBlbmQocGh0cywgYWdlVmFyKSkpXG5hZGouU2NhbGVjb3VudCA8LSBnZXRNZWZmKGFsbFpTY29yZWRbLCBtdWx0aXBsZUNvbXBhcmlzb25TY2FsZXNdKVxuYWRqLlNjYWxlY291bnRcbmBgYCJ9 -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuYXNkU2NhbGVzIDwtIGMoXCJBU1NRX1RvdGFsXCIsIFwiU1JTX1RvdGFsXCIsIFwiU1JTX0FXUlwiLCBcIlNSU19DT0dcIiwgXCJTUlNfQ09NXCIsIFwiU1JTX01PVFwiLCBcIlNSU19SUkJcIilcbmFnZVZhciA8LSBcIkFnZVwiXG5waHRzIDwtIHBhcmFtcyRQb3N0aG9jVGVzdFNjYWxlc1xubXVsdGlwbGVDb21wYXJpc29uU2NhbGVzIDwtIHVubGlzdChhcHBlbmQoYXNkU2NhbGVzLCBhcHBlbmQocGh0cywgYWdlVmFyKSkpXG5hZGouU2NhbGVjb3VudCA8LSBnZXRNZWZmKGFsbFpTY29yZWRbLCBtdWx0aXBsZUNvbXBhcmlzb25TY2FsZXNdKVxuYGBgIn0= -->
 <pre class="r"><code>asdScales &lt;- c(&quot;ASSQ_Total&quot;, &quot;SRS_Total&quot;, &quot;SRS_AWR&quot;, &quot;SRS_COG&quot;, &quot;SRS_COM&quot;, &quot;SRS_MOT&quot;, &quot;SRS_RRB&quot;)
 ageVar &lt;- &quot;Age&quot;
 phts &lt;- params$PosthocTestScales
 multipleComparisonScales &lt;- unlist(append(asdScales, append(phts, ageVar)))
-adj.Scalecount &lt;- getMeff(allZScored[, multipleComparisonScales])
-adj.Scalecount</code></pre>
+adj.Scalecount &lt;- getMeff(allZScored[, multipleComparisonScales])</code></pre>
 <!-- rnb-source-end -->
-<!-- rnb-output-begin eyJkYXRhIjoiWzFdIDEyLjMwODExXG4ifQ== -->
-<pre><code>[1] 12.30811</code></pre>
-<!-- rnb-output-end -->
 <!-- rnb-chunk-end -->
 <!-- rnb-text-begin -->
 </div>
@@ -434,20 +363,25 @@ close(fileConn)</code></pre>
 <p>Calculate subtype differences for ASSQ and SRS + subscales</p>
 <!-- rnb-text-end -->
 <!-- rnb-chunk-begin -->
-<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuQVNETWVhc3VyZXMgPC0gZGF0YS5mcmFtZSgpXG5cbnBsb3RfbGlzdCA8LSBsaXN0KClcbmZvciAoYXNkUyBpbiBhc2RTY2FsZXMpIHtcbiAgYW5hbHlzaXMgPC0gcG9zdF9ob2NfYW5hbHlzaXMoYXNkWlNjb3JlZCxhc2RTKVxuICBBU0RNZWFzdXJlcyA8LSByYmluZChBU0RNZWFzdXJlcywgYW5hbHlzaXMkc3RhdGlzdGljcylcbiAgcGxvdF9saXN0IDwtIGFwcGVuZChwbG90X2xpc3QsIGFuYWx5c2lzJHBsb3RzKVxufVxuYGBgIn0= -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuQVNETWVhc3VyZXMgPC0gZGF0YS5mcmFtZSgpXG5hbGxNZWFzdXJlcyA8LSBjKClcbnBsb3RfbGlzdCA8LSBsaXN0KClcbmZvciAoYXNkUyBpbiBhc2RTY2FsZXMpIHtcbiAgYW5hbHlzaXMgPC0gcG9zdF9ob2NfYW5hbHlzaXMoYXNkWlNjb3JlZCxhc2RTKVxuICBBU0RNZWFzdXJlcyA8LSByYmluZChBU0RNZWFzdXJlcywgYW5hbHlzaXMkc3RhdGlzdGljcylcbiAgcGxvdF9saXN0IDwtIGFwcGVuZChwbG90X2xpc3QsIGFuYWx5c2lzJHBsb3RzKVxufVxuXG5cbmFsbE1lYXN1cmVzIDwtIGFwcGVuZChhbGxNZWFzdXJlcywgYXNkU2NhbGVzKVxuXG5BU0RNZWFzdXJlc1xud3JpdGUuY3N2KEFTRE1lYXN1cmVzLCBmaWxlPVwiLi4vbWlzYy9BU0RNZWFzdXJlcy5jc3ZcIiwgc2VwPVwiO1wiKVxuaWYgKG5yb3coQVNETWVhc3VyZXNbQVNETWVhc3VyZXMkcCA8IDAuMDAxLF0pID4gMCkge0FTRE1lYXN1cmVzW0FTRE1lYXN1cmVzJHAgPCAwLjAwMSxdJHAgPC0gXCI8MC4wMDFcIiB9XG53cml0ZS50YWJsZShBU0RNZWFzdXJlcywgXCJjbGlwYm9hcmRcIixzZXA9XCJcXHRcIixjb2wubmFtZXM9TkEpXG5nZ2FycmFuZ2UocGxvdGxpc3QgPSBwbG90X2xpc3QsIG5jb2wgPSAyLCBucm93ID0gMiwgY29tbW9uLmxlZ2VuZCA9IFQsIGxlZ2VuZCA9IFwiYm90dG9tXCIpXG5gYGAifQ== -->
 <pre class="r"><code>ASDMeasures &lt;- data.frame()
-
+allMeasures &lt;- c()
 plot_list &lt;- list()
 for (asdS in asdScales) {
   analysis &lt;- post_hoc_analysis(asdZScored,asdS)
   ASDMeasures &lt;- rbind(ASDMeasures, analysis$statistics)
   plot_list &lt;- append(plot_list, analysis$plots)
-}</code></pre>
+}
+
+
+allMeasures &lt;- append(allMeasures, asdScales)
+
+ASDMeasures
+write.csv(ASDMeasures, file=&quot;../misc/ASDMeasures.csv&quot;, sep=&quot;;&quot;)
+if (nrow(ASDMeasures[ASDMeasures$p &lt; 0.001,]) &gt; 0) {ASDMeasures[ASDMeasures$p &lt; 0.001,]$p &lt;- &quot;&lt;0.001&quot; }
+write.table(ASDMeasures, &quot;clipboard&quot;,sep=&quot;\t&quot;,col.names=NA)
+ggarrange(plotlist = plot_list, ncol = 2, nrow = 2, common.legend = T, legend = &quot;bottom&quot;)</code></pre>
 <!-- rnb-source-end -->
-<!-- rnb-output-begin eyJkYXRhIjoiRmVobGVyIGluIHJiaW5kKGRlcGFyc2UubGV2ZWwsIC4uLikgOiBcbiAgdW5nw7xsdGlnZXMgbGlzdCBBcmd1bWVudDogYWxsZSBWYXJpYWJsZW4gc29sbHRlbiBkaWVzZWxiZSBMw6RuZ2UgaGFiZW5cbiJ9 -->
-<pre><code>Fehler in rbind(deparse.level, ...) : 
-  ungültiges list Argument: alle Variablen sollten dieselbe Länge haben</code></pre>
-<!-- rnb-output-end -->
 <!-- rnb-chunk-end -->
 <!-- rnb-text-begin -->
 <div id="calculate-subtype-differences-for-all-other-behavioral-scales" class="section level3">
@@ -629,23 +563,25 @@ ggplot(srsData[order(srsData$Scale),], aes(x=Scale, y=Mean, fill=as.factor(Clust
 <h3>Generate Table with comorbidities</h3>
 <!-- rnb-text-end -->
 <!-- rnb-chunk-begin -->
-<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxudC50ZXN0KGFzZFpTY29yZWRbYXNkWlNjb3JlZCRjbHVzdCA9PSAxLF0kZHhDb3VudCwgYXNkWlNjb3JlZFthc2RaU2NvcmVkJGNsdXN0ID09IDIsXSRkeENvdW50KVxuXG5gYGAifQ== -->
-<pre class="r"><code>t.test(asdZScored[asdZScored$clust == 1,]$dxCount, asdZScored[asdZScored$clust == 2,]$dxCount)
-</code></pre>
-<!-- rnb-source-end -->
-<!-- rnb-output-begin eyJkYXRhIjoiXG5cdFdlbGNoIFR3byBTYW1wbGUgdC10ZXN0XG5cbmRhdGE6ICBhc2RaU2NvcmVkW2FzZFpTY29yZWQkY2x1c3QgPT0gMSwgXSRkeENvdW50IGFuZCBhc2RaU2NvcmVkW2FzZFpTY29yZWQkY2x1c3QgPT0gMiwgXSRkeENvdW50XG50ID0gMC4zNTU1NywgZGYgPSA0MS45NTIsIHAtdmFsdWUgPSAwLjcyMzlcbmFsdGVybmF0aXZlIGh5cG90aGVzaXM6IHRydWUgZGlmZmVyZW5jZSBpbiBtZWFucyBpcyBub3QgZXF1YWwgdG8gMFxuOTUgcGVyY2VudCBjb25maWRlbmNlIGludGVydmFsOlxuIC0wLjYwOTk0NDIgIDAuODcwODM4NFxuc2FtcGxlIGVzdGltYXRlczpcbm1lYW4gb2YgeCBtZWFuIG9mIHkgXG4gMy41MTc1NDQgIDMuMzg3MDk3IFxuIn0= -->
-<pre><code>
-    Welch Two Sample t-test
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuZHhfZmllbGRzIDwtIGMoXCJEWF8wMVwiLCBcIkRYXzAyXCIsIFwiRFhfMDNcIiwgXCJEWF8wNFwiLCBcIkRYXzA1XCIsIFwiRFhfMDZcIiwgXCJEWF8wN1wiLCBcIkRYXzA4XCIsIFwiRFhfMDlcIiwgXCJEWF8xMFwiKVxuY29tb3JiaWRpdGllc19BU0QxIDwtIHRhYmxlKHVubGlzdChhcHBseShhc2RaU2NvcmVkW2FzZFpTY29yZWQkY2x1c3QgPT0gMSxkeF9maWVsZHNdLCAxLCB1bmlxdWUpKSlcbmNvbW9yYmlkaXRpZXNfQVNEMiA8LSB0YWJsZSh1bmxpc3QoYXBwbHkoYXNkWlNjb3JlZFthc2RaU2NvcmVkJGNsdXN0ID09IDIsZHhfZmllbGRzXSwgMSwgdW5pcXVlKSkpXG5cbmNvbURhdGEgPC0gZGF0YS5mcmFtZShjb21vcmJpZGl0aWVzX0FTRDEpXG5jb21EYXRhJHBlcmNlbnRhZ2VBU0QxIDwtIGNvbURhdGEkRnJlcS8gbnJvdyhhc2RaU2NvcmVkW2FzZFpTY29yZWQkY2x1c3QgPT0gMSxdKVxubmFtZXMoY29tRGF0YSlbbmFtZXMoY29tRGF0YSkgPT0gXCJGcmVxXCJdIDwtIFwiQVNEMVwiXG5cbmNvbURhdGFfdCA8LSBkYXRhLmZyYW1lKGNvbW9yYmlkaXRpZXNfQVNEMilcbmNvbURhdGFfdCRwZXJjZW50YWdlQVNEMiA8LSBjb21EYXRhX3QkRnJlcS8gbnJvdyhhc2RaU2NvcmVkW2FzZFpTY29yZWQkY2x1c3QgPT0gMixdKVxubmFtZXMoY29tRGF0YV90KVtuYW1lcyhjb21EYXRhX3QpID09IFwiRnJlcVwiXSA8LSBcIkFTRDJcIlxuXG5jb21EYXRhIDwtIGpvaW4oY29tRGF0YSwgY29tRGF0YV90LCBieT0gXCJWYXIxXCIpXG5ucm93KGFzZFpTY29yZWRbYXNkWlNjb3JlZCRjbHVzdD09MSxdKVxuY29tRGF0YSA8LSBjb21EYXRhW29yZGVyKGNvbURhdGEkQVNEMSxkZWNyZWFzaW5nID0gVCksXVxud3JpdGUudGFibGUoY29tRGF0YSwgXCJjbGlwYm9hcmRcIixzZXA9XCJcXHRcIixjb2wubmFtZXM9TkEpXG53cml0ZS5jc3YoY29tRGF0YSwgZmlsZSA9IFwiLi4vbWlzYy9hc2RDb21vcmJzLmNzdlwiKVxuYGBgIn0= -->
+<pre class="r"><code>dx_fields &lt;- c(&quot;DX_01&quot;, &quot;DX_02&quot;, &quot;DX_03&quot;, &quot;DX_04&quot;, &quot;DX_05&quot;, &quot;DX_06&quot;, &quot;DX_07&quot;, &quot;DX_08&quot;, &quot;DX_09&quot;, &quot;DX_10&quot;)
+comorbidities_ASD1 &lt;- table(unlist(apply(asdZScored[asdZScored$clust == 1,dx_fields], 1, unique)))
+comorbidities_ASD2 &lt;- table(unlist(apply(asdZScored[asdZScored$clust == 2,dx_fields], 1, unique)))
 
-data:  asdZScored[asdZScored$clust == 1, ]$dxCount and asdZScored[asdZScored$clust == 2, ]$dxCount
-t = 0.35557, df = 41.952, p-value = 0.7239
-alternative hypothesis: true difference in means is not equal to 0
-95 percent confidence interval:
- -0.6099442  0.8708384
-sample estimates:
-mean of x mean of y 
- 3.517544  3.387097 </code></pre>
-<!-- rnb-output-end -->
+comData &lt;- data.frame(comorbidities_ASD1)
+comData$percentageASD1 &lt;- comData$Freq/ nrow(asdZScored[asdZScored$clust == 1,])
+names(comData)[names(comData) == &quot;Freq&quot;] &lt;- &quot;ASD1&quot;
+
+comData_t &lt;- data.frame(comorbidities_ASD2)
+comData_t$percentageASD2 &lt;- comData_t$Freq/ nrow(asdZScored[asdZScored$clust == 2,])
+names(comData_t)[names(comData_t) == &quot;Freq&quot;] &lt;- &quot;ASD2&quot;
+
+comData &lt;- join(comData, comData_t, by= &quot;Var1&quot;)
+nrow(asdZScored[asdZScored$clust==1,])
+comData &lt;- comData[order(comData$ASD1,decreasing = T),]
+write.table(comData, &quot;clipboard&quot;,sep=&quot;\t&quot;,col.names=NA)
+write.csv(comData, file = &quot;../misc/asdComorbs.csv&quot;)</code></pre>
+<!-- rnb-source-end -->
 <!-- rnb-chunk-end -->
 <!-- rnb-text-begin -->
 </div>

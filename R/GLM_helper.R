@@ -77,23 +77,10 @@ generateGroupComparisonCommands <- function(subjectDir, analysis, hemi, fsgdFile
   return(cmds)
 }
 
-#Typical output might be:
+## Typical output might be:
 # SUBJECTS_DIR=/mnt/exchange/Site-SI_Derivatives_UZH
 # mris_preproc --fsgd ASDanatomy_all_SI.fsgd --cache-in thickness.fwhm10.fsaverage --target fsaverage --hemi lh --out lh.DEMO.thickness.10.mgh
 # mri_glmfit --y lh.DEMO.thickness.10.mgh --fsgd ASDanatomy_all_SI.fsgd dods --surf fsaverage lh --C clustComparison.mtx --cortex --glmdir lh.DEMO.thickness.10.glmdir
 # mri_glmfit-sim --glmdir lh.DEMO.thickness.10.glmdir --cache 3 abs --cwp 0.05 --2spaces
 
-# 
-# b <- generateGroupComparisonCommands(
-#   subjectDir = "SUBDIR",
-#   analysis = "DEMO",
-#   hemi = "lh",
-#   fsgdFile = "tmp.fsgd",
-#   mtx = "tmp.mtx",
-#   gd2mtx ="dods", comparisonTarget = "fsaverage",
-#   cacheFeature = "thickness",
-#   cacheKernel = "10",
-#   cacheValue = 4,
-#   cacheDirection = "abs",
-#   cwp = "0.05")
-# b
+
