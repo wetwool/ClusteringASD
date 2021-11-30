@@ -31,8 +31,6 @@ params <- list(
   FilteredDataFile = "filteredASD.Rda",
   zScoredASDDataFile = "zScoredASD.Rda",
   zScoredHCDataFile = "zScoredHC.Rda",
-  zScoredASDDataFile2 = "zScoredASD2.Rda",
-  zScoredHCDataFile2 = "zScoredHC2.Rda",
   ParcellationReferenceFile = "../misc/ParcellationReference.csv",
   GLMFolder = "E:/Box Sync/Arbeit/UZH/MasterArbeit/ScienceCloud/GLM/",
 

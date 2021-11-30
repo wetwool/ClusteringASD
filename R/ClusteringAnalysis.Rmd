@@ -23,8 +23,8 @@ source("corStars.R", local= knitr::knit_global())
 
 setwd(params$WorkingDirectory)
 if (params$UsePreclusteredData){
-  load(file = params$zScoredASDDataFile2)
-  load(file = params$zScoredHCDataFile2)
+  load(file = params$zScoredASDDataFile)
+  load(file = params$zScoredHCDataFile)
 } else {
   print("Run Clustering separately (Clustering.RMD to continuey")
 }

@@ -14,9 +14,9 @@ Repository for the clustering of ASD subjects in HBN data. This Analysis is part
 9. Copy the GLM results into the folder specified in params.
 10. Run R/GLMAnalysis.Rmd 
 
-\* Results of steps 4 and 6 are saved to independent files. They are not dependent on R session and need only be recreated when parameters are changed.
+\*\* Results of steps 4 and 6 are saved to independent files. *These files have been pre-generated and can be used directly.* They are not dependent on R session and need only be recreated when parameters are changed.
 
-\*\* Running chunks separateley enables copying tables directly into excel. 
+\*\*\* Running chunks separateley enables copying tables directly into excel. 
 
 # Folders
 ## R
