@@ -168,7 +168,7 @@ params$kList$silhouette = nbResultSi$Best.nc[1]
 
 hcRes = hclust(asd_distance, params$ClusterMethod)
 dend <- as.dendrogram(hcRes)
-plot(dend, nodePar = list(lab.cex = 0.6, pch = c(NA, 19), cex = 0.7), eaflab = "none")
+plot(dend, nodePar = list(lab.cex = 0.6, pch = c(NA, 19), cex = 0.7), leaflab = "none")
 groups = cutree(hcRes, params$k())
 table(groups)
 asdZScored$clust <- groups

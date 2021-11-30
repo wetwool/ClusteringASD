@@ -264,10 +264,11 @@ srsHcData <- data.frame(
 srsHcData$Subject <- 0
 srsData <- rbind(srsData,srsHcData)
 
-ggplot(srsData[order(srsData$Scale),], aes(x=Scale, y=Mean, fill=as.factor(Subject), color = as.factor(Subject))) + geom_path(aes(x=Scale, y=Mean, group=as.factor(Subject), color = as.factor(Subject))) +
+ggplot(srsData[order(srsData$Scale),], aes(x=Scale, y=Mean, fill=as.factor(Subject), color = as.factor(Subject))) + 
+  geom_path(aes(x=Scale, y=Mean, group=as.factor(Subject), color = as.factor(Subject))) +
   geom_point(position=position_dodge(0.1))+ 
-   geom_errorbar(aes(ymin=Mean-SD, ymax=Mean+SD, color = as.factor(Subject)), width=.1,
-                position=position_dodge(0.1))+theme_apa() + ylim(c(0,75)) + theme(axis.text.x = element_text(angle=90), text=element_text(family="serif")) +# + guides()
+  geom_errorbar(aes(ymin=Mean-SD, ymax=Mean+SD, color = as.factor(Subject)), width=.1, position=position_dodge(0.1))+
+  theme_apa() + ylim(c(0,75)) + theme(axis.text.x = element_text(angle=90), text=element_text(family="serif")) + 
   scale_color_manual(values=c("0" = "#67BAE6", "1" = "#7EE696"))
 ```
 
@@ -293,10 +294,11 @@ srsClust2Data <- data.frame(
 srsClust2Data$Cluster <- 2
 srsData <- rbind(srsData,srsClust2Data)
 
-ggplot(srsData[order(srsData$Scale),], aes(x=Scale, y=Mean, fill=as.factor(Cluster), color = as.factor(Cluster))) + geom_path(aes(x=Scale, y=Mean, group=as.factor(Cluster), color = as.factor(Cluster))) +
-  geom_point(position=position_dodge(0.1))+
-   geom_errorbar(aes(ymin=Mean-SD, ymax=Mean+SD, color = as.factor(Cluster)), width=.1,
-                position=position_dodge(0.1))+  ylim(c(0,75))  +theme_apa()+ theme(axis.text.x = element_text(angle=90), text=element_text(family="serif"))
+ggplot(srsData[order(srsData$Scale),], aes(x=Scale, y=Mean, fill=as.factor(Cluster), color = as.factor(Cluster))) + 
+  geom_path(aes(x=Scale, y=Mean, group=as.factor(Cluster), color = as.factor(Cluster))) +
+  geom_point(position=position_dodge(0.1)) + 
+  geom_errorbar(aes(ymin=Mean-SD, ymax=Mean+SD, color = as.factor(Cluster)), width=.1, position=position_dodge(0.1))+  ylim(c(0,75)) +
+  theme_apa()+ theme(axis.text.x = element_text(angle=90), text=element_text(family="serif"))
 ```
 
 ### Generate Table with comorbidities
@@ -487,14 +489,16 @@ asd$group <- 1
 hc <- hcZScored[hcZScored$Subject == 0,]
 hc$group <- 0
 demData <- rbind(asd, hc)
-demOverview <- data.frame
+demOverview <- data.frame()
 
 genDemCol <- function(demData, demVars, group, site, description) {
   n <-nrow(demData[demData$group  == group & grepl(site, demData$site),])
   overview <- data.frame()
   for (var in demVars) {
     vals <- demData[demData$group  == group & grepl(site, demData$site),var]
-    row <- data.frame(Description = description, Group = group, Site = site, count = n, Variable = var, Mean =mean(vals, na.rm = T), SD =  sd(vals, na.rm = T))
+    row <- data.frame(Description = description, Group = group, Site = site, 
+                      count = n, Variable = var, Mean =mean(vals, na.rm = T), 
+                      SD =  sd(vals, na.rm = T))
     overview <- rbind(overview, row)
   }
 
